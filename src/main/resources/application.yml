@@ -1,2 +1,13 @@
 server:
   port: 8081
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:~/joyMall;MODE=MYSQL;
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
