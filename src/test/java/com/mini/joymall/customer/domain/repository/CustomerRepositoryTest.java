@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.*;
 class CustomerRepositoryTest {
 
     @Autowired
-    CustomerRepository customerRepository;`
+    CustomerRepository customerRepository;
 
     @AfterEach
     void afterEach() {
