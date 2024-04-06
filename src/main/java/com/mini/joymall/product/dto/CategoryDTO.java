@@ -17,5 +17,15 @@ public class CategoryDTO {
     private Integer depth;
     private String name;
     private LocalDateTime createdDate;
+
+    public CategoryDTO(Long categoryId, Long parentId, Integer depth, String name, LocalDateTime createdDate, LocalDateTime updatedDate) {
+        this.categoryId = categoryId;
+        this.parentId = parentId;
+        this.depth = depth;
+        this.name = name;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+    }
+
     private LocalDateTime updatedDate;
 }
