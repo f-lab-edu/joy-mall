@@ -21,7 +21,6 @@ public class CategoryController {
 
     @GetMapping("/categories")
     private ResponseEntity<List<CategoryDTO>> findByDepth(@RequestParam("depth") int depth) {
-        List<CategoryDTO> categories = categoryService.findByDepth(depth);
-        return ResponseEntity.status(HttpStatus.OK).body(categories);
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.findByDepth(depth));
     }
 }

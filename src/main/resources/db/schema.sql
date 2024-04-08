@@ -1,155 +1,157 @@
-DROP TABLE IF EXISTS `CUSTOMER`;
-DROP TABLE IF EXISTS `SELLER`;
-DROP TABLE IF EXISTS `PRODUCT`;
-DROP TABLE IF EXISTS `CATEGORY`;
-DROP TABLE IF EXISTS `PRODUCT_CATEGORY`;
-DROP TABLE IF EXISTS `ORDER`;
-DROP TABLE IF EXISTS `ADDRESS`;
-DROP TABLE IF EXISTS `ORDER_ITEM`;
-DROP TABLE IF EXISTS `PAYMENT`;
-DROP TABLE IF EXISTS `DELIVERY`;
-DROP TABLE IF EXISTS `WISHLIST`;
-DROP TABLE IF EXISTS `REVIEW`;
+drop table if exists `customer`;
+drop table if exists `seller`;
+drop table if exists `product`;
+drop table if exists `category`;
+drop table if exists `product_category`;
+drop table if exists `order`;
+drop table if exists `address`;
+drop table if exists `order_item`;
+drop table if exists `payment`;
+drop table if exists `delivery`;
+drop table if exists `wishlist`;
+drop table if exists `review`;
 
 
-CREATE TABLE `CUSTOMER`
+create table `customer`
 (
-    `CUSTOMER_ID`  BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `EMAIL`        VARCHAR(255) UNIQUE NOT NULL,
-    `PASSWORD`     VARCHAR(255)        NOT NULL,
-    `NAME`         VARCHAR(20)         NOT NULL,
-    `PHONE_NUMBER` VARCHAR(20) UNIQUE  NOT NULL,
-    `CREATED_DATE` DATETIME            NOT NULL,
-    `UPDATED_DATE` DATETIME            NOT NULL
+    `customer_id`  bigint primary key auto_increment,
+    `email`        varchar(255) unique not null,
+    `password`     varchar(255)        not null,
+    `name`         varchar(20)         not null,
+    `phone_number` varchar(20) unique  not null,
+    `created_date` datetime            not null,
+    `updated_date` datetime            not null
 );
 
 
 
-CREATE TABLE `SELLER`
+create table `seller`
 (
-    `SELLER_ID`    BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `EMAIL`        VARCHAR(255)       NOT NULL,
-    `PASSWORD`     VARCHAR(255)       NOT NULL,
-    `NAME`         VARCHAR(20)        NOT NULL,
-    `STORE_NAME`   VARCHAR(20)        NOT NULL,
-    `PHONE_NUMBER` VARCHAR(20) UNIQUE NOT NULL,
-    `CREATED_DATE` DATETIME           NOT NULL,
-    `UPDATED_DATE` DATETIME           NOT NULL
+    `seller_id`    bigint primary key auto_increment,
+    `email`        varchar(255)       not null,
+    `password`     varchar(255)       not null,
+    `name`         varchar(20)        not null,
+    `store_name`   varchar(20)        not null,
+    `phone_number` varchar(20) unique not null,
+    `created_date` datetime           not null,
+    `updated_date` datetime           not null
 );
 
-CREATE TABLE `PRODUCT`
+create table `product`
 (
-    `PRODUCT_ID`     BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `SELLER_ID`      BIGINT       NOT NULL,
-    `NAME`           VARCHAR(255) NOT NULL,
-    `DESCRIPTION`    VARCHAR(255) NOT NULL,
-    `PRICE` DOUBLE NOT NULL,
-    `STOCK_QUANTITY` BIGINT       NOT NULL,
-    `IMAGE_URL`      VARCHAR(255) NOT NULL,
-    `CREATED_DATE`   DATETIME     NOT NULL,
-    `UPDATED_DATE`   DATETIME     NOT NULL
+    `product_id`     bigint primary key auto_increment,
+    `seller_id`      bigint       not null,
+    `name`           varchar(255) not null,
+    `description`    varchar(255) not null,
+    `price` double not null,
+    `stock_quantity` bigint       not null,
+    `image_url`      varchar(255) not null,
+    `created_date`   datetime     not null,
+    `updated_date`   datetime     not null
 );
 
-CREATE TABLE `CATEGORY`
+create table `category`
 (
-    `CATEGORY_ID`  BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `PARENT_ID`    BIGINT,
-    `DEPTH`        BIGINT              NOT NULL,
-    `NAME`         VARCHAR(255) UNIQUE NOT NULL,
-    `CREATED_DATE` DATETIME            NOT NULL,
-    `UPDATED_DATE` DATETIME            NOT NULL
+    `category_id`  bigint primary key auto_increment,
+    `parent_id`    bigint,
+    `depth`        bigint              not null,
+    `name`         varchar(255) unique not null,
+    `created_date` datetime            not null,
+    `updated_date` datetime            not null
 );
 
-CREATE TABLE `PRODUCT_CATEGORY`
+create table `product_category`
 (
-    `PRODUCT_ID`   BIGINT,
-    `CATEGORY_ID`  BIGINT,
-    `CREATED_DATE` DATETIME NOT NULL,
-    `UPDATED_DATE` DATETIME NOT NULL,
-    PRIMARY KEY (`PRODUCT_ID`, `CATEGORY_ID`)
+    `product_category_id` bigint auto_increment,
+    `product_id`   bigint,
+    `category_id`  bigint,
+    `created_date` datetime not null,
+    `updated_date` datetime not null,
+    primary key (`product_category_id`),
+    unique (`product_id`, `category_id`)
 );
 
-CREATE TABLE `ORDER`
+create table `order`
 (
-    `ORDER_ID`     BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `CUSTOMER_ID`  BIGINT   NOT NULL,
-    `ORDER_DATE`   DATETIME NOT NULL,
-    `STATUS`       ENUM ('PENDING', 'SHIPPED', 'IN_TRANSIT', 'COMPLETED', 'CANCELED') NOT NULL,
-    `CREATED_DATE` DATETIME NOT NULL,
-    `UPDATED_DATE` DATETIME NOT NULL
+    `order_id`     bigint primary key auto_increment,
+    `customer_id`  bigint   not null,
+    `order_date`   datetime not null,
+    `status`       enum ('pending', 'shipped', 'in_transit', 'completed', 'canceled') not null,
+    `created_date` datetime not null,
+    `updated_date` datetime not null
 );
 
-CREATE TABLE `ADDRESS`
+create table `address`
 (
-    `ADDRESSID`            BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `CUSTOMER_ID`          BIGINT      NOT NULL,
-    `RECEIPT_NAME`         VARCHAR(20) NOT NULL,
-    `RECEIPT_PHONE_NUMBER` VARCHAR(20) NOT NULL,
-    `REGION`               VARCHAR(50) NOT NULL,
-    `CITY`                 VARCHAR(50) NOT NULL,
-    `TOWN`                 VARCHAR(50) NOT NULL,
-    `STREET`               VARCHAR(50) NOT NULL,
-    `ZIP_CODE`             VARCHAR(50) NOT NULL,
-    `DETAIL`               VARCHAR(50) NOT NULL,
-    `CREATED_DATE`         DATETIME    NOT NULL,
-    `UPDATED_DATE`         DATETIME    NOT NULL
+    `addressid`            bigint primary key auto_increment,
+    `customer_id`          bigint      not null,
+    `receipt_name`         varchar(20) not null,
+    `receipt_phone_number` varchar(20) not null,
+    `region`               varchar(50) not null,
+    `city`                 varchar(50) not null,
+    `town`                 varchar(50) not null,
+    `street`               varchar(50) not null,
+    `zip_code`             varchar(50) not null,
+    `detail`               varchar(50) not null,
+    `created_date`         datetime    not null,
+    `updated_date`         datetime    not null
 );
 
-CREATE TABLE `ORDER_ITEM`
+create table `order_item`
 (
-    `ORDER_ITEM_ID` BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `ORDER_ID`      BIGINT   NOT NULL,
-    `PRODUCT_ID`    BIGINT   NOT NULL,
-    `QUANTITY`      BIGINT   NOT NULL,
-    `PRICE_PER_ITEM` DOUBLE NOT NULL,
-    `CREATED_DATE`  DATETIME NOT NULL,
-    `UPDATED_DATE`  DATETIME NOT NULL
+    `order_item_id` bigint primary key auto_increment,
+    `order_id`      bigint   not null,
+    `product_id`    bigint   not null,
+    `quantity`      bigint   not null,
+    `price_per_item` double not null,
+    `created_date`  datetime not null,
+    `updated_date`  datetime not null
 );
 
-CREATE TABLE `PAYMENT`
+create table `payment`
 (
-    `PAYMENT_ID`     BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `ORDER_ID`       BIGINT UNIQUE NOT NULL,
-    `AMOUNT` DOUBLE NOT NULL,
-    `PAYMENT_METHOD` ENUM ('CREDIT_CARD', 'KAKAOPAY', 'NAVERPAY', 'TOSSPAY') NOT NULL,
-    `PAYMENT_DATE`   DATETIME      NOT NULL,
-    `PAYMENT_STATUS` ENUM ('WAITING', 'COMPLETED', 'FAILED', 'REFUNDED') NOT NULL,
-    `CREATED_DATE`   DATETIME      NOT NULL,
-    `UPDATED_DATE`   DATETIME      NOT NULL
-);
-
-
-CREATE TABLE `DELIVERY`
-(
-    `DELIVERY_ID`     BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `ORDER_ID`        BIGINT UNIQUE NOT NULL,
-    `DELIVERY_NOTES`  VARCHAR(255)   NOT NULL,
-    `DELIVERY_STATUS` ENUM ('PENDING', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED', 'CANCELED') NOT NULL,
-    `TRACKING_NUMBER` VARCHAR(255)   NOT NULL,
-    `SHIPMENT_DATE`   DATETIME       NOT NULL,
-    `ESTIMATED_DATE`  DATETIME       NOT NULL,
-    `ARRIVAL_DATE`    DATETIME       NOT NULL,
-    `CREATED_DATE`    DATETIME       NOT NULL,
-    `UPDATED_DATE`    DATETIME       NOT NULL
-);
-
-CREATE TABLE `REVIEW`
-(
-    `REVIEW_ID`    BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `CUSTOMER_ID`  BIGINT  NOT NULL,
-    `PRODUCT_ID`   BIGINT  NOT NULL,
-    `CONTENT`      TEXT     NOT NULL,
-    `RATING`       INT      NOT NULL,
-    `CREATED_DATE` DATETIME NOT NULL,
-    `UPDATED_DATE` DATETIME NOT NULL
+    `payment_id`     bigint primary key auto_increment,
+    `order_id`       bigint unique not null,
+    `amount` double not null,
+    `payment_method` enum ('credit_card', 'kakaopay', 'naverpay', 'tosspay') not null,
+    `payment_date`   datetime      not null,
+    `payment_status` enum ('waiting', 'completed', 'failed', 'refunded') not null,
+    `created_date`   datetime      not null,
+    `updated_date`   datetime      not null
 );
 
 
-CREATE TABLE `WISHLIST`
+create table `delivery`
 (
-    `WISHLIST_ID`  BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `PRODUCT_ID`   BIGINT,
-    `CUSTOMER_ID`  BIGINT,
-    `CREATED_DATE` DATETIME NOT NULL,
-    `UPDATED_DATE` DATETIME NOT NULL
+    `delivery_id`     bigint primary key auto_increment,
+    `order_id`        bigint unique not null,
+    `delivery_notes`  varchar(255)   not null,
+    `delivery_status` enum ('pending', 'shipped', 'in_transit', 'delivered', 'canceled') not null,
+    `tracking_number` varchar(255)   not null,
+    `shipment_date`   datetime       not null,
+    `estimated_date`  datetime       not null,
+    `arrival_date`    datetime       not null,
+    `created_date`    datetime       not null,
+    `updated_date`    datetime       not null
+);
+
+create table `review`
+(
+    `review_id`    bigint primary key auto_increment,
+    `customer_id`  bigint  not null,
+    `product_id`   bigint  not null,
+    `content`      text     not null,
+    `rating`       int      not null,
+    `created_date` datetime not null,
+    `updated_date` datetime not null
+);
+
+
+create table `wishlist`
+(
+    `wishlist_id`  bigint primary key auto_increment,
+    `product_id`   bigint,
+    `customer_id`  bigint,
+    `created_date` datetime not null,
+    `updated_date` datetime not null
 );

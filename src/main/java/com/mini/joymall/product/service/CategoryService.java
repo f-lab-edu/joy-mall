@@ -19,7 +19,7 @@ public class CategoryService {
         List<Category> categories = categoryRepository.findByDepth(depth);
         return categories.stream()
                 .map(category -> CategoryDTO.builder()
-                        .categoryId(category.getCategoryId())
+                        .categoryId(category.getId())
                         .parentId(category.getParentId())
                         .depth(category.getDepth())
                         .name(category.getName())

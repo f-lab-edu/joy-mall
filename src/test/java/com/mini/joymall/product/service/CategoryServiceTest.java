@@ -32,8 +32,8 @@ class CategoryServiceTest {
     void findByDepthOne() {
         // given
         List<Category> mockCategories = Arrays.asList(
-                new Category(null, 0, "전자기기", LocalDateTime.now(), LocalDateTime.now()),
-                new Category(null, 0, "주방용품", LocalDateTime.now(), LocalDateTime.now())
+                new Category(null, 0, "전자기기"),
+                new Category(null, 0, "주방용품")
         );
         given(categoryRepository.findByDepth(0)).willReturn(mockCategories);
 
