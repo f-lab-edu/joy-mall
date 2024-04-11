@@ -8,9 +8,12 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Table("PRODUCT")
 @Getter
@@ -35,6 +38,9 @@ public class Product {
     @Transient
     private Seller seller;
 
+    @MappedCollection(idColumn = "PRODUCT_ID")
+    private Set<ProductCategory> productCategories = new HashSet<>();
+
     public Product(String name, String description, Double price, Integer stockQuantity, String imageUrl) {
         this(null, null, name, description, price, stockQuantity, imageUrl, LocalDateTime.now(), LocalDateTime.now());
     }
@@ -54,5 +60,13 @@ public class Product {
 
     public void setSeller(Seller seller) {
         this.seller = seller;
+    }
+
+    public void addCategory(Category category) {
+        productCategories.add(createProductCategory(category));
+    }
+
+    public ProductCategory createProductCategory(Category category) {
+        return new ProductCategory(id, category.getId());
     }
 }

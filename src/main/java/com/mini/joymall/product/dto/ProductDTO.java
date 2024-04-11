@@ -24,12 +24,11 @@ public class ProductDTO {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private Seller seller;
-    private Set<ProductCategory> productCategories;
 
 
     @Builder
     public ProductDTO(Long id, String name, String description, Double price, Integer stockQuantity,
-                      String imageUrl, LocalDateTime createdDate, LocalDateTime updatedDate, Seller seller, Set<ProductCategory> productCategories) {
+                      String imageUrl, LocalDateTime createdDate, LocalDateTime updatedDate, Seller seller) {
         this.productId = id;
         this.name = name;
         this.description = description;
@@ -39,7 +38,6 @@ public class ProductDTO {
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
         this.seller = seller;
-        this.productCategories = productCategories;
     }
 
     public static ProductDTO from(Product product) {
@@ -52,8 +50,7 @@ public class ProductDTO {
                 .imageUrl(product.getImageUrl())
                 .createdDate(product.getCreatedDate())
                 .updatedDate(product.getUpdatedDate())
-//                .seller(product.getSeller())
-//                .productCategories(product.getProductCategories())
+                .seller(product.getSeller())
                 .build();
     }
 }
