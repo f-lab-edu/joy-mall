@@ -4,6 +4,7 @@ import com.mini.joymall.product.domain.entity.Product;
 import com.mini.joymall.product.domain.repository.ProductRepository;
 import com.mini.joymall.product.dto.ProductDTO;
 import com.mini.joymall.product.dto.ProductPageResponse;
+import com.mini.joymall.product.dto.ProductWithReview;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,10 +50,10 @@ class ProductServiceTest {
 
         // when
         ProductPageResponse productPageResponse = productService.findByNameContainingIgnoreCase("iphone", pageable);
-        List<ProductDTO> productDTOS = productPageResponse.getProductDTOS();
+        List<ProductWithReview> productsWithReview = productPageResponse.getProductsWithReview();
 
         // then
-        assertThat(products.size()).isEqualTo(productDTOS.size());
+        assertThat(products.size()).isEqualTo(productsWithReview.size());
         assertThat(products.get(1).getName()).isEqualTo("iPHONE3");
         assertThat(products.get(2).getDescription()).isEqualTo("아이폰입니다2");
     }
@@ -69,6 +70,9 @@ class ProductServiceTest {
         // when
         given(productRepository.findByNameContainingIgnoreCase("ipho ne", pageable)).willReturn(pages);
         ProductPageResponse productPageResponse = productService.findByNameContainingIgnoreCase("ipho ne", pageable);
-        List<ProductDTO> productDTOS = productPageResponse.getProductDTOS();
+        List<ProductWithReview> productsWithReview = productPageResponse.getProductsWithReview();
+
+        // then
+        assertThat(productsWithReview).isEmpty();
     }
 }

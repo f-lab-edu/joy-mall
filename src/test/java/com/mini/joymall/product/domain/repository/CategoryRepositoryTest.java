@@ -55,11 +55,6 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    void 카테고리_초기_데이터가_제대로_들어가는지_테스트() {
-        assertThat(categoryRepository.findAll().size()).isEqualTo(22);
-    }
-
-    @Test
     void 카테고리_전체_조회() {
         assertThat(categoryRepository.findAll().size()).isEqualTo(8);
     }

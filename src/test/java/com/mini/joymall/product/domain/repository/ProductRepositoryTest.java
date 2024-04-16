@@ -16,8 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,8 +31,9 @@ class ProductRepositoryTest {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @BeforeEach
-    void setup() {
+    @Test
+    @Transactional
+    void 상품조회시_판매자정보를_가져온다() {
         // given
         sellerRepository.deleteAll();
         Seller sellerA = new Seller(null, "a@a.com", "1234", "a", "aStore", "010-1234-5678", LocalDateTime.now(), LocalDateTime.now());
@@ -44,17 +43,14 @@ class ProductRepositoryTest {
         Product product2 = new Product("아이폰2", "아이폰2", 200.0, 100, "아이폰");
         Product product3 = new Product("아이폰3", "아이폰3", 300.0, 100, "아이폰");
         Product product4 = new Product("아이폰4", "아이폰4", 400.0, 100, "아이폰");
+
         sellerA.addProduct(product1);
         sellerA.addProduct(product2);
         sellerB.addProduct(product3);
         sellerB.addProduct(product4);
         sellerRepository.save(sellerA);
         sellerRepository.save(sellerB);
-    }
 
-    @Test
-    @Transactional
-    void 상품조회시_판매자정보를_가져온다() {
         // when
         List<Product> products = productRepository.findAllWithOrder();
 
@@ -64,11 +60,31 @@ class ProductRepositoryTest {
 
         assertThat(emailOfSellerA).isEqualTo("a@a.com");
         assertThat(emailOfSellerB).isEqualTo("b@b.com");
+
+        for (Product product : products) {
+            System.out.println("product = " + product);
+        }
     }
 
     @Test
     void 상품_리스트_상품명_검색과_페이징_처리() {
         // given
+        sellerRepository.deleteAll();
+        Seller sellerA = new Seller(null, "a@a.com", "1234", "a", "aStore", "010-1234-5678", LocalDateTime.now(), LocalDateTime.now());
+        Seller sellerB = new Seller(null, "b@b.com", "1234", "b", "bStore", "010-5678-5678", LocalDateTime.now(), LocalDateTime.now());
+
+        Product product1 = new Product("아이폰1", "아이폰1", 100.0, 100, "아이폰");
+        Product product2 = new Product("아이폰2", "아이폰2", 200.0, 100, "아이폰");
+        Product product3 = new Product("아이폰3", "아이폰3", 300.0, 100, "아이폰");
+        Product product4 = new Product("아이폰4", "아이폰4", 400.0, 100, "아이폰");
+
+        sellerA.addProduct(product1);
+        sellerA.addProduct(product2);
+        sellerB.addProduct(product3);
+        sellerB.addProduct(product4);
+        sellerRepository.save(sellerA);
+        sellerRepository.save(sellerB);
+
         String sortBy = "DESC";
         Sort sort = Sort.by(Sort.Direction.fromString(sortBy), "id");
         Pageable pageable = PageRequest.of(1, 2, sort);
@@ -88,6 +104,23 @@ class ProductRepositoryTest {
     @Test
     @Transactional
     void 상품과_함께_카테고리를_저장한다() {
+        // given
+        sellerRepository.deleteAll();
+        Seller sellerA = new Seller(null, "a@a.com", "1234", "a", "aStore", "010-1234-5678", LocalDateTime.now(), LocalDateTime.now());
+        Seller sellerB = new Seller(null, "b@b.com", "1234", "b", "bStore", "010-5678-5678", LocalDateTime.now(), LocalDateTime.now());
+
+        Product product1 = new Product("아이폰1", "아이폰1", 100.0, 100, "아이폰");
+        Product product2 = new Product("아이폰2", "아이폰2", 200.0, 100, "아이폰");
+        Product product3 = new Product("아이폰3", "아이폰3", 300.0, 100, "아이폰");
+        Product product4 = new Product("아이폰4", "아이폰4", 400.0, 100, "아이폰");
+
+        sellerA.addProduct(product1);
+        sellerA.addProduct(product2);
+        sellerB.addProduct(product3);
+        sellerB.addProduct(product4);
+        sellerRepository.save(sellerA);
+        sellerRepository.save(sellerB);
+
         Category category1 = new Category(null, 0, "애플 기기");
         Category category2 = new Category(category1.getId(), 1, "테블릿");
         Category savedCategory1 = categoryRepository.save(category1);
