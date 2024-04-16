@@ -1,5 +1,6 @@
 package com.mini.joymall.product.domain.entity;
 
+import com.mini.joymall.review.domain.entity.Review;
 import com.mini.joymall.seller.domain.entity.Seller;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,6 +42,9 @@ public class Product {
     @MappedCollection(idColumn = "PRODUCT_ID")
     private Set<ProductCategory> productCategories = new HashSet<>();
 
+    @MappedCollection(idColumn = "PRODUCT_ID")
+    private Set<Review> reviews = new HashSet<>();
+
     public Product(String name, String description, Double price, Integer stockQuantity, String imageUrl) {
         this(null, null, name, description, price, stockQuantity, imageUrl, LocalDateTime.now(), LocalDateTime.now());
     }
@@ -68,5 +72,13 @@ public class Product {
 
     public ProductCategory createProductCategory(Category category) {
         return new ProductCategory(id, category.getId());
+    }
+
+    public void addReview(Review review) {
+        reviews.add(createReview(review));
+    }
+
+    public Review createReview(Review review) {
+        return new Review(review.getContent(), review.getRating());
     }
 }

@@ -22,8 +22,8 @@ public class CustomerService {
         return CustomerResponse.from(savedCustomer);
     }
 
-    public CustomerResponse findByEmailAndPassword(CustomerLoginRequest customerLoginDTO) {
-        Customer savedCustomer = customerRepository.findByEmailAndPassword(customerLoginDTO.getEmail(), customerLoginDTO.getPassword());
+    public CustomerResponse findByEmailAndPassword(CustomerLoginRequest customerLoginRequest) {
+        Customer savedCustomer = customerRepository.findByEmailAndPassword(customerLoginRequest.getEmail(), customerLoginRequest.getPassword());
         return CustomerResponse.from(savedCustomer);
     }
 

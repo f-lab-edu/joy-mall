@@ -4,12 +4,15 @@ import com.mini.joymall.product.domain.entity.Product;
 import com.mini.joymall.product.domain.repository.ProductRepository;
 import com.mini.joymall.product.dto.ProductDTO;
 import com.mini.joymall.product.dto.ProductPageResponse;
+import com.mini.joymall.product.dto.ProductWithReview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -25,19 +28,11 @@ public class ProductService {
 
     public ProductPageResponse findByNameContainingIgnoreCase(String productName, Pageable pageable) {
         Page<Product> products = productRepository.findByNameContainingIgnoreCase(productName, pageable);
-        List<ProductDTO> productDTOS = products
+        List<ProductWithReview> productsWithReview = products
                 .stream()
-                .map(ProductDTO::from)
+                .map(ProductWithReview::from)
                 .toList();
 
-        return ProductPageResponse.builder()
-                .productDTOS(productDTOS)
-                .totalElements(products.getTotalElements())
-                .totalPages(products.getTotalPages())
-                .pageNumber(products.getNumber())
-                .pageSize(products.getSize())
-                .hasPrevious(products.hasPrevious())
-                .hasNext(products.hasNext())
-                .build();
+        return ProductPageResponse.from(productsWithReview, products);
     }
 }

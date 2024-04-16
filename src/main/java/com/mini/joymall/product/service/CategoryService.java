@@ -26,12 +26,12 @@ public class CategoryService {
     public List<CategoryChildrenResponse> getCategoryChildren(long id) {
         return categoryRepository.findById(id)
                 .stream()
-                .map(childCategory -> new CategoryChildrenResponse(
-                        childCategory.getId(),
-                        childCategory.getParentId(),
-                        childCategory.getDepth(),
-                        childCategory.getName(),
-                        buildChildrenResponse(childCategory.getId())
+                .map(category -> new CategoryChildrenResponse(
+                        category.getId(),
+                        category.getParentId(),
+                        category.getDepth(),
+                        category.getName(),
+                        buildChildrenResponse(category.getId())
                 ))
                 .toList();
     }

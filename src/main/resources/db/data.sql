@@ -27,26 +27,26 @@ insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values 
 insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (1, 1 , '색상', now(), now());
 
 -- depth 2
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (63, 2 , '아이폰 14 Pro Max', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (63, 2 , '아이폰 14 Pro', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (63, 2 , '아이폰 14', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (63, 2 , '아이폰 13 Pro Max', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (63, 2 , '아이폰 13 Pro', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (63, 2 , '아이폰 13', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (23, 2 , '아이폰 14 Pro Max', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (23, 2 , '아이폰 14 Pro', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (23, 2 , '아이폰 14', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (23, 2 , '아이폰 13 Pro Max', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (23, 2 , '아이폰 13 Pro', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (23, 2 , '아이폰 13', now(), now());
 
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (64, 2 , '가죽', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (64, 2 , '젤리/실리콘', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (64, 2 , '하드/플라스틱', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (64, 2 , '메탈/미러', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (24, 2 , '가죽', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (24, 2 , '젤리/실리콘', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (24, 2 , '하드/플라스틱', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (24, 2 , '메탈/미러', now(), now());
 
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (65, 2 , '블랙', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (65, 2 , '네이비', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (65, 2 , '그레이', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (65, 2 , '실버', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (65, 2 , '레드', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (65, 2 , '오렌지', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (65, 2 , '옐로우', now(), now());
-insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (65, 2 , '다크 그린', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (25, 2 , '블랙', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (25, 2 , '네이비', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (25, 2 , '그레이', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (25, 2 , '실버', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (25, 2 , '레드', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (25, 2 , '오렌지', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (25, 2 , '옐로우', now(), now());
+insert into CATEGORY(parent_id, depth, name, created_date, updated_date) values (25, 2 , '다크 그린', now(), now());
 
 -- seller
 insert into seller(email, password, name, store_name, phone_number, created_date, updated_date)
@@ -61,3 +61,16 @@ values (1, '아이폰 반투명 풀 커버 케이스', '[설명] 아이폰 반�
 
 insert into product(seller_id, name, description, price, stock_quantity, image_url, created_date, updated_date)
 values (1, 'iphone 실리콘 케이스', '[설명] iphone 실리콘 케이스', 5500, 100, '', now(), now());
+
+-- Customer
+
+insert into CUSTOMER(EMAIL, PASSWORD, NAME, PHONE_NUMBER, CREATED_DATE, UPDATED_DATE) VALUES ( 'a@a.com', '1234', 'aCustomer', '010-1111-2222', now(), now() );
+
+insert into CUSTOMER(EMAIL, PASSWORD, NAME, PHONE_NUMBER, CREATED_DATE, UPDATED_DATE) VALUES ( 'b@b.com', '1234', 'bCustomer', '010-1111-3333', now(), now() );
+
+-- Review
+
+insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE) VALUES ( 1, 1, '와 이거 무조건 사셈;;', 5, now(), now() );
+insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE) VALUES ( 2, 1, '와 이거 무조건 사셈;;', 5, now(), now() );
+insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE) VALUES ( 1, 2, '와 이거 무조건 사셈;;', 5, now(), now() );
+insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE) VALUES ( 2, 2, '와 이거 무조건 사셈;;', 5, now(), now() );
