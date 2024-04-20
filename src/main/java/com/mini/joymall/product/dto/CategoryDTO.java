@@ -8,7 +8,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Builder
+
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryDTO {
@@ -16,16 +16,22 @@ public class CategoryDTO {
     private Long parentId;
     private Integer depth;
     private String name;
-    private LocalDateTime createdDate;
 
-    public CategoryDTO(Long categoryId, Long parentId, Integer depth, String name, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    @Builder
+    public CategoryDTO(Long categoryId, Long parentId, Integer depth, String name) {
         this.categoryId = categoryId;
         this.parentId = parentId;
         this.depth = depth;
         this.name = name;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
     }
 
-    private LocalDateTime updatedDate;
+
+    public static CategoryDTO from(Category category) {
+        return CategoryDTO.builder()
+                .categoryId(category.getId())
+                .parentId(category.getParentId())
+                .depth(category.getDepth())
+                .name(category.getName())
+                .build();
+    }
 }

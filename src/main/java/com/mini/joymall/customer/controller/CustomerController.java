@@ -28,14 +28,13 @@ public class CustomerController {
     }
 
     @PostMapping("/customers/login")
-    public ResponseEntity<CustomerResponse> login(@RequestBody @Valid CustomerLoginRequest customerLoginDTO) {
-        CustomerResponse customerLoginResponse = customerService.findByEmailAndPassword(customerLoginDTO);
+    public ResponseEntity<CustomerResponse> login(@RequestBody @Valid CustomerLoginRequest customerLoginRequest) {
+        CustomerResponse customerLoginResponse = customerService.findByEmailAndPassword(customerLoginRequest);
         return ResponseEntity.status(HttpStatus.OK).body(customerLoginResponse);
     }
 
     @GetMapping("/customers")
     public ResponseEntity<List<CustomerResponse>> findCustomers() {
-        List<CustomerResponse> all = customerService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(all);
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.findAll());
     }
 }

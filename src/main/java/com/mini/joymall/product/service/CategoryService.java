@@ -2,6 +2,7 @@ package com.mini.joymall.product.service;
 
 import com.mini.joymall.product.domain.entity.Category;
 import com.mini.joymall.product.domain.repository.CategoryRepository;
+import com.mini.joymall.product.dto.CategoryChildrenResponse;
 import com.mini.joymall.product.dto.CategoryDTO;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +19,33 @@ public class CategoryService {
     public List<CategoryDTO> findByDepth(int depth) {
         List<Category> categories = categoryRepository.findByDepth(depth);
         return categories.stream()
-                .map(category -> CategoryDTO.builder()
-                        .categoryId(category.getCategoryId())
-                        .parentId(category.getParentId())
-                        .depth(category.getDepth())
-                        .name(category.getName())
-                        .build()
-                )
+                .map(CategoryDTO::from)
+                .toList();
+    }
+
+    public List<CategoryChildrenResponse> getCategoryChildren(long id) {
+        return categoryRepository.findById(id)
+                .stream()
+                .map(category -> new CategoryChildrenResponse(
+                        category.getId(),
+                        category.getParentId(),
+                        category.getDepth(),
+                        category.getName(),
+                        buildChildrenResponse(category.getId())
+                ))
+                .toList();
+    }
+
+    public List<CategoryChildrenResponse> buildChildrenResponse(Long parentId) {
+        return categoryRepository.findByParentId(parentId)
+                .stream()
+                .map(category -> new CategoryChildrenResponse(
+                        category.getId(),
+                        category.getParentId(),
+                        category.getDepth(),
+                        category.getName(),
+                        buildChildrenResponse(category.getId())
+                ))
                 .toList();
     }
 }
