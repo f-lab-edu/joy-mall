@@ -3,12 +3,14 @@ package com.mini.joymall.product.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mini.joymall.product.domain.entity.Product;
 import com.mini.joymall.product.domain.entity.ProductCategory;
+import com.mini.joymall.product.domain.entity.ProductOption;
 import com.mini.joymall.seller.domain.entity.Seller;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -24,10 +26,15 @@ public class ProductDTO {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
+    private Set<ProductOption> productOptions = new HashSet<>();
+
+    private Double averageReviewRating;
+    private Double totalReviewCount;
 
     @Builder
-    public ProductDTO(Long id, String name, String description, Double price, Integer stockQuantity,
-                      String imageUrl, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    public ProductDTO(Long id, String name, String description, Double price, Integer stockQuantity, String imageUrl,
+                      LocalDateTime createdDate, LocalDateTime updatedDate, Set<ProductOption> productOptions,
+                      Double totalReviewCount, Double averageReviewRating) {
         this.productId = id;
         this.name = name;
         this.description = description;
@@ -36,6 +43,9 @@ public class ProductDTO {
         this.imageUrl = imageUrl;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+        this.productOptions = productOptions;
+        this.totalReviewCount = totalReviewCount;
+        this.averageReviewRating = averageReviewRating;
     }
 
     public static ProductDTO from(Product product) {
@@ -43,11 +53,10 @@ public class ProductDTO {
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
-                .price(product.getPrice())
-                .stockQuantity(product.getStockQuantity())
                 .imageUrl(product.getImageUrl())
                 .createdDate(product.getCreatedDate())
                 .updatedDate(product.getUpdatedDate())
+                .productOptions(product.getProductOptions())
                 .build();
     }
 }

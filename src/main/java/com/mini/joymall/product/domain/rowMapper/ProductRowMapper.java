@@ -21,17 +21,13 @@ public class ProductRowMapper implements RowMapper<Product> {
                 .build();
 
         Product product = Product.builder()
-                .id(rs.getLong("product_id"))
                 .sellerId(rs.getLong("seller_id"))
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
-                .price(rs.getDouble("price"))
-                .stockQuantity(rs.getInt("stock_quantity"))
                 .imageUrl(rs.getString("image_url"))
                 .createdDate(rs.getObject("created_date", LocalDateTime.class))
                 .updatedDate(rs.getObject("updated_date", LocalDateTime.class))
                 .build();
-        product.setSeller(seller);
         return product;
     }
 }

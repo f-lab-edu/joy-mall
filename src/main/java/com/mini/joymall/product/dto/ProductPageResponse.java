@@ -6,13 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class ProductPageResponse {
-    @JsonProperty(value = "products", index = 0)
     private List<ProductWithReview> productsWithReview;
     private long totalElements;
     private long totalPages;
@@ -32,15 +32,15 @@ public class ProductPageResponse {
         this.hasNext = hasNext;
     }
 
-    public static ProductPageResponse from(List<ProductWithReview> productsWithReview, Page<Product> products) {
+    public static ProductPageResponse from(Page<ProductWithReview> productsWithReview) {
         return ProductPageResponse.builder()
-                .productsWithReview(productsWithReview)
-                .totalElements(products.getTotalElements())
-                .totalPages(products.getTotalPages())
-                .pageNumber(products.getNumber())
-                .pageSize(products.getSize())
-                .hasPrevious(products.hasPrevious())
-                .hasNext(products.hasNext())
+                .productsWithReview(productsWithReview.getContent())
+                .totalElements(productsWithReview.getTotalElements())
+                .totalPages(productsWithReview.getTotalPages())
+                .pageNumber(productsWithReview.getNumber())
+                .pageSize(productsWithReview.getSize())
+                .hasPrevious(productsWithReview.hasPrevious())
+                .hasNext(productsWithReview.hasNext())
                 .build();
     }
 }

@@ -6,10 +6,10 @@ import com.mini.joymall.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,13 +27,17 @@ public class ProductController {
     }
 
     @GetMapping("/products/search")
-    public ResponseEntity<ProductPageResponse> findByNameContainingIgnoreCase(
+    public ResponseEntity<ProductPageResponse> search(
             @RequestParam("name") String productName,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "sort", defaultValue = "id") String sort,
-            @RequestParam(value = "direction", defaultValue = "desc") String direction) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sort));
-        return ResponseEntity.status(HttpStatus.OK).body(productService.findByNameContainingIgnoreCase(productName, pageable));
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        ProductPageResponse productPageResponse = productService.search(productName, pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(productPageResponse);
+    }
+
+    @GetMapping("/products/{id}")
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.findById(id));
     }
 }
