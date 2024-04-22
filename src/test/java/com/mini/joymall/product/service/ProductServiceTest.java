@@ -2,7 +2,6 @@ package com.mini.joymall.product.service;
 
 import com.mini.joymall.product.domain.entity.Product;
 import com.mini.joymall.product.domain.repository.ProductRepository;
-import com.mini.joymall.product.dto.ProductDTO;
 import com.mini.joymall.product.dto.ProductPageResponse;
 import com.mini.joymall.product.dto.ProductWithReview;
 import lombok.extern.slf4j.Slf4j;
@@ -34,22 +33,26 @@ class ProductServiceTest {
     void 대소문자를_무시하고_검색_성공() {
         // given
         List<Product> products = Arrays.asList(
-                new Product("iPHONE4", "아이폰입니다4", 1000.0, 100, ""),
-                new Product("iPHONE3", "아이폰입니다3", 1000.0, 100, ""),
-                new Product("iPHONE2", "아이폰입니다2", 1000.0, 100, ""),
-                new Product("iPHONE1", "아이폰입니다1", 1000.0, 100, "")
+                new Product(null, "iPHONE4", "아이폰입니다4", ""),
+                new Product(null ,"iPHONE3", "아이폰입니다3", ""),
+                new Product(null, "iPHONE2", "아이폰입니다2", ""),
+                new Product(null, "iPHONE1", "아이폰입니다1", "")
         );
 
         String sortBy = "DESC";
         Sort sort = Sort.by(Sort.Direction.fromString(sortBy), "id");
-        Pageable pageable = PageRequest.of(1, 2, sort);
+        Pageable pageable = PageRequest.of(0, 10, sort);
 
-        Page<Product> pages = new PageImpl<>(products, pageable, products.size());
+        List<ProductWithReview> list = products.stream()
+                .map(ProductWithReview::from)
+                .toList();
 
-        given(productRepository.findByNameContainingIgnoreCase("iphone", pageable)).willReturn(pages);
+        Page<ProductWithReview> pages = new PageImpl<>(list, pageable, products.size());
+
+        given(productRepository.findByNameContainingIgnoreCase("iphone", pageable.getPageSize(), pageable.getPageNumber())).willReturn(pages.getContent());
 
         // when
-        ProductPageResponse productPageResponse = productService.findByNameContainingIgnoreCase("iphone", pageable);
+        ProductPageResponse productPageResponse = productService.search("iphone", pageable);
         List<ProductWithReview> productsWithReview = productPageResponse.getProductsWithReview();
 
         // then
@@ -61,15 +64,15 @@ class ProductServiceTest {
     @Test
     void 띄어쓰기를_포함한_검색_결과_없음() {
         // given
-        List<Product> mockProducts = Collections.emptyList();
+        List<ProductWithReview> mockProducts = Collections.emptyList();
         String sortBy = "DESC";
         Sort sort = Sort.by(Sort.Direction.fromString(sortBy), "id");
-        Pageable pageable = PageRequest.of(1, 2, sort);
-        Page<Product> pages = new PageImpl<>(mockProducts, pageable, mockProducts.size());
+        Pageable pageable = PageRequest.of(0, 10, sort);
+        Page<ProductWithReview> pages = new PageImpl<>(mockProducts, pageable, 0);
 
         // when
-        given(productRepository.findByNameContainingIgnoreCase("ipho ne", pageable)).willReturn(pages);
-        ProductPageResponse productPageResponse = productService.findByNameContainingIgnoreCase("ipho ne", pageable);
+        given(productRepository.findByNameContainingIgnoreCase("ip hone", pageable.getPageSize(), pages.getNumber())).willReturn(pages.getContent());
+        ProductPageResponse productPageResponse = productService.search("ip hone", pageable);
         List<ProductWithReview> productsWithReview = productPageResponse.getProductsWithReview();
 
         // then
