@@ -74,15 +74,16 @@ create table `order`
 (
     `order_id`     bigint primary key auto_increment,
     `customer_id`  bigint                                                             not null,
+    `address_id`  bigint                                                              not null,
     `order_date`   datetime                                                           not null,
-    `status`       enum ('pending', 'shipped', 'in_transit', 'completed', 'canceled') not null,
+    `status`       enum ('PENDING', 'SHIPPED', 'IN_TRANSIT', 'COMPLETED', 'CANCELED') not null,
     `created_date` datetime                                                           not null,
     `updated_date` datetime                                                           not null
 );
 
 create table `address`
 (
-    `addressid`            bigint primary key auto_increment,
+    `address_id`            bigint primary key auto_increment,
     `customer_id`          bigint      not null,
     `receipt_name`         varchar(20) not null,
     `receipt_phone_number` varchar(20) not null,
@@ -101,6 +102,7 @@ create table `order_item`
     `order_item_id`  bigint primary key auto_increment,
     `order_id`       bigint   not null,
     `product_id`     bigint   not null,
+    `product_option_id`     bigint   not null,
     `quantity`       bigint   not null,
     `price_per_item` double   not null,
     `created_date`   datetime not null,
@@ -112,9 +114,9 @@ create table `payment`
     `payment_id`     bigint primary key auto_increment,
     `order_id`       bigint unique                                           not null,
     `amount`         double                                                  not null,
-    `payment_method` enum ('credit_card', 'kakaopay', 'naverpay', 'tosspay') not null,
+    `payment_method` enum ('CREDIT_CARD', 'KAKAOPAY', 'NAVERPAY', 'TOSSPAY') not null,
     `payment_date`   datetime                                                not null,
-    `payment_status` enum ('waiting', 'completed', 'failed', 'refunded')     not null,
+    `payment_status` enum ('WAITING', 'COMPLETED', 'FAILED', 'REFUNDED')     not null,
     `created_date`   datetime                                                not null,
     `updated_date`   datetime                                                not null
 );
@@ -125,7 +127,7 @@ create table `delivery`
     `delivery_id`     bigint primary key auto_increment,
     `order_id`        bigint unique                                                      not null,
     `delivery_notes`  varchar(255)                                                       not null,
-    `delivery_status` enum ('pending', 'shipped', 'in_transit', 'delivered', 'canceled') not null,
+    `delivery_status` enum ('PENDING', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED', 'CANCELED') not null,
     `tracking_number` varchar(255)                                                       not null,
     `shipment_date`   datetime                                                           not null,
     `estimated_date`  datetime                                                           not null,

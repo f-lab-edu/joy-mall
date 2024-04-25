@@ -35,8 +35,8 @@ class ProductRepositoryTest {
     void 상품_리스트_상품명_검색과_페이징_처리() {
         // given
         sellerRepository.deleteAll();
-        Seller sellerA = new Seller(null, "a@a.com", "1234", "a", "aStore", "010-1234-5678", LocalDateTime.now(), LocalDateTime.now());
-        Seller sellerB = new Seller(null, "b@b.com", "1234", "b", "bStore", "010-5678-5678", LocalDateTime.now(), LocalDateTime.now());
+        Seller sellerA = new Seller("a@a.com", "1234", "a", "aStore", "010-1234-5678", LocalDateTime.now(), LocalDateTime.now());
+        Seller sellerB = new Seller("b@b.com", "1234", "b", "bStore", "010-5678-5678", LocalDateTime.now(), LocalDateTime.now());
 
         Product product1 = new Product(null, "아이폰1", "아이폰1", "아이폰");
         Product product2 = new Product(null, "아이폰2", "아이폰2","아이폰");
@@ -71,8 +71,8 @@ class ProductRepositoryTest {
     void 상품과_함께_카테고리를_저장한다() {
         // given
         sellerRepository.deleteAll();
-        Seller sellerA = new Seller(null, "a@a.com", "1234", "a", "aStore", "010-1234-5678", LocalDateTime.now(), LocalDateTime.now());
-        Seller sellerB = new Seller(null, "b@b.com", "1234", "b", "bStore", "010-5678-5678", LocalDateTime.now(), LocalDateTime.now());
+        Seller sellerA = new Seller("a@a.com", "1234", "a", "aStore", "010-1234-5678", LocalDateTime.now(), LocalDateTime.now());
+        Seller sellerB = new Seller("b@b.com", "1234", "b", "bStore", "010-5678-5678", LocalDateTime.now(), LocalDateTime.now());
 
         Product product1 = new Product(null, "아이폰1", "아이폰1", "아이폰");
         Product product2 = new Product(null, "아이폰2", "아이폰2","아이폰");

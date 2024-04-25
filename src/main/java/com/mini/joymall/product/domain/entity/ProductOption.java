@@ -38,4 +38,14 @@ public class ProductOption {
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
     }
+
+    public void decreaseStock(Integer selectedQuantity) {
+        int nowStock = this.stockQuantity - selectedQuantity;
+
+        if (nowStock < 0) {
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+
+        this.stockQuantity = nowStock;
+    }
 }

@@ -1,5 +1,6 @@
 package com.mini.joymall.customer.controller;
 
+import com.mini.joymall.customer.dto.AddressDTO;
 import com.mini.joymall.customer.dto.CustomerDTO;
 import com.mini.joymall.customer.dto.CustomerLoginRequest;
 import com.mini.joymall.customer.dto.CustomerResponse;
@@ -8,10 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,5 +34,10 @@ public class CustomerController {
     @GetMapping("/customers")
     public ResponseEntity<List<CustomerResponse>> findCustomers() {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.findAll());
+    }
+
+    @GetMapping("/customers/{id}/address")
+    public ResponseEntity<AddressDTO> findAddressByCustomerId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.findAddressByCustomerId(id));
     }
 }

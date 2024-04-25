@@ -26,9 +26,6 @@ public class Customer {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    @MappedCollection(idColumn = "CUSTOMER_ID")
-    private Set<Review> reviews = new HashSet<>();
-
     public Customer(String email, String password, String name, String phoneNumber) {
         this(null, email, password, name, phoneNumber, LocalDateTime.now(), LocalDateTime.now());
     }
