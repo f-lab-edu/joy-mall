@@ -2,9 +2,8 @@ package com.mini.joymall.product.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mini.joymall.product.domain.entity.Product;
-import com.mini.joymall.product.domain.entity.ProductCategory;
 import com.mini.joymall.product.domain.entity.ProductOption;
-import com.mini.joymall.seller.domain.entity.Seller;
+import com.mini.joymall.review.dto.ReviewStatDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,6 +55,20 @@ public class ProductDTO {
                 .imageUrl(product.getImageUrl())
                 .createdDate(product.getCreatedDate())
                 .updatedDate(product.getUpdatedDate())
+                .productOptions(product.getProductOptions())
+                .build();
+    }
+
+    public static ProductDTO from(Product product, ReviewStatDTO reviewStatDTO) {
+        return ProductDTO.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .imageUrl(product.getImageUrl())
+                .createdDate(product.getCreatedDate())
+                .updatedDate(product.getUpdatedDate())
+                .totalReviewCount(reviewStatDTO.getTotalReviewCount())
+                .averageReviewRating(reviewStatDTO.calculateAverageReviewRating())
                 .productOptions(product.getProductOptions())
                 .build();
     }
