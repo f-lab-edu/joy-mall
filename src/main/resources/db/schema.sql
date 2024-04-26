@@ -52,7 +52,7 @@ create table `product`
 create table `category`
 (
     `category_id`  bigint primary key auto_increment,
-    `parent_id`    bigint,
+    `parent_id`    bigint not null,
     `depth`        bigint              not null,
     `name`         varchar(255) unique not null,
     `created_date` datetime            not null,
@@ -62,8 +62,8 @@ create table `category`
 create table `product_category`
 (
     `product_category_id` bigint auto_increment,
-    `product_id`          bigint,
-    `category_id`         bigint,
+    `product_id`          bigint not null,
+    `category_id`         bigint not null,
     `created_date`        datetime not null,
     `updated_date`        datetime not null,
     primary key (`product_category_id`),
@@ -151,8 +151,8 @@ create table `review`
 create table `wishlist`
 (
     `wishlist_id`  bigint primary key auto_increment,
-    `product_id`   bigint,
-    `customer_id`  bigint,
+    `product_id`   bigint not null,
+    `customer_id`  bigint not null,
     `created_date` datetime not null,
     `updated_date` datetime not null
 );
@@ -162,209 +162,11 @@ drop table PRODUCT_OPTION;
 CREATE TABLE `PRODUCT_OPTION`
 (
     `option_id`      BIGINT PRIMARY KEY auto_increment,
-    `product_id`     BIGINT,
+    `product_id`     BIGINT not null,
     `name`           VARCHAR(255) NOT NULL,
     `price`          DOUBLE       NOT NULL,
     `stock_quantity` BIGINT       NOT NULL,
     `created_date`   DATETIME     NOT NULL,
     `updated_date`   DATETIME     NOT NULL
 );
-
--- depth 1
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 1, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 1, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 1, now(), now());
-
--- depth 2 기종
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 26, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 27, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 28, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 29, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 30, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 31, now(), now());
-
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 26, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 27, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 28, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 29, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 30, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 31, now(), now());
-
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 26, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 27, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 28, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 29, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 30, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 31, now(), now());
-
--- depth 2 소재
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 32, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 33, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 34, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 35, now(), now());
-
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 32, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 33, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 34, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 35, now(), now());
-
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 32, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 33, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 34, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 35, now(), now());
-
--- depth 2 컬러
-
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 36, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 37, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 38, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 39, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 40, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 41, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 42, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 43, now(), now());
-
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 36, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 37, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 38, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 39, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 40, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 41, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 42, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 43, now(), now());
-
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 36, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 37, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 38, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 39, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 40, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 41, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 42, now(), now());
-insert into PRODUCT_CATEGORY(PRODUCT_ID, CATEGORY_ID, CREATED_DATE, UPDATED_DATE)
-VALUES (3, 43, now(), now());
-
--- REVIEW
-
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 1, '비추;;;', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 1, '별로에요 ㅋㅋ', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 1, '낫배드...', 2, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 1, '우와 가성비 짱!', 4, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 1, '꼭 사세요!!', 5, now(), now());
-
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 1, '비추;;;', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 1, '별로에요 ㅋㅋ', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 1, '낫배드...', 2, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 1, '우와 가성비 짱!', 4, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 1, '꼭 사세요!!', 5, now(), now());
-
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 2, '비추;;;', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 2, '별로에요 ㅋㅋ', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 2, '낫배드...', 2, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 2, '우와 가성비 짱!', 4, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 2, '꼭 사세요!!', 5, now(), now());
-
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 2, '비추;;;', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 2, '별로에요 ㅋㅋ', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 2, '낫배드...', 2, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 2, '우와 가성비 짱!', 4, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 2, '꼭 사세요!!', 5, now(), now());
-
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 3, '비추;;;', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 3, '별로에요 ㅋㅋ', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 3, '낫배드...', 2, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 3, '우와 가성비 짱!', 4, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (1, 3, '꼭 사세요!!', 5, now(), now());
-
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 3, '비추;;;', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 3, '별로에요 ㅋㅋ', 1, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 3, '낫배드...', 2, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 3, '우와 가성비 짱!', 4, now(), now());
-insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
-VALUES (2, 3, '꼭 사세요!!', 5, now(), now());
-
 

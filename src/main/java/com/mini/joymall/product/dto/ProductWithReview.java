@@ -12,7 +12,6 @@ import java.util.Set;
 
 @Getter
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductWithReview {
     private Long productId;
     private String name;

@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 
 @Getter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryDTO {
     private Long categoryId;
     private Long parentId;
