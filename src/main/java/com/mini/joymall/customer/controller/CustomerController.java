@@ -1,5 +1,6 @@
 package com.mini.joymall.customer.controller;
 
+import com.mini.joymall.commons.ApiResponse;
 import com.mini.joymall.customer.dto.AddressDTO;
 import com.mini.joymall.customer.dto.CustomerDTO;
 import com.mini.joymall.customer.dto.CustomerLoginRequest;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.mini.joymall.commons.ApiResponse.*;
+
 @RestController
 @RequiredArgsConstructor
 public class CustomerController {
@@ -21,23 +24,21 @@ public class CustomerController {
 
     @PostMapping("/customers")
     public ResponseEntity<CustomerResponse> signup(@RequestBody @Valid CustomerDTO customerDTO) {
-        CustomerResponse customerResponse = customerService.save(customerDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerResponse);
+        return OK(customerService.save(customerDTO));
     }
 
     @PostMapping("/customers/login")
     public ResponseEntity<CustomerResponse> login(@RequestBody @Valid CustomerLoginRequest customerLoginRequest) {
-        CustomerResponse customerLoginResponse = customerService.findByEmailAndPassword(customerLoginRequest);
-        return ResponseEntity.status(HttpStatus.OK).body(customerLoginResponse);
+        return OK(customerService.findByEmailAndPassword(customerLoginRequest));
     }
 
     @GetMapping("/customers")
     public ResponseEntity<List<CustomerResponse>> findCustomers() {
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.findAll());
+        return OK(customerService.findAll());
     }
 
     @GetMapping("/customers/{id}/address")
     public ResponseEntity<AddressDTO> findAddressByCustomerId(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.findAddressByCustomerId(id));
+        return OK(customerService.findAddressByCustomerId(id));
     }
 }
