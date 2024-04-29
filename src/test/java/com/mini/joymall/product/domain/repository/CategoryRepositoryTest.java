@@ -72,7 +72,7 @@ class CategoryRepositoryTest {
         productRepository.save(product1);
         productRepository.save(product2);
 
-        Category category = new Category(null, null, 0, "가전제품", LocalDateTime.now(), LocalDateTime.now());
+        Category category = new Category(null, 0, "가전제품", LocalDateTime.now(), LocalDateTime.now());
         category.addProduct(product1);
         category.addProduct(product2);
         categoryRepository.save(category);

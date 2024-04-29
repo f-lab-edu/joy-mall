@@ -1,13 +1,10 @@
 package com.mini.joymall.product.domain.entity;
 
-import com.mini.joymall.review.domain.entity.Review;
-import com.mini.joymall.seller.domain.entity.Seller;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;

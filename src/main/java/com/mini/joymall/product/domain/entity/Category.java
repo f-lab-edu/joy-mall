@@ -31,12 +31,11 @@ public class Category {
     private Set<ProductCategory> productCategories = new HashSet<>();
 
     public Category(Long parentId, Integer depth, String name) {
-        this(null, parentId, depth, name, LocalDateTime.now(), LocalDateTime.now());
+        this(parentId, depth, name, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public Category(Long categoryId, Long parentId, Integer depth, String name, LocalDateTime createdDate, LocalDateTime updatedDate) {
-        this.id = categoryId;
+    public Category(Long parentId, Integer depth, String name, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.parentId = parentId;
         this.depth = depth;
         this.name = name;
