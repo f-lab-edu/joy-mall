@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ class CustomerRepositoryTest {
         Customer saveCustomer = customerRepository.save(new Customer("a@a.com", "1234", "A", "010-1234-5678"));
 
         // when
-        Customer findCustomer = customerRepository.findAll().get(0);
+        Customer findCustomer = customerRepository.findById(saveCustomer.getId()).get();
 
         // then
         assertThat(saveCustomer).isEqualTo(findCustomer);
@@ -45,7 +46,7 @@ class CustomerRepositoryTest {
         Customer customerB = customerRepository.save(new Customer("b@b.com", "12345", "B", "010-2345-5678"));
 
         // when
-        List<Customer> customers = customerRepository.findAll();
+        List<Customer> customers = (List<Customer>) customerRepository.findAllById(Arrays.asList(customerA.getId(), customerB.getId()));
 
         // then
         assertThat(customers).contains(customerA, customerB);

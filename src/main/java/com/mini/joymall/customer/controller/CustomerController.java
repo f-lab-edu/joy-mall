@@ -32,11 +32,6 @@ public class CustomerController {
         return OK(customerService.findByEmailAndPassword(customerLoginRequest));
     }
 
-    @GetMapping("/customers")
-    public ResponseEntity<List<CustomerResponse>> findCustomers() {
-        return OK(customerService.findAll());
-    }
-
     @GetMapping("/customers/{id}/address")
     public ResponseEntity<AddressDTO> findAddressByCustomerId(@PathVariable Long id) {
         return OK(customerService.findAddressByCustomerId(id));

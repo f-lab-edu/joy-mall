@@ -55,11 +55,6 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    void 카테고리_전체_조회() {
-        assertThat(categoryRepository.findAll().size()).isEqualTo(8);
-    }
-
-    @Test
     void 카테고리_N_depth_조회() {
         List<Category> all = categoryRepository.findByDepth(1);
         assertThat(all.size()).isEqualTo(3);
@@ -75,10 +70,10 @@ class CategoryRepositoryTest {
         Category category = new Category(null, 0, "가전제품", LocalDateTime.now(), LocalDateTime.now());
         category.addProduct(product1);
         category.addProduct(product2);
-        categoryRepository.save(category);
+        Category savedCategory = categoryRepository.save(category);
 
-        List<Category> categories = categoryRepository.findAll();
-        Set<ProductCategory> productCategories = categories.get(categories.size() - 1).getProductCategories();
+        Category findCategory = categoryRepository.findById(savedCategory.getId()).orElse(null);
+        Set<ProductCategory> productCategories = findCategory.getProductCategories();
         assertThat(productCategories.size()).isEqualTo(2);
     }
 }

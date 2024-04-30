@@ -94,10 +94,10 @@ class ProductRepositoryTest {
         Product product = new Product(1L, "아이폰", "아이폰", "아이폰", LocalDateTime.now(), LocalDateTime.now());
         product.addCategory(savedCategory1);
         product.addCategory(savedCategory2);
-        productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
 
-        List<Product> products = productRepository.findAll();
-        Set<ProductCategory> productCategories = products.get(products.size() - 1).getProductCategories();
+        Product findProduct = productRepository.findById(savedProduct.getId()).orElse(null);
+        Set<ProductCategory> productCategories = findProduct.getProductCategories();
         assertThat(productCategories.size()).isEqualTo(2);
     }
 

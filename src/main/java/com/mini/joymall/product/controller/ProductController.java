@@ -20,11 +20,6 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/products")
-    public ResponseEntity<List<ProductDTO>> findAll() {
-        return OK(productService.findAll());
-    }
-
     @GetMapping("/products/search")
     public ResponseEntity<ProductPageResponse> search(@ModelAttribute ProductSearchDTO productSearchDTO) {
         Pageable pageable = PageRequest.of(productSearchDTO.getPageNumber(), productSearchDTO.getPageSize());

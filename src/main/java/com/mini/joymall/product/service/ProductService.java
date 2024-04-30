@@ -21,13 +21,6 @@ public class ProductService {
 
     private final ReviewService reviewService;
 
-    public List<ProductDTO> findAll() {
-        List<Product> products = productRepository.findAll();
-        return products.stream()
-                .map(ProductDTO::from)
-                .toList();
-    }
-
     public ProductPageResponse search(String keyword, Pageable pageable) {
         int offset = pageable.getPageNumber() * pageable.getPageSize();
         int pageSize = pageable.getPageSize();

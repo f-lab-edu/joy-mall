@@ -31,13 +31,6 @@ public class CustomerService {
         return CustomerResponse.from(savedCustomer);
     }
 
-    public List<CustomerResponse> findAll() {
-        return customerRepository.findAll()
-                .stream()
-                .map(CustomerResponse::from)
-                .toList();
-    }
-
     public AddressDTO findAddressByCustomerId(Long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
