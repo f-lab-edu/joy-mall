@@ -1,19 +1,16 @@
-package com.mini.joymall.product.dto;
+package com.mini.joymall.product.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mini.joymall.product.domain.entity.Product;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class ProductPageResponse {
-    private List<ProductWithReview> productsWithReview;
+    private List<ProductReviewSummaryResponse> productsWithReview;
     private long totalElements;
     private long totalPages;
     private int pageNumber;
@@ -22,7 +19,7 @@ public class ProductPageResponse {
     private boolean hasNext;
 
     @Builder
-    public ProductPageResponse(List<ProductWithReview> productsWithReview, long totalElements, long totalPages, int pageNumber, int pageSize, boolean hasPrevious, boolean hasNext) {
+    public ProductPageResponse(List<ProductReviewSummaryResponse> productsWithReview, long totalElements, long totalPages, int pageNumber, int pageSize, boolean hasPrevious, boolean hasNext) {
         this.productsWithReview = productsWithReview;
         this.totalElements = totalElements;
         this.totalPages = totalPages;
@@ -32,7 +29,7 @@ public class ProductPageResponse {
         this.hasNext = hasNext;
     }
 
-    public static ProductPageResponse from(Page<ProductWithReview> productsWithReview) {
+    public static ProductPageResponse from(Page<ProductReviewSummaryResponse> productsWithReview) {
         return ProductPageResponse.builder()
                 .productsWithReview(productsWithReview.getContent())
                 .totalElements(productsWithReview.getTotalElements())

@@ -2,8 +2,8 @@ package com.mini.joymall.product.service;
 
 import com.mini.joymall.product.domain.entity.Product;
 import com.mini.joymall.product.domain.repository.ProductRepository;
-import com.mini.joymall.product.dto.ProductPageResponse;
-import com.mini.joymall.product.dto.ProductWithReview;
+import com.mini.joymall.product.dto.response.ProductPageResponse;
+import com.mini.joymall.product.dto.response.ProductReviewSummaryResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,17 +43,17 @@ class ProductServiceTest {
         Sort sort = Sort.by(Sort.Direction.fromString(sortBy), "id");
         Pageable pageable = PageRequest.of(0, 10, sort);
 
-        List<ProductWithReview> list = products.stream()
-                .map(ProductWithReview::from)
+        List<ProductReviewSummaryResponse> list = products.stream()
+                .map(ProductReviewSummaryResponse::from)
                 .toList();
 
-        Page<ProductWithReview> pages = new PageImpl<>(list, pageable, products.size());
+        Page<ProductReviewSummaryResponse> pages = new PageImpl<>(list, pageable, products.size());
 
         given(productRepository.findByNameContainingIgnoreCase("iphone", pageable.getPageSize(), pageable.getPageNumber())).willReturn(pages.getContent());
 
         // when
         ProductPageResponse productPageResponse = productService.search("iphone", pageable);
-        List<ProductWithReview> productsWithReview = productPageResponse.getProductsWithReview();
+        List<ProductReviewSummaryResponse> productsWithReview = productPageResponse.getProductsWithReview();
 
         // then
         assertThat(products.size()).isEqualTo(productsWithReview.size());
@@ -64,16 +64,16 @@ class ProductServiceTest {
     @Test
     void 띄어쓰기를_포함한_검색_결과_없음() {
         // given
-        List<ProductWithReview> mockProducts = Collections.emptyList();
+        List<ProductReviewSummaryResponse> mockProducts = Collections.emptyList();
         String sortBy = "DESC";
         Sort sort = Sort.by(Sort.Direction.fromString(sortBy), "id");
         Pageable pageable = PageRequest.of(0, 10, sort);
-        Page<ProductWithReview> pages = new PageImpl<>(mockProducts, pageable, 0);
+        Page<ProductReviewSummaryResponse> pages = new PageImpl<>(mockProducts, pageable, 0);
 
         // when
         given(productRepository.findByNameContainingIgnoreCase("ip hone", pageable.getPageSize(), pages.getNumber())).willReturn(pages.getContent());
         ProductPageResponse productPageResponse = productService.search("ip hone", pageable);
-        List<ProductWithReview> productsWithReview = productPageResponse.getProductsWithReview();
+        List<ProductReviewSummaryResponse> productsWithReview = productPageResponse.getProductsWithReview();
 
         // then
         assertThat(productsWithReview).isEmpty();

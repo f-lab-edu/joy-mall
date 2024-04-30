@@ -1,9 +1,8 @@
-package com.mini.joymall.product.dto;
+package com.mini.joymall.product.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mini.joymall.product.domain.entity.Product;
 import com.mini.joymall.product.domain.entity.ProductOption;
-import com.mini.joymall.review.dto.ReviewStatDTO;
+import com.mini.joymall.review.dto.ReviewSummaryDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ import java.util.Set;
 
 @Getter
 @NoArgsConstructor
-public class ProductDTO {
+public class ProductAndReviewResponse {
     private Long productId;
     private String name;
     private String description;
@@ -30,9 +29,9 @@ public class ProductDTO {
     private Integer totalReviewCount;
 
     @Builder
-    public ProductDTO(Long id, String name, String description, Integer price, Integer stockQuantity, String imageUrl,
-                      LocalDateTime createdDate, LocalDateTime updatedDate, Set<ProductOption> productOptions,
-                      Integer totalReviewCount, Double averageReviewRating) {
+    public ProductAndReviewResponse(Long id, String name, String description, Integer price, Integer stockQuantity, String imageUrl,
+                                    LocalDateTime createdDate, LocalDateTime updatedDate, Set<ProductOption> productOptions,
+                                    Integer totalReviewCount, Double averageReviewRating) {
         this.productId = id;
         this.name = name;
         this.description = description;
@@ -46,8 +45,8 @@ public class ProductDTO {
         this.averageReviewRating = averageReviewRating;
     }
 
-    public static ProductDTO from(Product product) {
-        return ProductDTO.builder()
+    public static ProductAndReviewResponse from(Product product) {
+        return ProductAndReviewResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
@@ -58,16 +57,16 @@ public class ProductDTO {
                 .build();
     }
 
-    public static ProductDTO from(Product product, ReviewStatDTO reviewStatDTO) {
-        return ProductDTO.builder()
+    public static ProductAndReviewResponse from(Product product, ReviewSummaryDTO reviewSummaryDTO) {
+        return ProductAndReviewResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .imageUrl(product.getImageUrl())
                 .createdDate(product.getCreatedDate())
                 .updatedDate(product.getUpdatedDate())
-                .totalReviewCount(reviewStatDTO.getTotalReviewCount())
-                .averageReviewRating(reviewStatDTO.calculateAverageReviewRating())
+                .totalReviewCount(reviewSummaryDTO.getTotalReviewCount())
+                .averageReviewRating(reviewSummaryDTO.calculateAverageReviewRating())
                 .productOptions(product.getProductOptions())
                 .build();
     }

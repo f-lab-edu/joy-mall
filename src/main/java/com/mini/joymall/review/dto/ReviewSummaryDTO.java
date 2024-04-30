@@ -8,10 +8,10 @@ import java.util.Set;
 
 @Getter
 @NoArgsConstructor
-public class ReviewStatDTO {
+public class ReviewSummaryDTO {
     private Set<Review> reviews;
 
-    public ReviewStatDTO(Set<Review> reviews) {
+    public ReviewSummaryDTO(Set<Review> reviews) {
         this.reviews = reviews;
     }
 

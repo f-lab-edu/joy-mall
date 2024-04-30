@@ -2,7 +2,7 @@ package com.mini.joymall.review.service;
 
 import com.mini.joymall.review.domain.entity.Review;
 import com.mini.joymall.review.domain.repository.ReviewRepository;
-import com.mini.joymall.review.dto.ReviewStatDTO;
+import com.mini.joymall.review.dto.ReviewSummaryDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +14,8 @@ import java.util.List;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
 
-    public ReviewStatDTO statByProductId(Long productId) {
+    public ReviewSummaryDTO statByProductId(Long productId) {
         List<Review> reviews = reviewRepository.findByProductId(productId);
-        return new ReviewStatDTO(new HashSet<>(reviews));
+        return new ReviewSummaryDTO(new HashSet<>(reviews));
     }
 }

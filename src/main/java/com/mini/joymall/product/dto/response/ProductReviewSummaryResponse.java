@@ -1,18 +1,15 @@
-package com.mini.joymall.product.dto;
+package com.mini.joymall.product.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mini.joymall.product.domain.entity.Product;
-import com.mini.joymall.review.domain.entity.Review;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Getter
 @NoArgsConstructor
-public class ProductWithReview {
+public class ProductReviewSummaryResponse {
     private Long productId;
     private String name;
     private String description;
@@ -26,8 +23,8 @@ public class ProductWithReview {
     private Integer totalReviewCount;
 
     @Builder
-    public ProductWithReview(Long id, String name, String description, Integer optionMinPrice, String imageUrl,
-                             LocalDateTime createdDate, LocalDateTime updatedDate, Double averageReviewRating, Integer totalReviewCount) {
+    public ProductReviewSummaryResponse(Long id, String name, String description, Integer optionMinPrice, String imageUrl,
+                                        LocalDateTime createdDate, LocalDateTime updatedDate, Double averageReviewRating, Integer totalReviewCount) {
         this.productId = id;
         this.name = name;
         this.description = description;
@@ -39,8 +36,8 @@ public class ProductWithReview {
         this.totalReviewCount = totalReviewCount;
     }
 
-    public static ProductWithReview from(Product product) {
-        return ProductWithReview.builder()
+    public static ProductReviewSummaryResponse from(Product product) {
+        return ProductReviewSummaryResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())

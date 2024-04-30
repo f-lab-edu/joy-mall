@@ -4,7 +4,7 @@ import com.mini.joymall.product.domain.entity.Category;
 import com.mini.joymall.product.domain.entity.Product;
 import com.mini.joymall.product.domain.entity.ProductCategory;
 import com.mini.joymall.product.domain.entity.ProductOption;
-import com.mini.joymall.product.dto.ProductWithReview;
+import com.mini.joymall.product.dto.response.ProductReviewSummaryResponse;
 import com.mini.joymall.seller.domain.entity.Seller;
 import com.mini.joymall.seller.domain.repository.SellerRepository;
 import org.junit.jupiter.api.Test;
@@ -55,8 +55,8 @@ class ProductRepositoryTest {
         Pageable pageable = PageRequest.of(1, 2, sort);
 
         // when
-        List<ProductWithReview> products = productRepository.findByNameContainingIgnoreCase("아이폰", pageable.getPageSize(), pageable.getPageNumber());
-        Page<ProductWithReview> page = new PageImpl<>(products, pageable, products.size());
+        List<ProductReviewSummaryResponse> products = productRepository.findByNameContainingIgnoreCase("아이폰", pageable.getPageSize(), pageable.getPageNumber());
+        Page<ProductReviewSummaryResponse> page = new PageImpl<>(products, pageable, products.size());
 
         // then
         assertThat(page.getTotalElements()).isEqualTo(4);

@@ -1,17 +1,15 @@
 package com.mini.joymall.customer.service;
 
-import com.mini.joymall.customer.domain.entity.Address;
 import com.mini.joymall.customer.domain.entity.Customer;
 import com.mini.joymall.customer.domain.repository.AddressRepository;
 import com.mini.joymall.customer.domain.repository.CustomerRepository;
 import com.mini.joymall.customer.dto.AddressDTO;
 import com.mini.joymall.customer.dto.CustomerDTO;
-import com.mini.joymall.customer.dto.CustomerLoginRequest;
-import com.mini.joymall.customer.dto.CustomerResponse;
+import com.mini.joymall.customer.dto.request.CustomerLoginRequest;
+import com.mini.joymall.customer.dto.response.CustomerResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service

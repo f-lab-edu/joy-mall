@@ -1,7 +1,7 @@
 package com.mini.joymall.product.domain.repository;
 
 import com.mini.joymall.product.domain.entity.Product;
-import com.mini.joymall.product.dto.ProductWithReview;
+import com.mini.joymall.product.dto.response.ProductReviewSummaryResponse;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -34,7 +34,7 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
                     LIMIT :pageSize
                     OFFSET :pageNumber
             """)
-    List<ProductWithReview> findByNameContainingIgnoreCase(String keyword, int pageSize, int pageNumber);
+    List<ProductReviewSummaryResponse> findByNameContainingIgnoreCase(String keyword, int pageSize, int pageNumber);
 
     Long countByNameContainingIgnoreCase(String keyword);
 }

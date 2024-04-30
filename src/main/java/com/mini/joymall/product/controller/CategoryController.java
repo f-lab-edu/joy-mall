@@ -1,6 +1,6 @@
 package com.mini.joymall.product.controller;
 
-import com.mini.joymall.product.dto.CategoryChildrenResponse;
+import com.mini.joymall.product.dto.response.CategoryChildrenResponse;
 import com.mini.joymall.product.dto.CategoryDTO;
 import com.mini.joymall.product.service.CategoryService;
 import org.springframework.http.ResponseEntity;

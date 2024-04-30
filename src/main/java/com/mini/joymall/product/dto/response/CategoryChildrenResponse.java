@@ -1,4 +1,4 @@
-package com.mini.joymall.product.dto;
+package com.mini.joymall.product.dto.response;
 
 import lombok.*;
 

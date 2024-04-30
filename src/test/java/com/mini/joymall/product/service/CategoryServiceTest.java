@@ -2,7 +2,7 @@ package com.mini.joymall.product.service;
 
 import com.mini.joymall.product.domain.entity.Category;
 import com.mini.joymall.product.domain.repository.CategoryRepository;
-import com.mini.joymall.product.dto.CategoryChildrenResponse;
+import com.mini.joymall.product.dto.response.CategoryChildrenResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
