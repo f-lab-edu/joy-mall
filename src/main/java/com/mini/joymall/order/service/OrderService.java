@@ -1,7 +1,7 @@
 package com.mini.joymall.order.service;
 
-import com.mini.joymall.customer.domain.entity.Address;
-import com.mini.joymall.customer.domain.repository.AddressRepository;
+import com.mini.joymall.customer.domain.entity.CustomerAddress;
+import com.mini.joymall.customer.domain.repository.CustomerAddressRepository;
 import com.mini.joymall.order.domain.entity.Order;
 import com.mini.joymall.order.domain.entity.OrderItem;
 import com.mini.joymall.order.domain.repository.OrderRepository;
@@ -23,11 +23,11 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final AddressRepository addressRepository;
+    private final CustomerAddressRepository addressRepository;
     private final ProductOptionRepository productOptionRepository;
 
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequests) {
-        Address address = addressRepository.findByCustomerId(createOrderRequests.getCustomerId()).orElseThrow(NoSuchElementException::new);
+        CustomerAddress customerAddress = addressRepository.findByCustomerId(createOrderRequests.getCustomerId()).orElseThrow(NoSuchElementException::new);
 
         List<OrderItem> orderItems = new ArrayList<>();
         for (CreateOrderItemRequest createOrderItems : createOrderRequests.getOrderItems()) {
@@ -42,8 +42,8 @@ public class OrderService {
             OrderItem orderItem = new OrderItem(productOption.getProductId(), productOptionId, selectedQuantity, price);
             orderItems.add(orderItem);
         }
-        Order order = Order.createOrder(address.getId(), createOrderRequests.getCustomerId(), orderItems);
+        Order order = Order.createOrder(customerAddress.getId(), createOrderRequests.getCustomerId(), orderItems);
         Order savedOrder = orderRepository.save(order);
-        return CreateOrderResponse.from(savedOrder, address);
+        return CreateOrderResponse.from(savedOrder, customerAddress);
     }
 }

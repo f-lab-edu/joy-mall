@@ -1,7 +1,5 @@
 package com.mini.joymall.order.domain.entity;
 
-import com.mini.joymall.customer.domain.entity.Address;
-import com.mini.joymall.customer.domain.entity.Customer;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,7 +10,6 @@ import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

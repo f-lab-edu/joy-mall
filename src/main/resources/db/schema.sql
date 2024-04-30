@@ -6,7 +6,7 @@ drop table if exists `product`;
 drop table if exists `category`;
 drop table if exists `product_category`;
 drop table if exists `order`;
-drop table if exists `address`;
+drop table if exists `customer_address`;
 drop table if exists `order_item`;
 drop table if exists `payment`;
 drop table if exists `delivery`;
@@ -52,7 +52,7 @@ create table `product`
 create table `category`
 (
     `category_id`  bigint primary key auto_increment,
-    `parent_id`    bigint not null,
+    `parent_id`    bigint,
     `depth`        bigint              not null,
     `name`         varchar(255) unique not null,
     `created_date` datetime            not null,
@@ -74,16 +74,16 @@ create table `order`
 (
     `order_id`     bigint primary key auto_increment,
     `customer_id`  bigint                                                             not null,
-    `address_id`  bigint                                                              not null,
+    `customer_address_id`  bigint                                                              not null,
     `order_date`   datetime                                                           not null,
     `status`       enum ('PENDING', 'SHIPPED', 'IN_TRANSIT', 'COMPLETED', 'CANCELED') not null,
     `created_date` datetime                                                           not null,
     `updated_date` datetime                                                           not null
 );
 
-create table `address`
+create table `customer_address`
 (
-    `address_id`            bigint primary key auto_increment,
+    `customer_address_id`            bigint primary key auto_increment,
     `customer_id`          bigint      not null,
     `receipt_name`         varchar(20) not null,
     `receipt_phone_number` varchar(20) not null,

@@ -1,6 +1,6 @@
 package com.mini.joymall.customer.controller;
 
-import com.mini.joymall.customer.dto.AddressDTO;
+import com.mini.joymall.customer.dto.CustomerAddressDTO;
 import com.mini.joymall.customer.dto.CustomerDTO;
 import com.mini.joymall.customer.dto.request.CustomerLoginRequest;
 import com.mini.joymall.customer.dto.response.CustomerResponse;
@@ -29,7 +29,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/{id}/address")
-    public ResponseEntity<AddressDTO> findAddressByCustomerId(@PathVariable Long id) {
+    public ResponseEntity<CustomerAddressDTO> findAddressByCustomerId(@PathVariable Long id) {
         return OK(customerService.findAddressByCustomerId(id));
     }
 }

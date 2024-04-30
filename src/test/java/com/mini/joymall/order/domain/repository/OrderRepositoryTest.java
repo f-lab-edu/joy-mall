@@ -1,8 +1,9 @@
 package com.mini.joymall.order.domain.repository;
 
-import com.mini.joymall.customer.domain.entity.Address;
+import com.mini.joymall.customer.domain.entity.CustomerAddress;
 import com.mini.joymall.customer.domain.entity.Customer;
-import com.mini.joymall.customer.domain.repository.AddressRepository;
+import com.mini.joymall.customer.domain.entity.Location;
+import com.mini.joymall.customer.domain.repository.CustomerAddressRepository;
 import com.mini.joymall.customer.domain.repository.CustomerRepository;
 import com.mini.joymall.order.domain.entity.Order;
 import com.mini.joymall.order.domain.entity.OrderItem;
@@ -21,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -35,7 +35,7 @@ class OrderRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
-    AddressRepository addressRepository;
+    CustomerAddressRepository addressRepository;
     @Autowired
     OrderRepository orderRepository;
     @Autowired
@@ -68,9 +68,9 @@ class OrderRepositoryTest {
 
         Customer customer = new Customer("customer@a.com", "1234", "customerA", "010");
         Customer savedCustomerA = customerRepository.save(customer);
-        Address addressA = new Address(savedCustomerA.getId(), "나의 집", "010-1234-1234", "대한민국",
-                "서울시", "강남구", "도산대로", "001-001", "힐스테이트");
-        Address savedAddressA = addressRepository.save(addressA);
+        Location location = new Location("대한민국", "서울시", "강남구", "도산대로", "001-001", "힐스테이트");
+        CustomerAddress addressA = new CustomerAddress(savedCustomerA.getId(), "나의 집", "010-1234-1234", location);
+        CustomerAddress savedAddressA = addressRepository.save(addressA);
 
         OrderItem orderItemA1 = new OrderItem(savedProductOptionA1.getProductId(), savedProductOptionA1.getId(), 3, savedProductOptionA1.getPrice());
         OrderItem orderItemA2 = new OrderItem(savedProductOptionA2.getProductId(), savedProductOptionA2.getId(), 5, savedProductOptionA2.getPrice());

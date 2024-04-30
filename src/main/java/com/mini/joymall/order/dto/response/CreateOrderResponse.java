@@ -1,6 +1,6 @@
 package com.mini.joymall.order.dto.response;
 
-import com.mini.joymall.customer.domain.entity.Address;
+import com.mini.joymall.customer.domain.entity.CustomerAddress;
 import com.mini.joymall.order.domain.entity.Order;
 import com.mini.joymall.order.domain.entity.OrderItem;
 import com.mini.joymall.order.domain.entity.OrderStatus;
@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,9 +22,9 @@ public class CreateOrderResponse {
     private OrderStatus status;
     private Set<OrderItem> orderItems;
     private Integer totalPrice;
-    private Address address;
+    private CustomerAddress customerAddress;
 
-    public static CreateOrderResponse from(Order order, Address address) {
+    public static CreateOrderResponse from(Order order, CustomerAddress customerAddress) {
         return CreateOrderResponse.builder()
                 .id(order.getId())
                 .orderDate(order.getOrderDate())
@@ -35,7 +34,7 @@ public class CreateOrderResponse {
                 .totalPrice(order.getOrderItems().stream()
                         .mapToInt(OrderItem::calculateTotalPrice)
                         .sum())
-                .address(address)
+                .customerAddress(customerAddress)
                 .build();
     }
 }

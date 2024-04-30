@@ -1,6 +1,7 @@
 package com.mini.joymall.customer.dto.request;
 
-import com.mini.joymall.customer.domain.entity.Address;
+import com.mini.joymall.customer.domain.entity.CustomerAddress;
+import com.mini.joymall.customer.domain.entity.Location;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateAddressRequest {
+public class CreateCustomerAddressRequest {
     @NotNull(message = "고객 ID를 입력해주세요.")
     private Long customerId;
 
@@ -40,17 +41,19 @@ public class CreateAddressRequest {
     @NotEmpty(message = "상세 주소를 입력해주세요.")
     private String detail;
 
-    public Address toEntity() {
-        return Address.builder()
+    public CustomerAddress toEntity() {
+        return CustomerAddress.builder()
                 .customerId(customerId)
                 .receiptName(receiptName)
                 .receiptPhoneNumber(receiptPhoneNumber)
-                .region(region)
-                .city(city)
-                .town(town)
-                .street(street)
-                .zipCode(zipCode)
-                .detail(detail)
+                .location(Location.builder()
+                        .region(region)
+                        .city(city)
+                        .town(town)
+                        .street(street)
+                        .zipCode(zipCode)
+                        .detail(detail)
+                        .build())
                 .createdDate(LocalDateTime.now())
                 .updatedDate(LocalDateTime.now())
                 .build();
