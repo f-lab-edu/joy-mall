@@ -104,7 +104,7 @@ create table `order_item`
     `product_id`     bigint   not null,
     `product_option_id`     bigint   not null,
     `quantity`       bigint   not null,
-    `price_per_item` double   not null,
+    `price_per_item` bigint   not null,
     `created_date`   datetime not null,
     `updated_date`   datetime not null
 );
@@ -113,7 +113,7 @@ create table `payment`
 (
     `payment_id`     bigint primary key auto_increment,
     `order_id`       bigint unique                                           not null,
-    `amount`         double                                                  not null,
+    `amount`         bigint                                                  not null,
     `payment_method` enum ('CREDIT_CARD', 'KAKAOPAY', 'NAVERPAY', 'TOSSPAY') not null,
     `payment_date`   datetime                                                not null,
     `payment_status` enum ('WAITING', 'COMPLETED', 'FAILED', 'REFUNDED')     not null,
@@ -164,7 +164,7 @@ CREATE TABLE `PRODUCT_OPTION`
     `option_id`      BIGINT PRIMARY KEY auto_increment,
     `product_id`     BIGINT not null,
     `name`           VARCHAR(255) NOT NULL,
-    `price`          DOUBLE       NOT NULL,
+    `price`          bigint       NOT NULL,
     `stock_quantity` BIGINT       NOT NULL,
     `created_date`   DATETIME     NOT NULL,
     `updated_date`   DATETIME     NOT NULL

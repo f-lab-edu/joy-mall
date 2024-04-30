@@ -59,9 +59,9 @@ class OrderRepositoryTest {
         Product savedProductA = productRepository.save(productA);
         Product savedProductB = productRepository.save(productB);
 
-        ProductOption productOptionA1 = new ProductOption(savedProductA.getId(), "아이폰 15 Pro Max", 21000.0, 100);
-        ProductOption productOptionA2 = new ProductOption(savedProductA.getId(), "아이폰 15 Pro", 21000.0, 100);
-        ProductOption productOptionB1 = new ProductOption(savedProductB.getId(), "아이폰 13", 33000.0, 10);
+        ProductOption productOptionA1 = new ProductOption(savedProductA.getId(), "아이폰 15 Pro Max", 21000, 100);
+        ProductOption productOptionA2 = new ProductOption(savedProductA.getId(), "아이폰 15 Pro", 21000, 100);
+        ProductOption productOptionB1 = new ProductOption(savedProductB.getId(), "아이폰 13", 33000, 10);
         ProductOption savedProductOptionA1 = productOptionRepository.save(productOptionA1);
         ProductOption savedProductOptionA2 = productOptionRepository.save(productOptionA2);
         ProductOption savedProductOptionB1 = productOptionRepository.save(productOptionB1);

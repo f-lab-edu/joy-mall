@@ -20,17 +20,17 @@ public class ProductOption {
     @Column("PRODUCT_ID")
     private Long productId;
     private String name;
-    private Double price;
+    private Integer price;
     private Integer stockQuantity;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public ProductOption(Long productId, String name, Double price, Integer stockQuantity) {
+    public ProductOption(Long productId, String name, Integer price, Integer stockQuantity) {
         this(productId, name, price, stockQuantity, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public ProductOption(Long productId, String name, Double price, Integer stockQuantity, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    public ProductOption(Long productId, String name, Integer price, Integer stockQuantity, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.productId = productId;
         this.name = name;
         this.price = price;

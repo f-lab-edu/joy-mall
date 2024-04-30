@@ -33,7 +33,7 @@ public class OrderService {
         for (CreateOrderItemRequest createOrderItems : createOrderRequests.getOrderItems()) {
             Long productOptionId = createOrderItems.getProductOptionId();
             Integer selectedQuantity = createOrderItems.getSelectedQuantity();
-            Double price = createOrderItems.getPrice();
+            Integer price = createOrderItems.getPrice();
 
             ProductOption productOption = productOptionRepository.findById(productOptionId).orElseThrow(NoSuchElementException::new);
             productOption.decreaseStock(selectedQuantity);

@@ -18,7 +18,7 @@ public class ProductDTO {
     private Long productId;
     private String name;
     private String description;
-    private Double price;
+    private Integer price;
     private Integer stockQuantity;
     private String imageUrl;
     private LocalDateTime createdDate;
@@ -27,12 +27,12 @@ public class ProductDTO {
     private Set<ProductOption> productOptions = new HashSet<>();
 
     private Double averageReviewRating;
-    private Double totalReviewCount;
+    private Integer totalReviewCount;
 
     @Builder
-    public ProductDTO(Long id, String name, String description, Double price, Integer stockQuantity, String imageUrl,
+    public ProductDTO(Long id, String name, String description, Integer price, Integer stockQuantity, String imageUrl,
                       LocalDateTime createdDate, LocalDateTime updatedDate, Set<ProductOption> productOptions,
-                      Double totalReviewCount, Double averageReviewRating) {
+                      Integer totalReviewCount, Double averageReviewRating) {
         this.productId = id;
         this.name = name;
         this.description = description;

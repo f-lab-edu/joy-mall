@@ -22,7 +22,7 @@ public class CreateOrderResponse {
     private LocalDateTime orderDate;
     private OrderStatus status;
     private Set<OrderItem> orderItems;
-    private Double totalPrice;
+    private Integer totalPrice;
     private Address address;
 
     public static CreateOrderResponse from(Order order, Address address) {
@@ -33,7 +33,7 @@ public class CreateOrderResponse {
                 .status(order.getStatus())
                 .orderItems(order.getOrderItems())
                 .totalPrice(order.getOrderItems().stream()
-                        .mapToDouble(OrderItem::calculateTotalPrice)
+                        .mapToInt(OrderItem::calculateTotalPrice)
                         .sum())
                 .address(address)
                 .build();

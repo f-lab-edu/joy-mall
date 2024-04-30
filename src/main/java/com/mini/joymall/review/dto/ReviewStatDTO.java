@@ -15,13 +15,13 @@ public class ReviewStatDTO {
         this.reviews = reviews;
     }
 
-    public double getTotalReviewCount() {
+    public Integer getTotalReviewCount() {
         return this.reviews.size();
     }
 
-    public double calculateAverageReviewRating() {
+    public Double calculateAverageReviewRating() {
         return this.reviews.stream()
-                .mapToDouble(Review::getRating)
+                .mapToInt(Review::getRating)
                 .average()
                 .orElse(0.0);
     }

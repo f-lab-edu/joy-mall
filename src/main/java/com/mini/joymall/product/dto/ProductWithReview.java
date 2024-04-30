@@ -20,14 +20,14 @@ public class ProductWithReview {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    private Double optionMinPrice;
+    private Integer optionMinPrice;
 
     private Double averageReviewRating;
-    private Double totalReviewCount;
+    private Integer totalReviewCount;
 
     @Builder
-    public ProductWithReview(Long id, String name, String description, Double optionMinPrice, String imageUrl,
-                             LocalDateTime createdDate, LocalDateTime updatedDate, Double averageReviewRating, Double totalReviewCount) {
+    public ProductWithReview(Long id, String name, String description, Integer optionMinPrice, String imageUrl,
+                             LocalDateTime createdDate, LocalDateTime updatedDate, Double averageReviewRating, Integer totalReviewCount) {
         this.productId = id;
         this.name = name;
         this.description = description;

@@ -16,5 +16,5 @@ public class CreateOrderItemRequest {
     private Integer selectedQuantity;
 
     @NotNull(message = "가격을 입력해주세요.")
-    private Double price;
+    private Integer price;
 }
