@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.mini.joymall.commons.ApiResponse.*;
+
 @RestController
 @AllArgsConstructor
 public class CustomerAddressController {
@@ -16,6 +18,6 @@ public class CustomerAddressController {
 
     @PostMapping("/addresses")
     public ResponseEntity<CustomerAddressDTO> save(@RequestBody @Valid CreateCustomerAddressRequest addressDTO) {
-        return ApiResponse.OK(addressService.save(addressDTO));
+        return OK(addressService.save(addressDTO));
     }
 }

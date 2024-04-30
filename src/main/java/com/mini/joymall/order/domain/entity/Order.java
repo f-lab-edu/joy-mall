@@ -11,7 +11,6 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Table("ORDER")
@@ -29,38 +28,24 @@ public class Order {
     @MappedCollection(idColumn = "ORDER_ID")
     private Set<OrderItem> orderItems = new HashSet<>();
 
-    private Long addressId;
+    private Long customerAddressId;
     private Long customerId;
 
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public Order(OrderStatus status, Long addressId, Long customerId) {
-        this(LocalDateTime.now(), status, addressId, customerId, LocalDateTime.now(), LocalDateTime.now());
+    public Order(OrderStatus status, Set<OrderItem> orderItems, Long customerAddressId, Long customerId) {
+        this(LocalDateTime.now(), status, orderItems, customerAddressId, customerId, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public Order(LocalDateTime orderDate, OrderStatus status, Long addressId, Long customerId, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    public Order(LocalDateTime orderDate, OrderStatus status, Set<OrderItem> orderItems, Long customerAddressId, Long customerId, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.orderDate = orderDate;
         this.status = status;
-        this.addressId = addressId;
+        this.orderItems = orderItems;
+        this.customerAddressId = customerAddressId;
         this.customerId = customerId;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
-    }
-
-    public Set<OrderItem> addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
-        return orderItems;
-    }
-
-    public static Order createOrder(Long addressId, Long customerId, List<OrderItem> orderItems) {
-        Order order = new Order(OrderStatus.PENDING, addressId, customerId);
-
-        for (OrderItem orderItem : orderItems) {
-            order.addOrderItem(orderItem);
-        }
-
-        return order;
     }
 }

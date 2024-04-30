@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.mini.joymall.commons.ApiResponse.*;
+
 @RestController
 @RequiredArgsConstructor
 public class OrderController {
@@ -18,6 +20,6 @@ public class OrderController {
 
     @PostMapping("/orders")
     public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest) {
-        return ApiResponse.OK(orderService.createOrder(createOrderRequest));
+        return OK(orderService.createOrder(createOrderRequest));
     }
 }

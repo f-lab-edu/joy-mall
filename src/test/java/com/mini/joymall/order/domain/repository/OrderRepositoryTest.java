@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -41,16 +42,12 @@ class OrderRepositoryTest {
     @Autowired
     OrderItemRepository orderItemRepository;
 
-    /**
-     * 주문 프로세스
-     * - 판매자, 상품 생성
-     * - 고객, 주소 생성
-     * - 주문 아이템, 주문과 함께 저장
-     * - 결제, 배송지 생성
-     */
     @Test
     void 주문_테스트() {
         // given
+        int selectedStockA1 = 3;
+        int selectedStockA2 = 5;
+        int selectedStockB1 = 8;
         Seller sellerA = new Seller("abc@a.com", "1234", "ASeller", "AStore", "010");
         Seller savedSellerA = sellerRepository.save(sellerA);
 
@@ -72,14 +69,12 @@ class OrderRepositoryTest {
         CustomerAddress addressA = new CustomerAddress(savedCustomerA.getId(), "나의 집", "010-1234-1234", location);
         CustomerAddress savedAddressA = addressRepository.save(addressA);
 
-        OrderItem orderItemA1 = new OrderItem(savedProductOptionA1.getProductId(), savedProductOptionA1.getId(), 3, savedProductOptionA1.getPrice());
-        OrderItem orderItemA2 = new OrderItem(savedProductOptionA2.getProductId(), savedProductOptionA2.getId(), 5, savedProductOptionA2.getPrice());
-        OrderItem orderItemB1 = new OrderItem(savedProductOptionB1.getProductId(), savedProductOptionB1.getId(), 8, savedProductOptionB1.getPrice());
+        OrderItem orderItemA1 = new OrderItem(savedProductOptionA1.getProductId(), savedProductOptionA1.getId(), selectedStockA1, savedProductOptionA1.getPrice());
+        OrderItem orderItemA2 = new OrderItem(savedProductOptionA2.getProductId(), savedProductOptionA2.getId(), selectedStockA2, savedProductOptionA2.getPrice());
+        OrderItem orderItemB1 = new OrderItem(savedProductOptionB1.getProductId(), savedProductOptionB1.getId(), selectedStockB1, savedProductOptionB1.getPrice());
 
-        Order order = new Order(OrderStatus.PENDING, savedAddressA.getId(), savedCustomerA.getId());
-        order.addOrderItem(orderItemA1);
-        order.addOrderItem(orderItemA2);
-        order.addOrderItem(orderItemB1);
+        Set<OrderItem> orderItems = Set.of(orderItemA1, orderItemA2, orderItemB1);
+        Order order = new Order(OrderStatus.PENDING, orderItems, savedAddressA.getId(), savedCustomerA.getId());
         orderRepository.save(order);
 
         // when
