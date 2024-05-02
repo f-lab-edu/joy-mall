@@ -39,7 +39,7 @@ public class ProductOption {
         this.updatedDate = updatedDate;
     }
 
-    public void decreaseStock(Integer selectedQuantity) {
+    public int decreaseStock(Integer selectedQuantity) {
         int nowStock = this.stockQuantity - selectedQuantity;
 
         if (nowStock < 0) {
@@ -47,5 +47,6 @@ public class ProductOption {
         }
 
         this.stockQuantity = nowStock;
+        return stockQuantity;
     }
 }

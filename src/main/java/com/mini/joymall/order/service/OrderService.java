@@ -11,6 +11,7 @@ import com.mini.joymall.order.dto.request.CreateOrderRequest;
 import com.mini.joymall.order.dto.response.CreateOrderResponse;
 import com.mini.joymall.product.domain.entity.ProductOption;
 import com.mini.joymall.product.domain.repository.ProductOptionRepository;
+import com.mini.joymall.product.service.PessimisticLockProductOptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +24,7 @@ import java.util.*;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final CustomerAddressRepository addressRepository;
-    private final ProductOptionRepository productOptionRepository;
-
+    private final PessimisticLockProductOptionService lockProductOptionService;
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequests) {
         CustomerAddress customerAddress = addressRepository.findByCustomerId(createOrderRequests.getCustomerId()).orElseThrow(NoSuchElementException::new);
 
@@ -34,9 +34,7 @@ public class OrderService {
             Integer selectedQuantity = createOrderItems.getSelectedQuantity();
             Integer price = createOrderItems.getPrice();
 
-            ProductOption productOption = productOptionRepository.findById(productOptionId).orElseThrow(NoSuchElementException::new);
-            productOption.decreaseStock(selectedQuantity);
-            productOptionRepository.save(productOption);
+            ProductOption productOption = lockProductOptionService.decreaseStock(productOptionId, selectedQuantity);
 
             OrderItem orderItem = new OrderItem(productOption.getProductId(), productOptionId, selectedQuantity, price);
             orderItems.add(orderItem);
