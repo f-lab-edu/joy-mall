@@ -24,10 +24,10 @@ import static org.mockito.BDDMockito.*;
 @Slf4j
 class ProductServiceTest {
     @Mock
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @InjectMocks
-    ProductService productService;
+    private ProductService productService;
 
     @Test
     void 대소문자를_무시하고_검색_성공() {

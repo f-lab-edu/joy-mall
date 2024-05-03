@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.*;
 class CustomerRepositoryTest {
 
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
     @BeforeEach
     void beforeEach() {

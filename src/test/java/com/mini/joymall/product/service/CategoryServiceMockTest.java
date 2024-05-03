@@ -20,10 +20,10 @@ import static org.mockito.BDDMockito.given;
 @Slf4j
 class CategoryServiceMockTest {
     @Mock
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
     @InjectMocks
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Test
     @DisplayName("category depth 리스트 조회가 정상적이다.")

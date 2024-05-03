@@ -23,13 +23,13 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 class ProductRepositoryTest {
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
     @Autowired
-    SellerRepository sellerRepository;
+    private SellerRepository sellerRepository;
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
     @Autowired
-    ProductOptionRepository productOptionRepository;
+    private ProductOptionRepository productOptionRepository;
 
     @Test
     void 상품_리스트_상품명_검색과_페이징_처리() {

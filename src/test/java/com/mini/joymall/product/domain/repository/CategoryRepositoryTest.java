@@ -23,12 +23,11 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 class CategoryRepositoryTest {
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
     @Autowired
-    CategoryService categoryService;
-
+    private CategoryService categoryService;
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @BeforeEach
     void setup() {

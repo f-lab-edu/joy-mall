@@ -28,19 +28,17 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 class OrderRepositoryTest {
     @Autowired
-    SellerRepository sellerRepository;
+    private SellerRepository sellerRepository;
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
     @Autowired
-    ProductOptionRepository productOptionRepository;
+    private ProductOptionRepository productOptionRepository;
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
     @Autowired
-    CustomerAddressRepository addressRepository;
+    private CustomerAddressRepository addressRepository;
     @Autowired
-    OrderRepository orderRepository;
-    @Autowired
-    OrderItemRepository orderItemRepository;
+    private OrderRepository orderRepository;
 
     @Test
     void 주문_테스트() {
