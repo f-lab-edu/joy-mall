@@ -13,5 +13,6 @@ import java.util.List;
 public class CreateOrderRequest {
     @NotNull(message = "고객 ID를 입력해주세요.")
     private Long customerId;
+
     private List<CreateOrderItemRequest> orderItems;
 }

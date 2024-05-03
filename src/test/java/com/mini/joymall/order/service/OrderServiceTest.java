@@ -56,8 +56,8 @@ class OrderServiceTest {
         ProductOption savedProductOption1 = productOptionRepository.save(productOption1);
         ProductOption savedProductOption2 = productOptionRepository.save(productOption2);
 
-        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedProductOption1.getId(), 5, 1000);
-        CreateOrderItemRequest createOrderItemRequest2 = new CreateOrderItemRequest(savedProductOption2.getId(), 3, 1000);
+        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedProductOption1.getId(), savedProductOption1.getProductId(), 5, 1000);
+        CreateOrderItemRequest createOrderItemRequest2 = new CreateOrderItemRequest(savedProductOption2.getId(), savedProductOption2.getProductId(), 3, 1000);
         List<CreateOrderItemRequest> createOrderItemRequests = Arrays.asList(createOrderItemRequest1, createOrderItemRequest2);
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, createOrderItemRequests);
 
@@ -88,7 +88,7 @@ class OrderServiceTest {
         ProductOption productOption1 = new ProductOption(1L, "딸기맛", 1000, 5);
         ProductOption savedProductOption1 = productOptionRepository.save(productOption1);
 
-        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedProductOption1.getId(), 10, 1000);
+        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedProductOption1.getId(), savedProductOption1.getProductId(), 10, 1000);
         List<CreateOrderItemRequest> createOrderItemRequests = List.of(createOrderItemRequest1);
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, createOrderItemRequests);
 
