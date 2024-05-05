@@ -45,6 +45,8 @@ create table `product`
     `name`           varchar(255) not null,
     `description`    varchar(255) not null,
     `image_url`      varchar(255) not null,
+    `average_review_rating` bigint       null,
+    `total_review_count`   bigint       null,
     `created_date`   datetime     not null,
     `updated_date`   datetime     not null
 );

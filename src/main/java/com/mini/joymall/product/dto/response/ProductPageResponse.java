@@ -1,5 +1,7 @@
 package com.mini.joymall.product.dto.response;
 
+import com.mini.joymall.product.domain.entity.Product;
+import com.mini.joymall.product.dto.ProductDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class ProductPageResponse {
-    private List<ProductReviewSummaryResponse> productsWithReview;
+    private List<ProductDTO> productDTOS;
     private long totalElements;
     private long totalPages;
     private int pageNumber;
@@ -19,8 +21,8 @@ public class ProductPageResponse {
     private boolean hasNext;
 
     @Builder
-    public ProductPageResponse(List<ProductReviewSummaryResponse> productsWithReview, long totalElements, long totalPages, int pageNumber, int pageSize, boolean hasPrevious, boolean hasNext) {
-        this.productsWithReview = productsWithReview;
+    public ProductPageResponse(List<ProductDTO> productDTOS, long totalElements, long totalPages, int pageNumber, int pageSize, boolean hasPrevious, boolean hasNext) {
+        this.productDTOS = productDTOS;
         this.totalElements = totalElements;
         this.totalPages = totalPages;
         this.pageNumber = pageNumber;
@@ -29,15 +31,17 @@ public class ProductPageResponse {
         this.hasNext = hasNext;
     }
 
-    public static ProductPageResponse from(Page<ProductReviewSummaryResponse> productsWithReview) {
+    public static ProductPageResponse from(Page<Product> products) {
         return ProductPageResponse.builder()
-                .productsWithReview(productsWithReview.getContent())
-                .totalElements(productsWithReview.getTotalElements())
-                .totalPages(productsWithReview.getTotalPages())
-                .pageNumber(productsWithReview.getNumber())
-                .pageSize(productsWithReview.getSize())
-                .hasPrevious(productsWithReview.hasPrevious())
-                .hasNext(productsWithReview.hasNext())
+                .productDTOS(products.stream()
+                        .map(ProductDTO::from)
+                        .toList())
+                .totalElements(products.getTotalElements())
+                .totalPages(products.getTotalPages())
+                .pageNumber(products.getNumber())
+                .pageSize(products.getSize())
+                .hasPrevious(products.hasPrevious())
+                .hasNext(products.hasNext())
                 .build();
     }
 }

@@ -4,7 +4,6 @@ import com.mini.joymall.product.domain.entity.Category;
 import com.mini.joymall.product.domain.entity.Product;
 import com.mini.joymall.product.domain.entity.ProductCategory;
 import com.mini.joymall.product.domain.entity.ProductOption;
-import com.mini.joymall.product.dto.response.ProductReviewSummaryResponse;
 import com.mini.joymall.seller.domain.entity.Seller;
 import com.mini.joymall.seller.domain.repository.SellerRepository;
 import org.junit.jupiter.api.Test;
@@ -55,16 +54,15 @@ class ProductRepositoryTest {
         Pageable pageable = PageRequest.of(1, 2, sort);
 
         // when
-        List<ProductReviewSummaryResponse> products = productRepository.findByNameContainingIgnoreCase("아이폰", pageable.getPageSize(), pageable.getPageNumber());
-        Page<ProductReviewSummaryResponse> page = new PageImpl<>(products, pageable, products.size());
+        Page<Product> products = productRepository.findByNameContainingIgnoreCase("아이폰", pageable);
 
         // then
-        assertThat(page.getTotalElements()).isEqualTo(4);
-        assertThat(page.getNumberOfElements()).isEqualTo(2);
-        assertThat(page.getSize()).isEqualTo(2);
-        assertThat(page.getNumber()).isEqualTo(1);
-        assertThat(page.hasNext()).isFalse();
-        assertThat(page.hasPrevious()).isTrue();
+        assertThat(products.getTotalElements()).isEqualTo(4);
+        assertThat(products.getNumberOfElements()).isEqualTo(2);
+        assertThat(products.getContent().size()).isEqualTo(2);
+        assertThat(products.getNumber()).isEqualTo(1);
+        assertThat(products.hasNext()).isFalse();
+        assertThat(products.hasPrevious()).isTrue();
     }
 
     @Test
@@ -91,7 +89,7 @@ class ProductRepositoryTest {
         Category savedCategory1 = categoryRepository.save(category1);
         Category savedCategory2 = categoryRepository.save(category2);
 
-        Product product = new Product(1L, "아이폰", "아이폰", "아이폰", LocalDateTime.now(), LocalDateTime.now());
+        Product product = new Product(1L, "아이폰", "아이폰", "아이폰");
         product.addCategory(savedCategory1);
         product.addCategory(savedCategory2);
         Product savedProduct = productRepository.save(product);
@@ -116,5 +114,36 @@ class ProductRepositoryTest {
 
         // then
         assertThat(productOptions.get(0)).isEqualTo(savedProductOption1);
+    }
+
+    @Test
+    void 상품_리뷰_평점_수정_테스트() {
+        // given
+        Product product1 = new Product(1L, "product1", "product1", "", 1, 3, LocalDateTime.now(), LocalDateTime.now());
+        Product savedProduct1 = productRepository.save(product1);
+
+        Product product2 = new Product(1L, "product2", "product2", "", 4, 1231, LocalDateTime.now(), LocalDateTime.now());
+        Product savedProduct2 = productRepository.save(product2);
+
+        // when
+        int averageReviewRating1 = savedProduct1.calculateAverageReviewRating(3);
+        int averageReviewRating2 = savedProduct2.calculateAverageReviewRating(1);
+
+        // then
+        assertThat(averageReviewRating1).isEqualTo(2);
+        assertThat(averageReviewRating2).isEqualTo(4);
+    }
+
+    @Test
+    void 상품_리뷰_총_개수_수정_테스트() {
+        // given
+        Product product = new Product(1L, "product1", "product1", "", 1, 3, LocalDateTime.now(), LocalDateTime.now());
+        Product savedProduct = productRepository.save(product);
+
+        // when
+        int totalReviewCount = savedProduct.calculateTotalReviewCount();
+
+        // then
+        assertThat(totalReviewCount).isEqualTo(4);
     }
 }

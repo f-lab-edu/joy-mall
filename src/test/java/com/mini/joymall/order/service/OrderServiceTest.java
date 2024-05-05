@@ -43,7 +43,7 @@ class OrderServiceTest {
     @Test
     void 여러개의_주문_아이템을_담고_주문_성공() {
         // given
-        Customer customer = new Customer("test@test.com", "1234", "test", "010-1234-4321");
+        Customer customer = new Customer("test123@test.com", "1234", "test", "010-1235-5321");
         Long customerId = customerRepository.save(customer)
                 .getId();
 

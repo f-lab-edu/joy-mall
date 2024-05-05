@@ -61,12 +61,12 @@ class CategoryRepositoryTest {
 
     @Test
     void 카테고리와_함께_상품을_저장한다() {
-        Product product1 = new Product(1L, "삼성 비스포크 냉장고", "가성비 최고", "이미지", LocalDateTime.now(), LocalDateTime.now());
-        Product product2 = new Product(1L, "삼성 비스포크 세탁기", "가성비 최고", "이미지", LocalDateTime.now(), LocalDateTime.now());
+        Product product1 = new Product(1L, "삼성 비스포크 냉장고", "가성비 최고", "이미지");
+        Product product2 = new Product(1L, "삼성 비스포크 세탁기", "가성비 최고", "이미지");
         productRepository.save(product1);
         productRepository.save(product2);
 
-        Category category = new Category(null, 0, "가전제품", LocalDateTime.now(), LocalDateTime.now());
+        Category category = new Category(null, 0, "가전제품");
         category.addProduct(product1);
         category.addProduct(product2);
         Category savedCategory = categoryRepository.save(category);

@@ -1,40 +1,20 @@
 package com.mini.joymall.product.domain.repository;
 
 import com.mini.joymall.product.domain.entity.Product;
-import com.mini.joymall.product.dto.response.ProductReviewSummaryResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
 public interface ProductRepository extends CrudRepository<Product, Long> {
-    @Query(value = """
-                    SELECT
-                      p.*,
-                      po.*,
-                      r.*
-                    FROM PRODUCT p
-                    LEFT JOIN (
-                      SELECT
-                          PRODUCT_ID,
-                          MIN(PRICE) AS OPTION_MIN_PRICE
-                      FROM PRODUCT_OPTION
-                      GROUP BY PRODUCT_ID
-                    ) po ON p.PRODUCT_ID = po.PRODUCT_ID
-                    LEFT JOIN (
-                      SELECT
-                          product_id,
-                          COUNT(*) AS TOTAL_REVIEW_COUNT,
-                          AVG(RATING) AS AVERAGE_REVIEW_RATING
-                      FROM REVIEW
-                      GROUP BY product_id
-                    ) r ON p.PRODUCT_ID = r.PRODUCT_ID
-                    WHERE UPPER(P.NAME) LIKE CONCAT('%', UPPER(:keyword), '%')
-                    ORDER BY PRODUCT_ID DESC
-                    LIMIT :pageSize
-                    OFFSET :pageNumber
-            """)
-    List<ProductReviewSummaryResponse> findByNameContainingIgnoreCase(String keyword, int pageSize, int pageNumber);
+    Page<Product> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
 
-    Long countByNameContainingIgnoreCase(String keyword);
+    @Modifying
+    @Query("update PRODUCT set TOTAL_REVIEW_COUNT = :totalReviewCount where PRODUCT_ID = :id")
+    int updateTotalReviewCount(Long id, Integer totalReviewCount);
+
+    @Modifying
+    @Query("update PRODUCT set AVERAGE_REVIEW_RATING = :averageReviewRating where PRODUCT_ID = :id")
+    int updateAverageReviewRating(Long id, Integer averageReviewRating);
 }

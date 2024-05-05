@@ -1,6 +1,6 @@
 package com.mini.joymall.product.controller;
 
-import com.mini.joymall.product.dto.response.ProductAndReviewResponse;
+import com.mini.joymall.product.dto.ProductDTO;
 import com.mini.joymall.product.dto.response.ProductPageResponse;
 import com.mini.joymall.product.dto.request.ProductSearchRequest;
 import com.mini.joymall.product.service.ProductService;
@@ -26,7 +26,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductAndReviewResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
         return OK(productService.findById(id));
     }
 }

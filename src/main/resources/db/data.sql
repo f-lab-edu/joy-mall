@@ -21,6 +21,16 @@ VALUES (1, 2, '와 이거 무조건 사셈;;', 5, now(), now());
 insert into REVIEW(CUSTOMER_ID, PRODUCT_ID, CONTENT, RATING, CREATED_DATE, UPDATED_DATE)
 VALUES (2, 2, '와 이거 무조건 사셈;;', 5, now(), now());
 
+-- Product
+insert into PRODUCT(SELLER_ID, NAME, DESCRIPTION, IMAGE_URL, AVERAGE_REVIEW_RATING, TOTAL_REVIEW_COUNT, CREATED_DATE, UPDATED_DATE)
+VALUES (1, '아이폰 실리콘 케이스', '아이폰 실리콘 케이스 설명', '아이폰 실리콘 케이스 이미지', 3, 12, now(), now());
+
+insert into PRODUCT(SELLER_ID, NAME, DESCRIPTION, IMAGE_URL, AVERAGE_REVIEW_RATING, TOTAL_REVIEW_COUNT, CREATED_DATE, UPDATED_DATE)
+VALUES (1, '아이폰 가죽 케이스', '아이폰 가죽 케이스 설명', '아이폰 가죽 케이스 이미지', 3, 12, now(), now());
+
+insert into PRODUCT(SELLER_ID, NAME, DESCRIPTION, IMAGE_URL, AVERAGE_REVIEW_RATING, TOTAL_REVIEW_COUNT, CREATED_DATE, UPDATED_DATE)
+VALUES (1, '아이폰 방탄 케이스', '아이폰 방탄 케이스 설명', '아이폰 방탄 케이스 이미지', 2.6, 10, now(), now());
+
 -- ProductOption
 
 insert into PRODUCT_OPTION(PRODUCT_ID, NAME, PRICE, STOCK_QUANTITY, CREATED_DATE, UPDATED_DATE)

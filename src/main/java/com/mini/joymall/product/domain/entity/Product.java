@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -28,6 +29,9 @@ public class Product {
     private String name;
     private String description;
     private String imageUrl;
+
+    private Integer averageReviewRating;
+    private Integer totalReviewCount;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
@@ -38,15 +42,18 @@ public class Product {
     private Set<ProductOption> productOptions = new HashSet<>();
 
     public Product(Long sellerId, String name, String description, String imageUrl) {
-        this(sellerId, name, description, imageUrl, LocalDateTime.now(), LocalDateTime.now());
+        this(sellerId, name, description, imageUrl, 0, 0, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public Product(Long sellerId, String name, String description, String imageUrl, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    public Product(Long sellerId, String name, String description, String imageUrl, Integer averageReviewRating, Integer totalReviewCount,
+                   LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.sellerId = sellerId;
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.averageReviewRating = averageReviewRating;
+        this.totalReviewCount = totalReviewCount;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
     }
@@ -57,5 +64,19 @@ public class Product {
 
     public ProductCategory createProductCategory(Category category) {
         return new ProductCategory(id, category.getId());
+    }
+
+    public void addProductOption(ProductOption productOption) {
+        productOptions.add(productOption);
+    }
+
+    public int calculateAverageReviewRating(int newRating) {
+        float sum = this.averageReviewRating * this.totalReviewCount + newRating;
+        int round = Math.round(sum / calculateTotalReviewCount());
+        return round;
+    }
+
+    public int calculateTotalReviewCount() {
+        return totalReviewCount + 1;
     }
 }
