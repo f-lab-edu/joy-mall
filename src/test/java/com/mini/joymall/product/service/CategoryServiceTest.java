@@ -38,12 +38,11 @@ public class CategoryServiceTest {
 
 
 
-        List<CategoryChildrenResponse> child1 = categoryService.getCategoryChildren(savedCategory1.getId());
+        CategoryChildrenResponse child1 = categoryService.getCategoryChildren(savedCategory1.getId());
 
-        assertThat(child1.size()).isEqualTo(1);
-        assertThat(child1.get(0).getName()).isEqualTo("핸드폰/통신테스트");
+        assertThat(child1.getName()).isEqualTo("핸드폰/통신테스트");
 
-        List<CategoryChildrenResponse> child2 = child1.get(0).getChildren();
+        List<CategoryChildrenResponse> child2 = child1.getChildren();
         assertThat(child2.size()).isEqualTo(1);
         assertThat(child2.get(0).getName()).isEqualTo("휴대폰기종테스트");
 

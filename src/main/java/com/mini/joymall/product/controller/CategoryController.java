@@ -27,7 +27,7 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/children")
-    private ResponseEntity<List<CategoryChildrenResponse>> getCategoryChildren(@RequestParam("id") long id) {
+    private ResponseEntity<CategoryChildrenResponse> getCategoryChildren(@RequestParam("id") long id) {
         return OK(categoryService.getCategoryChildren(id));
     }
 }

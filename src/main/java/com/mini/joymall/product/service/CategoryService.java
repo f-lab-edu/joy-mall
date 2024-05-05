@@ -7,6 +7,7 @@ import com.mini.joymall.product.dto.CategoryDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CategoryService {
@@ -23,17 +24,11 @@ public class CategoryService {
                 .toList();
     }
 
-    public List<CategoryChildrenResponse> getCategoryChildren(long id) {
-        return categoryRepository.findById(id)
-                .stream()
-                .map(category -> new CategoryChildrenResponse(
-                        category.getId(),
-                        category.getParentId(),
-                        category.getDepth(),
-                        category.getName(),
-                        buildCategoryChildren(category.getId())
-                ))
-                .toList();
+    public CategoryChildrenResponse getCategoryChildren(long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(NoSuchElementException::new);
+        List<CategoryChildrenResponse> children = buildCategoryChildren(category.getId());
+        return CategoryChildrenResponse.create(category, children);
     }
 
     public List<CategoryChildrenResponse> buildCategoryChildren(Long parentId) {
