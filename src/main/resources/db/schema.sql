@@ -76,11 +76,19 @@ create table `order`
 (
     `order_id`     bigint primary key auto_increment,
     `customer_id`  bigint                                                             not null,
-    `customer_address_id`  bigint                                                              not null,
+    `customer_address_id`  bigint                                                     not null,
     `order_date`   datetime                                                           not null,
     `status`       enum ('PENDING', 'SHIPPED', 'IN_TRANSIT', 'COMPLETED', 'CANCELED') not null,
     `created_date` datetime                                                           not null,
     `updated_date` datetime                                                           not null
+);
+
+create table `order_history`
+(
+    `order_history_id`  bigint primary key auto_increment,
+    `order_id`      bigint                                                            not null,
+    `status`       enum ('PENDING', 'SHIPPED', 'IN_TRANSIT', 'COMPLETED', 'CANCELED') not null,
+    `created_date` datetime                                                           not null
 );
 
 create table `customer_address`

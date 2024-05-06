@@ -5,8 +5,10 @@ import com.mini.joymall.customer.domain.entity.CustomerAddress;
 import com.mini.joymall.customer.domain.entity.Location;
 import com.mini.joymall.customer.domain.repository.CustomerAddressRepository;
 import com.mini.joymall.customer.domain.repository.CustomerRepository;
+import com.mini.joymall.order.domain.entity.OrderHistory;
 import com.mini.joymall.order.domain.entity.OrderItem;
 import com.mini.joymall.order.domain.entity.OrderStatus;
+import com.mini.joymall.order.domain.repository.OrderHistoryRepository;
 import com.mini.joymall.order.domain.repository.OrderItemRepository;
 import com.mini.joymall.order.dto.request.CreateOrderItemRequest;
 import com.mini.joymall.order.dto.request.CreateOrderRequest;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,6 +42,9 @@ class OrderServiceTest {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private OrderHistoryRepository orderHistoryRepository;
 
     @Test
     void 여러개의_주문_아이템을_담고_주문_성공() {
@@ -94,5 +100,33 @@ class OrderServiceTest {
 
         // when, then
         assertThrows(IllegalArgumentException.class, () -> orderService.createOrder(createOrderRequest));
+    }
+
+    @Test
+    void 주문_생성시_주문_히스토리가_저장된다() {
+        // given
+        Customer customer = new Customer("test@test.com", "1234", "test", "010-1234-4321");
+        Long customerId = customerRepository.save(customer)
+                .getId();
+
+        Location location = new Location("대한민국", "서울", "강남구", "도산대로", "010-123", "상세주소");
+        CustomerAddress customerAddress = new CustomerAddress(customerId, "test", "010-1234-4321", location);
+        customerAddressRepository.save(customerAddress);
+
+        ProductOption productOption1 = new ProductOption(1L, "딸기맛", 1000, 100);
+        ProductOption savedProductOption1 = productOptionRepository.save(productOption1);
+
+        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedProductOption1.getId(), savedProductOption1.getProductId(), 10, 1000);
+        List<CreateOrderItemRequest> createOrderItemRequests = List.of(createOrderItemRequest1);
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, createOrderItemRequests);
+
+        // when
+        CreateOrderResponse order = orderService.createOrder(createOrderRequest);
+        OrderHistory orderHistory = orderHistoryRepository.findById(order.getId())
+                .orElseThrow(NoSuchElementException::new);
+
+        // then
+        assertThat(orderHistory.getOrderId()).isEqualTo(order.getId());
+        assertThat(orderHistory.getStatus()).isEqualTo(OrderStatus.PENDING);
     }
 }
