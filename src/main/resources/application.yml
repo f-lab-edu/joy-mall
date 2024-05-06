@@ -2,16 +2,15 @@ server:
   port: 8081
 
 spring:
+  profiles:
+    default: test
+
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:tcp://localhost/~/joyMall;
     username: sa
     password:
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:db/schema.sql
-      data-locations: classpath:db/data.sql
+
   jackson:
     default-property-inclusion: non_null
 
@@ -21,3 +20,23 @@ logging:
       springframework:
         jdbc:
           core: TRACE
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
