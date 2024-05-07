@@ -20,17 +20,17 @@ public class ProductOption {
     @Column("PRODUCT_ID")
     private Long productId;
     private String name;
-    private Integer price;
-    private Integer stockQuantity;
+    private int price;
+    private int stockQuantity;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public ProductOption(Long productId, String name, Integer price, Integer stockQuantity) {
+    public ProductOption(Long productId, String name, int price, int stockQuantity) {
         this(productId, name, price, stockQuantity, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public ProductOption(Long productId, String name, Integer price, Integer stockQuantity, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    public ProductOption(Long productId, String name, int price, int stockQuantity, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.productId = productId;
         this.name = name;
         this.price = price;
@@ -39,7 +39,7 @@ public class ProductOption {
         this.updatedDate = updatedDate;
     }
 
-    public int decreaseStock(Integer selectedQuantity) {
+    public int decreaseStock(int selectedQuantity) {
         int nowStock = this.stockQuantity - selectedQuantity;
 
         if (nowStock < 0) {

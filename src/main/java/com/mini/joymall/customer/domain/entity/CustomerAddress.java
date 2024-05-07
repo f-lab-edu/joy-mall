@@ -18,10 +18,10 @@ import java.time.LocalDateTime;
 public class CustomerAddress {
     @Id
     @Column("CUSTOMER_ADDRESS_ID")
-    private Long id;
+    private long id;
 
     @Column("CUSTOMER_ID")
-    private Long customerId;
+    private long customerId;
 
     private String receiptName;
     private String receiptPhoneNumber;
@@ -31,12 +31,12 @@ public class CustomerAddress {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public CustomerAddress(Long customerId, String receiptName, String receiptPhoneNumber, Location location) {
+    public CustomerAddress(long customerId, String receiptName, String receiptPhoneNumber, Location location) {
         this(customerId, receiptName, receiptPhoneNumber, location, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public CustomerAddress(Long customerId, String receiptName, String receiptPhoneNumber, Location location, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    public CustomerAddress(long customerId, String receiptName, String receiptPhoneNumber, Location location, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.customerId = customerId;
         this.receiptName = receiptName;
         this.receiptPhoneNumber = receiptPhoneNumber;

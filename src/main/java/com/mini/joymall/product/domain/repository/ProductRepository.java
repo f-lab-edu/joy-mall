@@ -12,9 +12,9 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 
     @Modifying
     @Query("update PRODUCT set TOTAL_REVIEW_COUNT = :totalReviewCount where PRODUCT_ID = :id")
-    int updateTotalReviewCount(Long id, Integer totalReviewCount);
+    int updateTotalReviewCount(Long id, int totalReviewCount);
 
     @Modifying
     @Query("update PRODUCT set AVERAGE_REVIEW_RATING = :averageReviewRating where PRODUCT_ID = :id")
-    int updateAverageReviewRating(Long id, Integer averageReviewRating);
+    int updateAverageReviewRating(Long id, int averageReviewRating);
 }

@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 public class CategoryDTO {
     private Long categoryId;
     private Long parentId;
-    private Integer depth;
+    private int depth;
     private String name;
 
     @Builder
-    public CategoryDTO(Long categoryId, Long parentId, Integer depth, String name) {
+    public CategoryDTO(Long categoryId, Long parentId, int depth, String name) {
         this.categoryId = categoryId;
         this.parentId = parentId;
         this.depth = depth;

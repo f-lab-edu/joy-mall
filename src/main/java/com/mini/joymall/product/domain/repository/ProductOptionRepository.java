@@ -16,5 +16,5 @@ public interface ProductOptionRepository extends CrudRepository<ProductOption, L
 
     @Modifying
     @Query("update PRODUCT_OPTION set STOCK_QUANTITY = :stockQuantity where OPTION_ID = :id")
-    int updateStockQuantityById(Long id, Integer stockQuantity);
+    int updateStockQuantityById(Long id, int stockQuantity);
 }

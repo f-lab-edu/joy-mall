@@ -18,10 +18,10 @@ public class CreateReviewRequest {
     @NotNull(message = "내용을 입력해주세요.")
     private String content;
     @NotNull(message = "별점을 입력해주세요.")
-    private Integer rating;
+    private int rating;
 
     @Builder
-    public CreateReviewRequest(Long customerId, Long productId, String content, Integer rating) {
+    public CreateReviewRequest(Long customerId, Long productId, String content, int rating) {
         this.customerId = customerId;
         this.productId = productId;
         this.content = content;

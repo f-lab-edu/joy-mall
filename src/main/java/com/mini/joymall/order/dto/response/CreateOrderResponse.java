@@ -17,11 +17,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateOrderResponse {
-    private Long id;
+    private long id;
     private LocalDateTime orderDate;
     private OrderStatus status;
     private Set<OrderItem> orderItems;
-    private Integer totalPrice;
+    private int totalPrice;
     private CustomerAddress customerAddress;
 
     public static CreateOrderResponse from(Order order, CustomerAddress customerAddress) {

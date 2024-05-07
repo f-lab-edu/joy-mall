@@ -23,17 +23,17 @@ public class OrderItem {
 
     private Long productOptionId;
 
-    private Integer quantity;
-    private Integer pricePerItem;
+    private int quantity;
+    private int pricePerItem;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public OrderItem(Long productId, Long productOptionId, Integer quantity, Integer pricePerItem) {
+    public OrderItem(Long productId, Long productOptionId, int quantity, int pricePerItem) {
         this(productId, productOptionId, quantity, pricePerItem, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public OrderItem(Long productId, Long productOptionId, Integer quantity, Integer pricePerItem, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    public OrderItem(Long productId, Long productOptionId, int quantity, int pricePerItem, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.productId = productId;
         this.productOptionId = productOptionId;
         this.quantity = quantity;
@@ -42,7 +42,7 @@ public class OrderItem {
         this.updatedDate = updatedDate;
     }
 
-    public Integer calculateTotalPrice() {
+    public int calculateTotalPrice() {
         return quantity * pricePerItem;
     }
 }

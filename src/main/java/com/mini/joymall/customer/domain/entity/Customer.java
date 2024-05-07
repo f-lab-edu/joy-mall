@@ -18,7 +18,7 @@ import java.util.Set;
 public class Customer {
     @Id
     @Column("CUSTOMER_ID")
-    private Long id;
+    private long id;
     private String email;
     private String password;
     private String name;

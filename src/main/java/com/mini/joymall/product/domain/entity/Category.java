@@ -22,7 +22,7 @@ public class Category {
     @Column("CATEGORY_ID")
     private Long id;
     private Long parentId;
-    private Integer depth;
+    private int depth;
     private String name;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
@@ -30,12 +30,12 @@ public class Category {
     @MappedCollection(idColumn = "CATEGORY_ID")
     private Set<ProductCategory> productCategories = new HashSet<>();
 
-    public Category(Long parentId, Integer depth, String name) {
+    public Category(Long parentId, int depth, String name) {
         this(parentId, depth, name, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public Category(Long parentId, Integer depth, String name, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    public Category(Long parentId, int depth, String name, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.parentId = parentId;
         this.depth = depth;
         this.name = name;

@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 public class PessimisticLockProductOptionService {
     private final ProductOptionRepository productOptionRepository;
 
-    public ProductOption decreaseStock(Long id, Integer selectQuantity) {
+    public ProductOption decreaseStock(Long id, int selectQuantity) {
         ProductOption productOption = productOptionRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
         int updatedStock = productOption.decreaseStock(selectQuantity);

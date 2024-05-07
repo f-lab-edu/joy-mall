@@ -17,10 +17,10 @@ public class CreateOrderItemRequest {
     private Long productId;
 
     @NotNull(message = "선택 수량을 입력해주세요.")
-    private Integer selectedQuantity;
+    private int selectedQuantity;
 
     @NotNull(message = "가격을 입력해주세요.")
-    private Integer price;
+    private int price;
 
     public OrderItem toEntity() {
         return new OrderItem(productId, productOptionId, selectedQuantity, price);

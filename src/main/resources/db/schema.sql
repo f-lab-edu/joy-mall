@@ -6,6 +6,7 @@ drop table if exists `product`;
 drop table if exists `category`;
 drop table if exists `product_category`;
 drop table if exists `order`;
+drop table if exists `order_history`;
 drop table if exists `customer_address`;
 drop table if exists `order_item`;
 drop table if exists `payment`;

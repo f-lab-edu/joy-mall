@@ -10,12 +10,12 @@ import java.util.List;
 public class CategoryChildrenResponse {
     private Long categoryId;
     private Long parentId;
-    private Integer depth;
+    private int depth;
     private String name;
     private List<CategoryChildrenResponse> children;
 
     @Builder
-    public CategoryChildrenResponse(Long categoryId, Long parentId, Integer depth, String name, List<CategoryChildrenResponse> children) {
+    public CategoryChildrenResponse(Long categoryId, Long parentId, int depth, String name, List<CategoryChildrenResponse> children) {
         this.categoryId = categoryId;
         this.parentId = parentId;
         this.depth = depth;

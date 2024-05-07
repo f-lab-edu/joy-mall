@@ -15,16 +15,16 @@ public class ProductDTO {
     private String name;
     private String description;
     private String imageUrl;
-    private Integer averageReviewRating;
-    private Integer totalReviewCount;
+    private int averageReviewRating;
+    private int totalReviewCount;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
-    private Integer optionMinPrice;
+    private int optionMinPrice;
 
 
     @Builder
-    public ProductDTO(Long id, String name, String description, String imageUrl, Integer averageReviewRating, Integer totalReviewCount,
-                      LocalDateTime createdDate, LocalDateTime updatedDate, Integer optionMinPrice) {
+    public ProductDTO(Long id, String name, String description, String imageUrl, int averageReviewRating, int totalReviewCount,
+                      LocalDateTime createdDate, LocalDateTime updatedDate, int optionMinPrice) {
         this.productId = id;
         this.name = name;
         this.description = description;

@@ -30,8 +30,8 @@ public class Product {
     private String description;
     private String imageUrl;
 
-    private Integer averageReviewRating;
-    private Integer totalReviewCount;
+    private int averageReviewRating;
+    private int totalReviewCount;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
@@ -46,7 +46,7 @@ public class Product {
     }
 
     @Builder
-    public Product(Long sellerId, String name, String description, String imageUrl, Integer averageReviewRating, Integer totalReviewCount,
+    public Product(Long sellerId, String name, String description, String imageUrl, int averageReviewRating, int totalReviewCount,
                    LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.sellerId = sellerId;
         this.name = name;

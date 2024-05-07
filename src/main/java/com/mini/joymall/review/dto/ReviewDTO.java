@@ -12,10 +12,10 @@ public class ReviewDTO {
     private Long customerId;
     private Long productId;
     private String content;
-    private Integer rating;
+    private int rating;
 
     @Builder
-    public ReviewDTO(Long id, Long customerId, Long productId, String content, Integer rating) {
+    public ReviewDTO(Long id, Long customerId, Long productId, String content, int rating) {
         this.id = id;
         this.customerId = customerId;
         this.productId = productId;
