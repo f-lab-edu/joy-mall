@@ -5,11 +5,13 @@ import com.mini.joymall.customer.domain.entity.CustomerAddress;
 import com.mini.joymall.customer.domain.entity.Location;
 import com.mini.joymall.customer.domain.repository.CustomerAddressRepository;
 import com.mini.joymall.customer.domain.repository.CustomerRepository;
+import com.mini.joymall.order.domain.entity.Order;
 import com.mini.joymall.order.domain.entity.OrderHistory;
 import com.mini.joymall.order.domain.entity.OrderItem;
 import com.mini.joymall.order.domain.entity.OrderStatus;
 import com.mini.joymall.order.domain.repository.OrderHistoryRepository;
 import com.mini.joymall.order.domain.repository.OrderItemRepository;
+import com.mini.joymall.order.domain.repository.OrderRepository;
 import com.mini.joymall.order.dto.request.CreateOrderItemRequest;
 import com.mini.joymall.order.dto.request.CreateOrderRequest;
 import com.mini.joymall.order.dto.response.CreateOrderResponse;
@@ -18,6 +20,7 @@ import com.mini.joymall.product.domain.repository.ProductOptionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +48,9 @@ class OrderServiceTest {
 
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Test
     void 여러개의_주문_아이템을_담고_주문_성공() {
@@ -105,7 +111,7 @@ class OrderServiceTest {
     @Test
     void 주문_생성시_주문_히스토리가_저장된다() {
         // given
-        Customer customer = new Customer("test@test.com", "1234", "test", "010-1234-4321");
+        Customer customer = new Customer("test54321@test.com", "1234", "test", "010-4444-4321");
         Long customerId = customerRepository.save(customer)
                 .getId();
 
@@ -122,7 +128,7 @@ class OrderServiceTest {
 
         // when
         CreateOrderResponse order = orderService.createOrder(createOrderRequest);
-        OrderHistory orderHistory = orderHistoryRepository.findById(order.getId())
+        OrderHistory orderHistory = orderHistoryRepository.findByOrderId(order.getId())
                 .orElseThrow(NoSuchElementException::new);
 
         // then
