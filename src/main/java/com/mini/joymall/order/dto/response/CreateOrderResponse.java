@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateOrderResponse {
-    private long id;
+    private Long id;
     private LocalDateTime orderDate;
     private OrderStatus status;
     private Set<OrderItem> orderItems;

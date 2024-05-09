@@ -24,7 +24,7 @@ public class CategoryService {
                 .toList();
     }
 
-    public CategoryChildrenResponse getCategoryChildren(long id) {
+    public CategoryChildrenResponse getCategoryChildren(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
         List<CategoryChildrenResponse> children = buildCategoryChildren(category.getId());

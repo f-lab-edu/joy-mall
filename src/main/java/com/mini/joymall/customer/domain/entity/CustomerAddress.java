@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class CustomerAddress {
     @Id
     @Column("CUSTOMER_ADDRESS_ID")
-    private long id;
+    private Long id;
 
     @Column("CUSTOMER_ID")
     private long customerId;
