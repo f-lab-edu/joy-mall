@@ -11,14 +11,14 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class PessimisticLockProductOptionService {
+public class ProductOptionService {
     private final ProductOptionRepository productOptionRepository;
 
     public ProductOption decreaseStock(Long id, int selectQuantity) {
         ProductOption productOption = productOptionRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
-        int updatedStock = productOption.decreaseStock(selectQuantity);
-        productOptionRepository.updateStockQuantityById(id, updatedStock);
+        productOption.decreaseStock(selectQuantity);
+        productOptionRepository.save(productOption);
         return productOption;
     }
 }

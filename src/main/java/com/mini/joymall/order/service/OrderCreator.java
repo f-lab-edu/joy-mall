@@ -5,7 +5,7 @@ import com.mini.joymall.order.domain.entity.Order;
 import com.mini.joymall.order.domain.entity.OrderItem;
 import com.mini.joymall.order.domain.entity.OrderStatus;
 import com.mini.joymall.order.dto.request.CreateOrderItemRequest;
-import com.mini.joymall.product.service.PessimisticLockProductOptionService;
+import com.mini.joymall.product.service.ProductOptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +17,12 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class OrderCreator {
 
-    private final PessimisticLockProductOptionService lockProductOptionService;
+    private final ProductOptionService productOptionService;
 
     public Order create(List<CreateOrderItemRequest> createOrderItemRequests, CustomerAddress customerAddress) {
         Set<OrderItem> orderItems = new HashSet<>();
         for (CreateOrderItemRequest createOrderItemRequest : createOrderItemRequests) {
-            lockProductOptionService.decreaseStock(createOrderItemRequest.getProductOptionId(), createOrderItemRequest.getSelectedQuantity());
+            productOptionService.decreaseStock(createOrderItemRequest.getProductOptionId(), createOrderItemRequest.getSelectedQuantity());
             orderItems.add(createOrderItemRequest.toEntity());
         }
         return new Order(OrderStatus.PENDING, orderItems, customerAddress.getId(), customerAddress.getCustomerId());

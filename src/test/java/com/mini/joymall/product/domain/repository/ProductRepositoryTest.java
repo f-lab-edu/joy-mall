@@ -115,35 +115,4 @@ class ProductRepositoryTest {
         // then
         assertThat(productOptions.get(0)).isEqualTo(savedProductOption1);
     }
-
-    @Test
-    void 상품_리뷰_평점_수정_테스트() {
-        // given
-        Product product1 = new Product(1L, "product1", "product1", "", 1, 3, LocalDateTime.now(), LocalDateTime.now());
-        Product savedProduct1 = productRepository.save(product1);
-
-        Product product2 = new Product(1L, "product2", "product2", "", 4, 1231, LocalDateTime.now(), LocalDateTime.now());
-        Product savedProduct2 = productRepository.save(product2);
-
-        // when
-        int averageReviewRating1 = savedProduct1.calculateAverageReviewRating(3);
-        int averageReviewRating2 = savedProduct2.calculateAverageReviewRating(1);
-
-        // then
-        assertThat(averageReviewRating1).isEqualTo(2);
-        assertThat(averageReviewRating2).isEqualTo(4);
-    }
-
-    @Test
-    void 상품_리뷰_총_개수_수정_테스트() {
-        // given
-        Product product = new Product(1L, "product1", "product1", "", 1, 3, LocalDateTime.now(), LocalDateTime.now());
-        Product savedProduct = productRepository.save(product);
-
-        // when
-        int totalReviewCount = savedProduct.calculateTotalReviewCount();
-
-        // then
-        assertThat(totalReviewCount).isEqualTo(4);
-    }
 }

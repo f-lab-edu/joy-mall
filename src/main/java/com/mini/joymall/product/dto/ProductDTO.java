@@ -42,8 +42,6 @@ public class ProductDTO {
                 .name(product.getName())
                 .description(product.getDescription())
                 .imageUrl(product.getImageUrl())
-                .averageReviewRating(product.getAverageReviewRating())
-                .totalReviewCount(product.getTotalReviewCount())
                 .createdDate(product.getCreatedDate())
                 .updatedDate(product.getUpdatedDate())
                 .optionMinPrice(product.getProductOptions().stream()

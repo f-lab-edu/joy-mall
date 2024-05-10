@@ -3,7 +3,6 @@ package com.mini.joymall.review.service;
 import com.mini.joymall.product.domain.entity.Product;
 import com.mini.joymall.product.domain.repository.ProductRepository;
 import com.mini.joymall.review.dto.request.CreateReviewRequest;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -53,22 +52,22 @@ class ReviewServiceTest {
         Product findProduct6 = productRepository.findById(saved.getId()).orElseThrow(NoSuchElementException::new);
 
         // then 3 2 5 1 1
-        assertThat(findProduct1.getAverageReviewRating()).isEqualTo(3);
-        assertThat(findProduct1.getTotalReviewCount()).isEqualTo(1);
+        assertThat(findProduct1.getProductReviewSummary().getAverageReviewRating()).isEqualTo(3);
+        assertThat(findProduct1.getProductReviewSummary().getTotalReviewCount()).isEqualTo(1);
 
-        assertThat(findProduct2.getAverageReviewRating()).isEqualTo(3);
-        assertThat(findProduct2.getTotalReviewCount()).isEqualTo(2);
+        assertThat(findProduct2.getProductReviewSummary().getAverageReviewRating()).isEqualTo(3);
+        assertThat(findProduct2.getProductReviewSummary().getTotalReviewCount()).isEqualTo(2);
 
-        assertThat(findProduct3.getAverageReviewRating()).isEqualTo(4);
-        assertThat(findProduct3.getTotalReviewCount()).isEqualTo(3);
+        assertThat(findProduct3.getProductReviewSummary().getAverageReviewRating()).isEqualTo(4);
+        assertThat(findProduct3.getProductReviewSummary().getTotalReviewCount()).isEqualTo(3);
 
-        assertThat(findProduct4.getAverageReviewRating()).isEqualTo(3);
-        assertThat(findProduct4.getTotalReviewCount()).isEqualTo(4);
+        assertThat(findProduct4.getProductReviewSummary().getAverageReviewRating()).isEqualTo(3);
+        assertThat(findProduct4.getProductReviewSummary().getTotalReviewCount()).isEqualTo(4);
 
-        assertThat(findProduct5.getAverageReviewRating()).isEqualTo(3);
-        assertThat(findProduct5.getTotalReviewCount()).isEqualTo(5);
+        assertThat(findProduct5.getProductReviewSummary().getAverageReviewRating()).isEqualTo(3);
+        assertThat(findProduct5.getProductReviewSummary().getTotalReviewCount()).isEqualTo(5);
 
-        assertThat(findProduct6.getAverageReviewRating()).isEqualTo(3);
-        assertThat(findProduct6.getTotalReviewCount()).isEqualTo(6);
+        assertThat(findProduct6.getProductReviewSummary().getAverageReviewRating()).isEqualTo(3);
+        assertThat(findProduct6.getProductReviewSummary().getTotalReviewCount()).isEqualTo(6);
     }
 }

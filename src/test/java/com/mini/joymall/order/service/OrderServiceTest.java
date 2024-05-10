@@ -135,4 +135,34 @@ class OrderServiceTest {
         assertThat(orderHistory.getOrderId()).isEqualTo(order.getId());
         assertThat(orderHistory.getStatus()).isEqualTo(OrderStatus.PENDING);
     }
+
+    @Test
+    void 동일한_상품_옵션을_여러개_주문한다() {
+        // given
+        Customer customer = new Customer("test54321@test.com", "1234", "test", "010-4444-4321");
+        Long customerId = customerRepository.save(customer)
+                .getId();
+
+        Location location = new Location("대한민국", "서울", "강남구", "도산대로", "010-123", "상세주소");
+        CustomerAddress customerAddress = new CustomerAddress(customerId, "test", "010-1234-4321", location);
+        customerAddressRepository.save(customerAddress);
+
+        ProductOption productOption1 = new ProductOption(1L, "딸기맛", 1000, 100);
+        ProductOption savedProductOption1 = productOptionRepository.save(productOption1);
+
+        Long productOptionId = savedProductOption1.getId();
+        Long savedProductOptionProductId = savedProductOption1.getProductId();
+        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(productOptionId, savedProductOptionProductId, 10, 1000);
+        CreateOrderItemRequest createOrderItemRequest2 = new CreateOrderItemRequest(productOptionId, savedProductOptionProductId, 10, 1000);
+        CreateOrderItemRequest createOrderItemRequest3 = new CreateOrderItemRequest(productOptionId, savedProductOptionProductId, 10, 1000);
+        List<CreateOrderItemRequest> createOrderItemRequests = List.of(createOrderItemRequest1, createOrderItemRequest2, createOrderItemRequest3);
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, createOrderItemRequests);
+
+        // when
+        orderService.createOrder(createOrderRequest);
+        ProductOption findProductOption = productOptionRepository.findById(productOptionId).orElseThrow(NoSuchElementException::new);
+
+        // then
+        assertThat(findProductOption.getStockQuantity()).isEqualTo(70);
+    }
 }

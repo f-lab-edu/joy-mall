@@ -3,6 +3,7 @@
 drop table if exists `customer`;
 drop table if exists `seller`;
 drop table if exists `product`;
+drop table if exists `product_review_summary`;
 drop table if exists `category`;
 drop table if exists `product_category`;
 drop table if exists `order`;
@@ -46,8 +47,6 @@ create table `product`
     `name`           varchar(255) not null,
     `description`    varchar(255) not null,
     `image_url`      varchar(255) not null,
-    `average_review_rating` bigint       null,
-    `total_review_count`   bigint       null,
     `created_date`   datetime     not null,
     `updated_date`   datetime     not null
 );
@@ -154,6 +153,16 @@ create table `review`
     `product_id`   bigint   not null,
     `content`      text     not null,
     `rating`       int      not null,
+    `created_date` datetime not null,
+    `updated_date` datetime not null
+);
+
+create table `product_review_summary`
+(
+    `product_review_summary_id`    bigint primary key auto_increment,
+    `product_id`   bigint   not null,
+    `average_review_rating` bigint       null,
+    `total_review_count`   bigint       null,
     `created_date` datetime not null,
     `updated_date` datetime not null
 );
