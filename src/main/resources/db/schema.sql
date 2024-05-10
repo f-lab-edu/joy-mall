@@ -177,8 +177,6 @@ create table `wishlist`
     `updated_date` datetime not null
 );
 
-drop table PRODUCT_OPTION;
-
 CREATE TABLE `PRODUCT_OPTION`
 (
     `option_id`      BIGINT PRIMARY KEY auto_increment,
