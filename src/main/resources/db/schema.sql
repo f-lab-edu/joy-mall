@@ -75,10 +75,8 @@ create table `product_category`
 create table `order`
 (
     `order_id`     bigint primary key auto_increment,
-    `customer_id`  bigint                                                             not null,
     `customer_address_id`  bigint                                                     not null,
     `order_date`   datetime                                                           not null,
-    `status`       enum ('PENDING', 'SHIPPED', 'IN_TRANSIT', 'COMPLETED', 'CANCELED') not null,
     `created_date` datetime                                                           not null,
     `updated_date` datetime                                                           not null
 );
@@ -179,7 +177,7 @@ create table `wishlist`
 
 CREATE TABLE `PRODUCT_OPTION`
 (
-    `option_id`      BIGINT PRIMARY KEY auto_increment,
+    `product_option_id`      BIGINT PRIMARY KEY auto_increment,
     `product_id`     BIGINT not null,
     `name`           VARCHAR(255) NOT NULL,
     `price`          bigint       NOT NULL,

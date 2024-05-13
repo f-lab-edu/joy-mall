@@ -75,10 +75,13 @@ class OrderServiceTest {
 
         // when
         CreateOrderResponse savedOrder = orderService.createOrder(createOrderRequest);
-        List<OrderItem> orderItems = savedOrder.getOrderItems().stream().toList();
+        Order findOrder = orderRepository.findById(savedOrder.getId())
+                .orElseThrow(NoSuchElementException::new);
+        List<OrderItem> orderItems = findOrder.getOrderItems().stream().toList();
+        List<OrderHistory> orderHistories = findOrder.getOrderHistories().stream().toList();
 
         // then
-        assertThat(savedOrder.getStatus()).isEqualTo(OrderStatus.PENDING);
+        assertThat(orderHistories.get(0).getStatus()).isEqualTo(OrderStatus.PENDING);
         assertThat(orderItems.size()).isEqualTo(2);
         assertThat(orderItemRepository.findById(orderItems.get(0).getId()).isPresent()).isTrue();
         assertThat(orderItemRepository.findById(orderItems.get(1).getId()).isPresent()).isTrue();
@@ -139,7 +142,7 @@ class OrderServiceTest {
     @Test
     void 동일한_상품_옵션을_여러개_주문한다() {
         // given
-        Customer customer = new Customer("test54321@test.com", "1234", "test", "010-4444-4321");
+        Customer customer = new Customer("abc12345@test.com", "1234", "test", "010-5555-4444");
         Long customerId = customerRepository.save(customer)
                 .getId();
 

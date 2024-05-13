@@ -7,7 +7,6 @@ import com.mini.joymall.customer.domain.repository.CustomerAddressRepository;
 import com.mini.joymall.customer.domain.repository.CustomerRepository;
 import com.mini.joymall.order.domain.entity.Order;
 import com.mini.joymall.order.domain.entity.OrderItem;
-import com.mini.joymall.order.domain.entity.OrderStatus;
 import com.mini.joymall.product.domain.entity.Product;
 import com.mini.joymall.product.domain.entity.ProductOption;
 import com.mini.joymall.product.domain.repository.ProductOptionRepository;
@@ -39,6 +38,8 @@ class OrderRepositoryTest {
     private CustomerAddressRepository addressRepository;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private CustomerAddressRepository customerAddressRepository;
 
     @Test
     void 주문_테스트() {
@@ -72,15 +73,13 @@ class OrderRepositoryTest {
         OrderItem orderItemB1 = new OrderItem(savedProductOptionB1.getProductId(), savedProductOptionB1.getId(), selectedStockB1, savedProductOptionB1.getPrice());
 
         Set<OrderItem> orderItems = Set.of(orderItemA1, orderItemA2, orderItemB1);
-        Order order = new Order(OrderStatus.PENDING, orderItems, savedAddressA.getId(), savedCustomerA.getId());
-        orderRepository.save(order);
+        Order order = new Order(orderItems, savedAddressA.getId());
 
         // when
-        List<Order> orders = orderRepository.findByCustomerId(savedCustomerA.getId());
+        Order savedOrder = orderRepository.save(order);
 
         // then
-        assertThat(orders.get(0).getOrderItems()).contains(orderItemA1, orderItemA2, orderItemB1);
-        assertThat(orders.size()).isEqualTo(1);
-        assertThat(orders.get(0).getOrderItems()).hasSize(3);
+        assertThat(savedOrder.getOrderItems()).contains(orderItemA1, orderItemA2, orderItemB1);
+        assertThat(savedOrder.getOrderItems()).hasSize(3);
     }
 }

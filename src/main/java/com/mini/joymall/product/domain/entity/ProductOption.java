@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class ProductOption {
 
     @Id
-    @Column("OPTION_ID")
+    @Column("PRODUCT_OPTION_ID")
     private Long id;
 
     @Column("PRODUCT_ID")

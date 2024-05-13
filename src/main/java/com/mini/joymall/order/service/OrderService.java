@@ -19,16 +19,12 @@ import java.util.*;
 @Transactional
 @RequiredArgsConstructor
 public class OrderService {
-    private final OrderRepository orderRepository;
     private final CustomerAddressRepository addressRepository;
     private final OrderCreator orderCreator;
-    private final OrderHistoryRepository orderHistoryRepository;
 
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequests) {
         CustomerAddress customerAddress = addressRepository.findByCustomerId(createOrderRequests.getCustomerId()).orElseThrow(NoSuchElementException::new);
-        Order order = orderCreator.create(createOrderRequests.getOrderItems(), customerAddress);
-        Order savedOrder = orderRepository.save(order);
-        orderHistoryRepository.save(new OrderHistory(savedOrder.getId(), OrderStatus.PENDING));
+        Order savedOrder = orderCreator.create(createOrderRequests.getOrderItems(), customerAddress);
         return CreateOrderResponse.from(savedOrder, customerAddress);
     }
 }
