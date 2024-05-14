@@ -18,18 +18,16 @@ public class OrderHistory {
     @Column("ORDER_HISTORY_ID")
     private Long id;
     private Long orderId;
-    private OrderStatus status;
+    private OrderStatus orderStatus;
     private LocalDateTime createdDate;
 
-
-    public OrderHistory(Long orderId, OrderStatus status) {
-        this(orderId, status, LocalDateTime.now());
+    public OrderHistory(Long orderId, OrderStatus orderStatus) {
+        this(orderId, orderStatus, LocalDateTime.now());
     }
 
-    @Builder
-    public OrderHistory(Long orderId, OrderStatus status, LocalDateTime createdDate) {
+    public OrderHistory(Long orderId, OrderStatus orderStatus, LocalDateTime createdDate) {
         this.orderId = orderId;
-        this.status = status;
+        this.orderStatus = orderStatus;
         this.createdDate = createdDate;
     }
 }

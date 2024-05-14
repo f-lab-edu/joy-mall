@@ -1,11 +1,14 @@
 package com.mini.joymall.order.dto.request;
 
+import com.mini.joymall.order.domain.entity.OrderItem;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -15,4 +18,10 @@ public class CreateOrderRequest {
     private Long customerId;
 
     private List<CreateOrderItemRequest> orderItems;
+
+    public Set<OrderItem> toOrderItems() {
+        return orderItems.stream()
+                .map(CreateOrderItemRequest::toEntity)
+                .collect(Collectors.toSet());
+    }
 }

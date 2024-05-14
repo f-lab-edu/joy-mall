@@ -34,16 +34,16 @@ class ProductServiceTest {
     void 대소문자를_무시하고_검색_성공() {
         // given
         Product product1 = new Product(null, "iPHONE1", "아이폰입니다1", "");
-        product1.addProductOption(new ProductOption(null, "옵션1", 1000, 100));
+        product1.addProductOption(new ProductOption(null, "옵션1"));
 
         Product product2 = new Product(null, "iPHONE2", "아이폰입니다2", "");
-        product2.addProductOption(new ProductOption(null, "옵션1", 1000, 100));
+        product2.addProductOption(new ProductOption(null, "옵션1"));
 
         Product product3 = new Product(null, "iPHONE3", "아이폰입니다3", "");
-        product3.addProductOption(new ProductOption(null, "옵션1", 1000, 100));
+        product3.addProductOption(new ProductOption(null, "옵션1"));
 
         Product product4 = new Product(null, "iPHONE4", "아이폰입니다4", "");
-        product4.addProductOption(new ProductOption(null, "옵션1", 1000, 100));
+        product4.addProductOption(new ProductOption(null, "옵션1"));
 
         List<Product> products = Arrays.asList(
                 product1, product2, product3, product4
