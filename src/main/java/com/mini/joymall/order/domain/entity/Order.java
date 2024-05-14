@@ -22,28 +22,29 @@ public class Order {
     @Column("ORDER_ID")
     private Long id;
 
+    private Long customerAddressId;
 
     @MappedCollection(idColumn = "ORDER_ID")
     private Set<OrderItem> orderItems = new HashSet<>();
-
-    @MappedCollection(idColumn = "ORDER_ID")
-    private Set<OrderHistory> orderHistories = new HashSet<>();
-
-    private Long customerAddressId;
 
     private LocalDateTime orderDate;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public Order(Set<OrderItem> orderItems, Long customerAddressId) {
-        this(orderItems, customerAddressId, LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now());
+    public Order(Long customerAddressId, Set<OrderItem> orderItems) {
+        this(customerAddressId, orderItems, LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now());
     }
 
-    public Order(Set<OrderItem> orderItems, Long customerAddressId, LocalDateTime orderDate, LocalDateTime createdDate, LocalDateTime updatedDate) {
-        this.orderItems = orderItems;
+    @Builder
+    public Order(Long customerAddressId, Set<OrderItem> orderItems, LocalDateTime orderDate, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.customerAddressId = customerAddressId;
+        this.orderItems = orderItems;
         this.orderDate = orderDate;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+    }
+
+    public static Order ordered(Long customerAddressId, Set<OrderItem> orderItems) {
+        return new Order(customerAddressId, orderItems);
     }
 }

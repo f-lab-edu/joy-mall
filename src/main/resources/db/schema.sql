@@ -14,6 +14,8 @@ drop table if exists `payment`;
 drop table if exists `delivery`;
 drop table if exists `wishlist`;
 drop table if exists `review`;
+drop table if exists `sales_product`;
+drop table if exists `sales_group`;
 
 create table `customer`
 (
@@ -85,7 +87,7 @@ create table `order_history`
 (
     `order_history_id`  bigint primary key auto_increment,
     `order_id`      bigint                                                            not null,
-    `status`       enum ('PENDING', 'SHIPPED', 'IN_TRANSIT', 'COMPLETED', 'CANCELED') not null,
+    `order_status`       enum ('PENDING', 'SHIPPED', 'IN_TRANSIT', 'COMPLETED', 'CANCELED') not null,
     `created_date` datetime                                                           not null
 );
 
@@ -109,8 +111,7 @@ create table `order_item`
 (
     `order_item_id`  bigint primary key auto_increment,
     `order_id`       bigint   not null,
-    `product_id`     bigint   not null,
-    `product_option_id`     bigint   not null,
+    `sales_product_id`     bigint   not null,
     `quantity`       bigint   not null,
     `price_per_item` bigint   not null,
     `created_date`   datetime not null,
@@ -175,14 +176,30 @@ create table `wishlist`
     `updated_date` datetime not null
 );
 
-CREATE TABLE `PRODUCT_OPTION`
+CREATE TABLE `product_option`
 (
     `product_option_id`      BIGINT PRIMARY KEY auto_increment,
     `product_id`     BIGINT not null,
     `name`           VARCHAR(255) NOT NULL,
-    `price`          bigint       NOT NULL,
-    `stock_quantity` BIGINT       NOT NULL,
     `created_date`   DATETIME     NOT NULL,
     `updated_date`   DATETIME     NOT NULL
 );
 
+create table `sales_product`
+(
+    `sales_product_id`     bigint primary key auto_increment,
+    `sales_group_id`        bigint                                                      not null,
+    `product_option_id`        bigint                                                   not null,
+    `sales_price`          bigint       NOT NULL,
+    `sales_stock`        BIGINT       NOT NULL,
+    `sales_status` enum ('PENDING', 'ON_SALES', 'SOLD_OUT', 'DISCOUNT')                 not null,
+    `created_date`    datetime                                                          not null,
+    `updated_date`    datetime                                                          not null
+);
+
+create table `sales_group`
+(
+    `sales_group_id`     bigint primary key auto_increment,
+    `created_date`    datetime                                                          not null,
+    `updated_date`    datetime                                                          not null
+);

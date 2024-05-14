@@ -44,10 +44,6 @@ public class ProductDTO {
                 .imageUrl(product.getImageUrl())
                 .createdDate(product.getCreatedDate())
                 .updatedDate(product.getUpdatedDate())
-                .optionMinPrice(product.getProductOptions().stream()
-                        .mapToInt(ProductOption::getPrice)
-                        .min()
-                        .orElse(0))
                 .build();
     }
 }
