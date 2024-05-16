@@ -25,6 +25,7 @@ import com.mini.joymall.sale.domain.repository.SalesProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -80,7 +81,7 @@ class OrderServiceTest {
         SalesProduct salesProduct1 = new SalesProduct(savedProductOption1.getId(), 1000, 50, SalesStatus.ON_SALES);
         SalesProduct salesProduct2 = new SalesProduct(savedProductOption2.getId(), 2000, 50, SalesStatus.ON_SALES);
 
-        Set<SalesProduct> salesProducts = new HashSet<>();
+        Set<SalesProduct> salesProducts = new LinkedHashSet<>();
         salesProducts.add(salesProduct1);
         salesProducts.add(salesProduct2);
         SalesGroup salesGroup = new SalesGroup(salesProducts);
@@ -88,7 +89,7 @@ class OrderServiceTest {
         List<SalesProduct> savedSalesProducts = savedSalesGroup.getSalesProducts().stream().toList();
 
         CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedSalesProducts.get(0).getId(), 5, 1000);
-        CreateOrderItemRequest createOrderItemRequest2 = new CreateOrderItemRequest(savedSalesProducts.get(1).getId(), 3, 1000);
+        CreateOrderItemRequest createOrderItemRequest2 = new CreateOrderItemRequest(savedSalesProducts.get(1).getId(), 3, 2000);
         List<CreateOrderItemRequest> createOrderItemRequests = Arrays.asList(createOrderItemRequest1, createOrderItemRequest2);
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, createOrderItemRequests);
 
