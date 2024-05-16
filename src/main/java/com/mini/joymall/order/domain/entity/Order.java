@@ -47,4 +47,10 @@ public class Order {
     public static Order ordered(Long customerAddressId, Set<OrderItem> orderItems) {
         return new Order(customerAddressId, orderItems);
     }
+
+    public static int calculateOrderTotalPrice(Set<OrderItem> orderItems) {
+        return orderItems.stream()
+                .mapToInt(OrderItem::calculateTotalPrice)
+                .sum();
+    }
 }

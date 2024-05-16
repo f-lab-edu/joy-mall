@@ -4,5 +4,5 @@ public enum SalesStatus {
     PENDING,
     ON_SALES,
     SOLD_OUT,
-    DISCOUNT;
+    DISCOUNT
 }

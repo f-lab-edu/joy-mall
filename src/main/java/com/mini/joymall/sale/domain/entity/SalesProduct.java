@@ -51,4 +51,8 @@ public class SalesProduct {
         this.salesStock = nowStock;
         return salesStock;
     }
+
+    public boolean isOnSale() {
+        return salesStatus == SalesStatus.ON_SALES;
+    }
 }
