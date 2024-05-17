@@ -1,4 +1,4 @@
-package com.mini.joymall.customer.dto;
+package com.mini.joymall.customer.dto.response;
 
 import com.mini.joymall.customer.domain.entity.Customer;
 import lombok.Builder;

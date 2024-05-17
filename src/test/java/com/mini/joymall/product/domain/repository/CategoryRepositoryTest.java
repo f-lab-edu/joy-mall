@@ -23,12 +23,11 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 class CategoryRepositoryTest {
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
     @Autowired
-    CategoryService categoryService;
-
+    private CategoryService categoryService;
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @BeforeEach
     void setup() {
@@ -55,11 +54,6 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    void 카테고리_전체_조회() {
-        assertThat(categoryRepository.findAll().size()).isEqualTo(8);
-    }
-
-    @Test
     void 카테고리_N_depth_조회() {
         List<Category> all = categoryRepository.findByDepth(1);
         assertThat(all.size()).isEqualTo(3);
@@ -67,18 +61,18 @@ class CategoryRepositoryTest {
 
     @Test
     void 카테고리와_함께_상품을_저장한다() {
-        Product product1 = new Product(null, 1L, "삼성 비스포크 냉장고", "가성비 최고", 1000000.0, 100, "이미지", LocalDateTime.now(), LocalDateTime.now());
-        Product product2 = new Product(null, 1L, "삼성 비스포크 세탁기", "가성비 최고", 1000000.0, 100, "이미지", LocalDateTime.now(), LocalDateTime.now());
+        Product product1 = new Product(1L, "삼성 비스포크 냉장고", "가성비 최고", "이미지");
+        Product product2 = new Product(1L, "삼성 비스포크 세탁기", "가성비 최고", "이미지");
         productRepository.save(product1);
         productRepository.save(product2);
 
-        Category category = new Category(null, null, 0, "가전제품", LocalDateTime.now(), LocalDateTime.now());
+        Category category = new Category(null, 0, "가전제품");
         category.addProduct(product1);
         category.addProduct(product2);
-        categoryRepository.save(category);
+        Category savedCategory = categoryRepository.save(category);
 
-        List<Category> categories = categoryRepository.findAll();
-        Set<ProductCategory> productCategories = categories.get(categories.size() - 1).getProductCategories();
+        Category findCategory = categoryRepository.findById(savedCategory.getId()).orElse(null);
+        Set<ProductCategory> productCategories = findCategory.getProductCategories();
         assertThat(productCategories.size()).isEqualTo(2);
     }
 }

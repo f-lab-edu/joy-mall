@@ -26,16 +26,12 @@ public class Customer {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    @MappedCollection(idColumn = "CUSTOMER_ID")
-    private Set<Review> reviews = new HashSet<>();
-
     public Customer(String email, String password, String name, String phoneNumber) {
-        this(null, email, password, name, phoneNumber, LocalDateTime.now(), LocalDateTime.now());
+        this(email, password, name, phoneNumber, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public Customer(Long id, String email, String password, String name, String phoneNumber, LocalDateTime createdDate, LocalDateTime updatedDate) {
-        this.id = id;
+    public Customer(String email, String password, String name, String phoneNumber, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.email = email;
         this.password = password;
         this.name = name;

@@ -1,7 +1,7 @@
-package com.mini.joymall.product.dto;
+package com.mini.joymall.product.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mini.joymall.product.domain.entity.Product;
+import com.mini.joymall.product.dto.ProductDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class ProductPageResponse {
-    @JsonProperty(value = "products", index = 0)
-    private List<ProductWithReview> productsWithReview;
+    private List<ProductDTO> productDTOS;
     private long totalElements;
     private long totalPages;
     private int pageNumber;
@@ -22,8 +21,8 @@ public class ProductPageResponse {
     private boolean hasNext;
 
     @Builder
-    public ProductPageResponse(List<ProductWithReview> productsWithReview, long totalElements, long totalPages, int pageNumber, int pageSize, boolean hasPrevious, boolean hasNext) {
-        this.productsWithReview = productsWithReview;
+    public ProductPageResponse(List<ProductDTO> productDTOS, long totalElements, long totalPages, int pageNumber, int pageSize, boolean hasPrevious, boolean hasNext) {
+        this.productDTOS = productDTOS;
         this.totalElements = totalElements;
         this.totalPages = totalPages;
         this.pageNumber = pageNumber;
@@ -32,9 +31,11 @@ public class ProductPageResponse {
         this.hasNext = hasNext;
     }
 
-    public static ProductPageResponse from(List<ProductWithReview> productsWithReview, Page<Product> products) {
+    public static ProductPageResponse from(Page<Product> products) {
         return ProductPageResponse.builder()
-                .productsWithReview(productsWithReview)
+                .productDTOS(products.stream()
+                        .map(ProductDTO::from)
+                        .toList())
                 .totalElements(products.getTotalElements())
                 .totalPages(products.getTotalPages())
                 .pageNumber(products.getNumber())

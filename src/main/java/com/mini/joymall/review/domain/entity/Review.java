@@ -26,17 +26,16 @@ public class Review {
     @Column("PRODUCT_ID")
     private Long productId;
     private String content;
-    private Integer rating;
+    private int rating;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public Review(String content, Integer rating) {
-        this(null, null, null, content, rating, LocalDateTime.now(), LocalDateTime.now());
+    public Review(Long customerId, Long productId, String content, int rating) {
+        this(customerId, productId, content, rating, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public Review(Long id, Long customerId, Long productId, String content, Integer rating, LocalDateTime createdDate, LocalDateTime updatedDate) {
-        this.id = id;
+    public Review(Long customerId, Long productId, String content, int rating, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.customerId = customerId;
         this.productId = productId;
         this.content = content;

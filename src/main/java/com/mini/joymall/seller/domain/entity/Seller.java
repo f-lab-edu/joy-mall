@@ -39,13 +39,11 @@ public class Seller {
     }
 
     public Seller(String email, String password, String name, String storeName, String phoneNumber) {
-        this(null, email, password, name, storeName, phoneNumber, LocalDateTime.now(), LocalDateTime.now());
+        this(email, password, name, storeName, phoneNumber, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public Seller(Long id, String email, String password, String name, String storeName, String phoneNumber,
-                  LocalDateTime createdDate, LocalDateTime updatedDate) {
-        this.id = id;
+    public Seller(String email, String password, String name, String storeName, String phoneNumber, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.email = email;
         this.password = password;
         this.name = name;

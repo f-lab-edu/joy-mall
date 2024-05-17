@@ -1,10 +1,10 @@
 package com.mini.joymall.product.service;
 
 import com.mini.joymall.product.domain.entity.Product;
+import com.mini.joymall.product.domain.entity.ProductOption;
 import com.mini.joymall.product.domain.repository.ProductRepository;
+import com.mini.joymall.product.dto.response.ProductPageResponse;
 import com.mini.joymall.product.dto.ProductDTO;
-import com.mini.joymall.product.dto.ProductPageResponse;
-import com.mini.joymall.product.dto.ProductWithReview;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,37 +25,47 @@ import static org.mockito.BDDMockito.*;
 @Slf4j
 class ProductServiceTest {
     @Mock
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @InjectMocks
-    ProductService productService;
+    private ProductService productService;
 
     @Test
     void 대소문자를_무시하고_검색_성공() {
         // given
+        Product product1 = new Product(null, "iPHONE1", "아이폰입니다1", "");
+        product1.addProductOption(new ProductOption(null, "옵션1", 1000, 100));
+
+        Product product2 = new Product(null, "iPHONE2", "아이폰입니다2", "");
+        product2.addProductOption(new ProductOption(null, "옵션1", 1000, 100));
+
+        Product product3 = new Product(null, "iPHONE3", "아이폰입니다3", "");
+        product3.addProductOption(new ProductOption(null, "옵션1", 1000, 100));
+
+        Product product4 = new Product(null, "iPHONE4", "아이폰입니다4", "");
+        product4.addProductOption(new ProductOption(null, "옵션1", 1000, 100));
+
         List<Product> products = Arrays.asList(
-                new Product("iPHONE4", "아이폰입니다4", 1000.0, 100, ""),
-                new Product("iPHONE3", "아이폰입니다3", 1000.0, 100, ""),
-                new Product("iPHONE2", "아이폰입니다2", 1000.0, 100, ""),
-                new Product("iPHONE1", "아이폰입니다1", 1000.0, 100, "")
+                product1, product2, product3, product4
         );
+
 
         String sortBy = "DESC";
         Sort sort = Sort.by(Sort.Direction.fromString(sortBy), "id");
-        Pageable pageable = PageRequest.of(1, 2, sort);
+        Pageable pageable = PageRequest.of(0, 10, sort);
 
         Page<Product> pages = new PageImpl<>(products, pageable, products.size());
 
-        given(productRepository.findByNameContainingIgnoreCase("iphone", pageable)).willReturn(pages);
 
         // when
-        ProductPageResponse productPageResponse = productService.findByNameContainingIgnoreCase("iphone", pageable);
-        List<ProductWithReview> productsWithReview = productPageResponse.getProductsWithReview();
+        given(productRepository.findByNameContainingIgnoreCase("iphone", pageable)).willReturn(pages);
+        ProductPageResponse productPageResponse = productService.search("iphone", pageable);
+        List<ProductDTO> productsWithReview = productPageResponse.getProductDTOS();
 
         // then
         assertThat(products.size()).isEqualTo(productsWithReview.size());
-        assertThat(products.get(1).getName()).isEqualTo("iPHONE3");
-        assertThat(products.get(2).getDescription()).isEqualTo("아이폰입니다2");
+        assertThat(products.get(1).getName()).isEqualTo("iPHONE2");
+        assertThat(products.get(2).getDescription()).isEqualTo("아이폰입니다3");
     }
 
     @Test
@@ -64,13 +74,13 @@ class ProductServiceTest {
         List<Product> mockProducts = Collections.emptyList();
         String sortBy = "DESC";
         Sort sort = Sort.by(Sort.Direction.fromString(sortBy), "id");
-        Pageable pageable = PageRequest.of(1, 2, sort);
-        Page<Product> pages = new PageImpl<>(mockProducts, pageable, mockProducts.size());
+        Pageable pageable = PageRequest.of(0, 10, sort);
+        Page<Product> pages = new PageImpl<>(mockProducts, pageable, 0);
 
         // when
-        given(productRepository.findByNameContainingIgnoreCase("ipho ne", pageable)).willReturn(pages);
-        ProductPageResponse productPageResponse = productService.findByNameContainingIgnoreCase("ipho ne", pageable);
-        List<ProductWithReview> productsWithReview = productPageResponse.getProductsWithReview();
+        given(productRepository.findByNameContainingIgnoreCase("ip hone", pageable)).willReturn(pages);
+        ProductPageResponse productPageResponse = productService.search("ip hone", pageable);
+        List<ProductDTO> productsWithReview = productPageResponse.getProductDTOS();
 
         // then
         assertThat(productsWithReview).isEmpty();

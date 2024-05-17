@@ -1,4 +1,4 @@
-package com.mini.joymall.customer.dto;
+package com.mini.joymall.customer.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

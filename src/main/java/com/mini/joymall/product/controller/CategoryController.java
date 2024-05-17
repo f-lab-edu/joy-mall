@@ -1,15 +1,16 @@
 package com.mini.joymall.product.controller;
 
-import com.mini.joymall.product.dto.CategoryChildrenResponse;
+import com.mini.joymall.product.dto.response.CategoryChildrenResponse;
 import com.mini.joymall.product.dto.CategoryDTO;
 import com.mini.joymall.product.service.CategoryService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+
+import static com.mini.joymall.commons.ApiResponse.*;
 
 @Controller
 public class CategoryController {
@@ -22,11 +23,11 @@ public class CategoryController {
 
     @GetMapping("/categories")
     private ResponseEntity<List<CategoryDTO>> findByDepth(@RequestParam("depth") int depth) {
-        return ResponseEntity.status(HttpStatus.OK).body(categoryService.findByDepth(depth));
+        return OK(categoryService.findByDepth(depth));
     }
 
     @GetMapping("/categories/children")
-    private ResponseEntity<List<CategoryChildrenResponse>> getCategoryChildren(@RequestParam("id") long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(categoryService.getCategoryChildren(id));
+    private ResponseEntity<CategoryChildrenResponse> getCategoryChildren(@RequestParam("id") Long id) {
+        return OK(categoryService.getCategoryChildren(id));
     }
 }

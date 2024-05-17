@@ -7,7 +7,5 @@ import java.util.List;
 
 
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
-    List<Customer> findAll();
-
     Customer findByEmailAndPassword(String id, String password);
 }

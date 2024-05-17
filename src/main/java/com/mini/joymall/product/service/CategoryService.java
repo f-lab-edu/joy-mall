@@ -2,11 +2,12 @@ package com.mini.joymall.product.service;
 
 import com.mini.joymall.product.domain.entity.Category;
 import com.mini.joymall.product.domain.repository.CategoryRepository;
-import com.mini.joymall.product.dto.CategoryChildrenResponse;
+import com.mini.joymall.product.dto.response.CategoryChildrenResponse;
 import com.mini.joymall.product.dto.CategoryDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CategoryService {
@@ -23,20 +24,14 @@ public class CategoryService {
                 .toList();
     }
 
-    public List<CategoryChildrenResponse> getCategoryChildren(long id) {
-        return categoryRepository.findById(id)
-                .stream()
-                .map(category -> new CategoryChildrenResponse(
-                        category.getId(),
-                        category.getParentId(),
-                        category.getDepth(),
-                        category.getName(),
-                        buildChildrenResponse(category.getId())
-                ))
-                .toList();
+    public CategoryChildrenResponse getCategoryChildren(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(NoSuchElementException::new);
+        List<CategoryChildrenResponse> children = buildCategoryChildren(category.getId());
+        return CategoryChildrenResponse.create(category, children);
     }
 
-    public List<CategoryChildrenResponse> buildChildrenResponse(Long parentId) {
+    public List<CategoryChildrenResponse> buildCategoryChildren(Long parentId) {
         return categoryRepository.findByParentId(parentId)
                 .stream()
                 .map(category -> new CategoryChildrenResponse(
@@ -44,7 +39,7 @@ public class CategoryService {
                         category.getParentId(),
                         category.getDepth(),
                         category.getName(),
-                        buildChildrenResponse(category.getId())
+                        buildCategoryChildren(category.getId())
                 ))
                 .toList();
     }
