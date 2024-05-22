@@ -53,4 +53,10 @@ public class Order {
                 .mapToInt(OrderItem::calculateTotalPrice)
                 .sum();
     }
+
+    public static int getSumQuantity(Set<OrderItem> orderItems) {
+        return orderItems.stream()
+                .mapToInt(OrderItem::getQuantity)
+                .sum();
+    }
 }
