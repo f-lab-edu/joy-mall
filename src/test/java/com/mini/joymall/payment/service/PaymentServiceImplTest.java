@@ -1,6 +1,7 @@
 package com.mini.joymall.payment.service;
 
 import com.mini.joymall.order.domain.entity.Order;
+import com.mini.joymall.order.domain.entity.OrderHistory;
 import com.mini.joymall.order.domain.entity.OrderItem;
 import com.mini.joymall.order.domain.repository.OrderRepository;
 import com.mini.joymall.payment.domain.entity.PaymentMethod;
@@ -34,7 +35,10 @@ class PaymentServiceImplTest {
         Set<OrderItem> orderItems = new HashSet<>();
         orderItems.add(orderItem1);
         orderItems.add(orderItem2);
-        Long orderId = orderRepository.save(new Order(1L, orderItems))
+
+        Set<OrderHistory> orderHistories = new HashSet<>();
+        orderHistories.add(OrderHistory.pending());
+        Long orderId = orderRepository.save(new Order(1L, orderItems, orderHistories))
                 .getId();
 
         CreatePaymentRequest createPaymentRequest = new CreatePaymentRequest(orderId, 25000, PaymentMethod.KAKAOPAY);

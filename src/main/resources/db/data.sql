@@ -376,7 +376,7 @@ VALUES ( 1, now(), now(), now() );
 
 -- order_history
 insert into ORDER_HISTORY(ORDER_ID, ORDER_STATUS, CREATED_DATE)
-VALUES ( 1,  );
+VALUES ( 1,  'PENDING', now());
 
 -- order_item
 insert into `ORDER_ITEM`(ORDER_ID, SALES_PRODUCT_ID, QUANTITY, PRICE_PER_ITEM, CREATED_DATE, UPDATED_DATE)

@@ -1,6 +1,7 @@
 package com.mini.joymall.payment.service;
 
 import com.mini.joymall.order.domain.entity.Order;
+import com.mini.joymall.order.domain.entity.OrderHistory;
 import com.mini.joymall.order.domain.entity.OrderItem;
 import com.mini.joymall.order.domain.repository.OrderRepository;
 import com.mini.joymall.payment.dto.response.KakaoReadyResponse;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class KakaoServiceTest {
 
     @Autowired
@@ -28,7 +29,10 @@ class KakaoServiceTest {
         OrderItem orderItem = new OrderItem(1L, 10, 1000);
         Set<OrderItem> orderItems = new HashSet<>();
         orderItems.add(orderItem);
-        Order savedOrder = orderRepository.save(new Order(1L, orderItems));
+
+        Set<OrderHistory> orderHistories = new HashSet<>();
+        orderHistories.add(OrderHistory.pending());
+        Order savedOrder = orderRepository.save(new Order(1L, orderItems, orderHistories));
 
         // when
         KakaoReadyResponse kakaoReadyResponse = kakaoService.ready(savedOrder);
