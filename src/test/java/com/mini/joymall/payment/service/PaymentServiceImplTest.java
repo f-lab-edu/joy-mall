@@ -4,8 +4,10 @@ import com.mini.joymall.order.domain.entity.Order;
 import com.mini.joymall.order.domain.entity.OrderHistory;
 import com.mini.joymall.order.domain.entity.OrderItem;
 import com.mini.joymall.order.domain.repository.OrderRepository;
+import com.mini.joymall.payment.domain.entity.Payment;
 import com.mini.joymall.payment.domain.entity.PaymentMethod;
 import com.mini.joymall.payment.domain.entity.PaymentStatus;
+import com.mini.joymall.payment.domain.repository.PaymentRepository;
 import com.mini.joymall.payment.dto.request.CreatePaymentRequest;
 import com.mini.joymall.payment.dto.response.CreatePaymentResponse;
 import com.mini.joymall.payment.dto.response.KakaoReadyResponse;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
@@ -26,6 +29,9 @@ class PaymentServiceImplTest {
 
     @Autowired
     PaymentServiceImpl paymentService;
+
+    @Autowired
+    PaymentRepository paymentRepository;
 
     @Test
     void 카카오_페이로_결제_요청_성공() {
@@ -46,10 +52,15 @@ class PaymentServiceImplTest {
         // when
         CreatePaymentResponse createPaymentResponse = paymentService.createPayment(createPaymentRequest);
 
+        Long paymentId = createPaymentResponse.getId();
+        Payment savedPayment = paymentRepository.findById(paymentId).orElseThrow(NoSuchElementException::new);
+
         // then
-        assertThat(createPaymentResponse.getAmount()).isEqualTo(25000);
-        assertThat(createPaymentResponse.getPaymentMethod()).isEqualTo(PaymentMethod.KAKAOPAY);
-        assertThat(createPaymentResponse.getPaymentStatus()).isEqualTo(PaymentStatus.WAITING);
         assertThat(createPaymentResponse.getData()).isInstanceOf(KakaoReadyResponse.class);
+
+        assertThat(savedPayment.getAmount()).isEqualTo(25000);
+        assertThat(savedPayment.getPaymentMethod()).isEqualTo(PaymentMethod.KAKAOPAY);
+        assertThat(savedPayment.getPaymentStatus()).isEqualTo(PaymentStatus.WAITING);
+        assertThat(savedPayment.getOrderId()).isEqualTo(orderId);
     }
 }
