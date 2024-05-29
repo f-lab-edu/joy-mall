@@ -31,6 +31,5 @@ public class PaymentServiceImpl implements PaymentService {
             default:
                 throw new RuntimeException("결제수단을 확인해주세요.");
         }
-
     }
 }

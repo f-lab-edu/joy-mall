@@ -1,6 +1,7 @@
 -- schema PUBLIC, H2
 
 drop table if exists `customer`;
+drop table if exists `customer_address`;
 drop table if exists `seller`;
 drop table if exists `product`;
 drop table if exists `product_review_summary`;
@@ -8,12 +9,12 @@ drop table if exists `category`;
 drop table if exists `product_category`;
 drop table if exists `order`;
 drop table if exists `order_history`;
-drop table if exists `customer_address`;
 drop table if exists `order_item`;
 drop table if exists `payment`;
+drop table if exists `payment_history`;
 drop table if exists `delivery`;
 drop table if exists `wishlist`;
-drop table if exists `PRODUCT_OPTION`;
+drop table if exists `product_option`;
 drop table if exists `review`;
 drop table if exists `sales_product`;
 drop table if exists `sales_group`;
@@ -30,7 +31,21 @@ create table `customer`
     `updated_date` datetime            not null
 );
 
-
+create table `customer_address`
+(
+    `customer_address_id`  bigint primary key auto_increment,
+    `customer_id`          bigint      not null,
+    `receipt_name`         varchar(20) not null,
+    `receipt_phone_number` varchar(20) not null,
+    `region`               varchar(50) not null,
+    `city`                 varchar(50) not null,
+    `town`                 varchar(50) not null,
+    `street`               varchar(50) not null,
+    `zip_code`             varchar(50) not null,
+    `detail`               varchar(50) not null,
+    `created_date`         datetime    not null,
+    `updated_date`         datetime    not null
+);
 
 create table `seller`
 (
@@ -93,22 +108,6 @@ create table `order_history`
     `created_date`     datetime                                                           not null
 );
 
-create table `customer_address`
-(
-    `customer_address_id`  bigint primary key auto_increment,
-    `customer_id`          bigint      not null,
-    `receipt_name`         varchar(20) not null,
-    `receipt_phone_number` varchar(20) not null,
-    `region`               varchar(50) not null,
-    `city`                 varchar(50) not null,
-    `town`                 varchar(50) not null,
-    `street`               varchar(50) not null,
-    `zip_code`             varchar(50) not null,
-    `detail`               varchar(50) not null,
-    `created_date`         datetime    not null,
-    `updated_date`         datetime    not null
-);
-
 create table `order_item`
 (
     `order_item_id`    bigint primary key auto_increment,
@@ -122,16 +121,21 @@ create table `order_item`
 
 create table `payment`
 (
-    `payment_id`     bigint primary key auto_increment,
-    `order_id`       bigint unique                                           not null,
-    `amount`         bigint                                                  not null,
-    `payment_method` enum ('CREDIT_CARD', 'KAKAOPAY', 'NAVERPAY', 'TOSSPAY') not null,
-    `payment_date`   datetime                                                not null,
-    `payment_status` enum ('WAITING', 'COMPLETED', 'FAILED', 'REFUNDED')     not null,
-    `created_date`   datetime                                                not null,
-    `updated_date`   datetime                                                not null
+    `payment_id`   bigint primary key auto_increment,
+    `order_id`     bigint unique not null,
+    `created_date` datetime      not null,
+    `updated_date` datetime      not null
 );
 
+create table `payment_history`
+(
+    `payment_history_id` bigint primary key auto_increment,
+    `payment_id`         bigint                                                  not null,
+    `amount`             bigint                                                  not null,
+    `payment_method`     enum ('CREDIT_CARD', 'KAKAOPAY', 'NAVERPAY', 'TOSSPAY') not null,
+    `payment_status`     enum ('WAITING', 'COMPLETED', 'FAILED', 'REFUNDED')     not null,
+    `created_date`       datetime                                                not null
+);
 
 create table `delivery`
 (
