@@ -32,7 +32,7 @@ class CustomerRepositoryTest {
         Customer findCustomer = customerRepository.findById(saveCustomer.getId()).orElseThrow(NoSuchElementException::new);
 
         // then
-        assertThat(saveCustomer).isEqualTo(findCustomer);
+        assertThat(saveCustomer.getId()).isEqualTo(findCustomer.getId());
     }
 
     @Test
@@ -46,7 +46,10 @@ class CustomerRepositoryTest {
         Customer findB = customerRepository.findById(customerB.getId()).orElseThrow(NoSuchElementException::new);
 
         // then
-        assertThat(findA).isEqualTo(customerA);
-        assertThat(findB).isEqualTo(customerB);
+        assertThat(findA.getId()).isEqualTo(customerA.getId());
+        assertThat(findA.getEmail()).isEqualTo(customerA.getEmail());
+
+        assertThat(findB.getId()).isEqualTo(customerB.getId());
+        assertThat(findB.getEmail()).isEqualTo(customerB.getEmail());
     }
 }
