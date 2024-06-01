@@ -6,6 +6,7 @@ import com.mini.joymall.product.domain.entity.ProductCategory;
 import com.mini.joymall.product.domain.entity.ProductOption;
 import com.mini.joymall.seller.domain.entity.Seller;
 import com.mini.joymall.seller.domain.repository.SellerRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
@@ -33,14 +35,13 @@ class ProductRepositoryTest {
     @Test
     void 상품_리스트_상품명_검색과_페이징_처리() {
         // given
-        sellerRepository.deleteAll();
         Seller sellerA = new Seller("a@a.com", "1234", "a", "aStore", "010-1234-5678", LocalDateTime.now(), LocalDateTime.now());
         Seller sellerB = new Seller("b@b.com", "1234", "b", "bStore", "010-5678-5678", LocalDateTime.now(), LocalDateTime.now());
 
-        Product product1 = new Product(null, "아이폰1", "아이폰1", "아이폰");
-        Product product2 = new Product(null, "아이폰2", "아이폰2","아이폰");
-        Product product3 = new Product(null, "아이폰3", "아이폰3","아이폰");
-        Product product4 = new Product(null, "아이폰4", "아이폰4", "아이폰");
+        Product product1 = new Product(null, "맥북1", "맥북1", "맥북");
+        Product product2 = new Product(null, "맥북2", "맥북2","맥북");
+        Product product3 = new Product(null, "맥북3", "맥북3","맥북");
+        Product product4 = new Product(null, "맥북4", "맥북4", "맥북");
 
         sellerA.addProduct(product1);
         sellerA.addProduct(product2);
@@ -54,7 +55,7 @@ class ProductRepositoryTest {
         Pageable pageable = PageRequest.of(1, 2, sort);
 
         // when
-        Page<Product> products = productRepository.findByNameContainingIgnoreCase("아이폰", pageable);
+        Page<Product> products = productRepository.findByNameContainingIgnoreCase("맥북", pageable);
 
         // then
         assertThat(products.getTotalElements()).isEqualTo(4);
@@ -72,10 +73,10 @@ class ProductRepositoryTest {
         Seller sellerA = new Seller("a@a.com", "1234", "a", "aStore", "010-1234-5678", LocalDateTime.now(), LocalDateTime.now());
         Seller sellerB = new Seller("b@b.com", "1234", "b", "bStore", "010-5678-5678", LocalDateTime.now(), LocalDateTime.now());
 
-        Product product1 = new Product(null, "아이폰1", "아이폰1", "아이폰");
-        Product product2 = new Product(null, "아이폰2", "아이폰2","아이폰");
-        Product product3 = new Product(null, "아이폰3", "아이폰3","아이폰");
-        Product product4 = new Product(null, "아이폰4", "아이폰4", "아이폰");
+        Product product1 = new Product(null, "맥북1", "맥북1", "맥북");
+        Product product2 = new Product(null, "맥북2", "맥북2","맥북");
+        Product product3 = new Product(null, "맥북3", "맥북3","맥북");
+        Product product4 = new Product(null, "맥북4", "맥북4", "맥북");
 
         sellerA.addProduct(product1);
         sellerA.addProduct(product2);
@@ -89,7 +90,7 @@ class ProductRepositoryTest {
         Category savedCategory1 = categoryRepository.save(category1);
         Category savedCategory2 = categoryRepository.save(category2);
 
-        Product product = new Product(1L, "아이폰", "아이폰", "아이폰");
+        Product product = new Product(1L, "맥북", "맥북", "맥북");
         product.addCategory(savedCategory1);
         product.addCategory(savedCategory2);
         Product savedProduct = productRepository.save(product);
@@ -102,14 +103,12 @@ class ProductRepositoryTest {
     @Test
     void 상품을_옵션과_함께_정상적으로_출력() {
         // given
-        Product product = new Product(1L, "product1", "product1", "");
-        Product savedProduct1 = productRepository.save(product);
-
-        ProductOption productOption1 = new ProductOption(savedProduct1.getId(), "option1", 1000, 100);
-        ProductOption savedProductOption1 = productOptionRepository.save(productOption1);
+        Product savedProduct1 = productRepository.save(new Product(1L, "fruitProduct", "fruitProduct", ""));
+        ProductOption savedProductOption1 = productOptionRepository.save(new ProductOption(savedProduct1.getId(), "option1", 1000, 100));
+        savedProduct1.addProductOption(new ProductOption(savedProduct1.getId(), "pineApple", 1000, 100));
 
         // when
-        Product product1 = productRepository.findById(savedProduct1.getId()).orElse(null);
+        Product product1 = productRepository.findById(savedProduct1.getId()).orElseThrow(NoSuchElementException::new);
         List<ProductOption> productOptions = product1.getProductOptions().stream().toList();
 
         // then
