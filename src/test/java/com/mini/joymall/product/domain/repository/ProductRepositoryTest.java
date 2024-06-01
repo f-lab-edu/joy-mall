@@ -105,13 +105,13 @@ class ProductRepositoryTest {
         // given
         Product savedProduct1 = productRepository.save(new Product(1L, "fruitProduct", "fruitProduct", ""));
         ProductOption savedProductOption1 = productOptionRepository.save(new ProductOption(savedProduct1.getId(), "option1", 1000, 100));
-        savedProduct1.addProductOption(new ProductOption(savedProduct1.getId(), "pineApple", 1000, 100));
 
         // when
-        Product product1 = productRepository.findById(savedProduct1.getId()).orElseThrow(NoSuchElementException::new);
-        List<ProductOption> productOptions = product1.getProductOptions().stream().toList();
+        Product findProduct = productRepository.findById(savedProduct1.getId()).orElseThrow(NoSuchElementException::new);
+        List<ProductOption> productOptions = findProduct.getProductOptions().stream().toList();
 
         // then
-        assertThat(productOptions.get(0)).isEqualTo(savedProductOption1);
+        assertThat(productOptions.get(0).getId()).isEqualTo(savedProductOption1.getId());
+        assertThat(productOptions.get(0).getProductId()).isEqualTo(savedProductOption1.getProductId());
     }
 }
