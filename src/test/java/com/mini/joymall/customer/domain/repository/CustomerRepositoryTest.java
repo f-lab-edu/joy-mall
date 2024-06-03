@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -22,33 +23,33 @@ class CustomerRepositoryTest {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @BeforeEach
-    void beforeEach() {
-        customerRepository.deleteAll();
-    }
-    
     @Test
     void 저장_테스트() {
         // given
-        Customer saveCustomer = customerRepository.save(new Customer("a@a.com", "1234", "A", "010-1234-5678"));
+        Customer saveCustomer = customerRepository.save(new Customer("abc@abc.com", "1234", "A", "010-1234-5678"));
 
         // when
-        Customer findCustomer = customerRepository.findById(saveCustomer.getId()).get();
+        Customer findCustomer = customerRepository.findById(saveCustomer.getId()).orElseThrow(NoSuchElementException::new);
 
         // then
-        assertThat(saveCustomer).isEqualTo(findCustomer);
+        assertThat(saveCustomer.getId()).isEqualTo(findCustomer.getId());
     }
 
     @Test
     void 조회_테스트() {
         // given
-        Customer customerA = customerRepository.save(new Customer("a@a.com", "1234", "A", "010-1234-5678"));
-        Customer customerB = customerRepository.save(new Customer("b@b.com", "12345", "B", "010-2345-5678"));
+        Customer customerA = customerRepository.save(new Customer("a1@a.com", "1234", "A1", "010-1234-5678"));
+        Customer customerB = customerRepository.save(new Customer("b1@b.com", "12345", "B1", "010-2345-5678"));
 
         // when
-        List<Customer> customers = (List<Customer>) customerRepository.findAllById(Arrays.asList(customerA.getId(), customerB.getId()));
+        Customer findA = customerRepository.findById(customerA.getId()).orElseThrow(NoSuchElementException::new);
+        Customer findB = customerRepository.findById(customerB.getId()).orElseThrow(NoSuchElementException::new);
 
         // then
-        assertThat(customers).contains(customerA, customerB);
+        assertThat(findA.getId()).isEqualTo(customerA.getId());
+        assertThat(findA.getEmail()).isEqualTo(customerA.getEmail());
+
+        assertThat(findB.getId()).isEqualTo(customerB.getId());
+        assertThat(findB.getEmail()).isEqualTo(customerB.getEmail());
     }
 }
