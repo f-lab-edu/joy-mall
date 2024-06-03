@@ -36,19 +36,6 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-    - name: Build Docker Image
-      run: docker build -t JoyMall:latest .
-
-    - name: Docker Login
-      env:
-        CONTAINER_REGISTRY_URL: ${{ secrets.CONTAINER_REGISTRY_URL }}
-        NCLOUD_ACCESS_KEY: ${{ secrets.NCLOUD_ACCESS_KEY }}
-        NCLOUD_SECRET_KEY: ${{ secrets.NCLOUD_SECRET_KEY }}
-      run: docker login "$CONTAINER_REGISTRY_URL" -u "$NCLOUD_ACCESS_KEY" -p "$NCLOUD_SECRET_KEY"
-
-    - name: Push to Container Registry
-      run: docker push JoyMall:latest
-
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
     #
