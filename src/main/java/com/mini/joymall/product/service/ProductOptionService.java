@@ -12,13 +12,4 @@ import java.util.NoSuchElementException;
 @Transactional
 @RequiredArgsConstructor
 public class ProductOptionService {
-    private final ProductOptionRepository productOptionRepository;
-
-    public ProductOption decreaseStock(Long id, int selectQuantity) {
-        ProductOption productOption = productOptionRepository.findById(id)
-                .orElseThrow(NoSuchElementException::new);
-        productOption.decreaseStock(selectQuantity);
-        productOptionRepository.save(productOption);
-        return productOption;
-    }
 }

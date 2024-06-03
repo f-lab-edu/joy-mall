@@ -17,14 +17,17 @@ import com.mini.joymall.order.dto.request.CreateOrderRequest;
 import com.mini.joymall.order.dto.response.CreateOrderResponse;
 import com.mini.joymall.product.domain.entity.ProductOption;
 import com.mini.joymall.product.domain.repository.ProductOptionRepository;
+import com.mini.joymall.sale.domain.entity.SalesGroup;
+import com.mini.joymall.sale.domain.entity.SalesProduct;
+import com.mini.joymall.sale.domain.entity.SalesStatus;
+import com.mini.joymall.sale.domain.repository.SalesGroupRepository;
+import com.mini.joymall.sale.domain.repository.SalesProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,6 +55,12 @@ class OrderServiceTest {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private SalesProductRepository salesProductRepository;
+
+    @Autowired
+    private SalesGroupRepository salesGroupRepository;
+
     @Test
     void 여러개의_주문_아이템을_담고_주문_성공() {
         // given
@@ -63,13 +72,24 @@ class OrderServiceTest {
         CustomerAddress customerAddress = new CustomerAddress(customerId, "test", "010-1234-4321", location);
         customerAddressRepository.save(customerAddress);
 
-        ProductOption productOption1 = new ProductOption(1L, "딸기맛", 1000, 5);
-        ProductOption productOption2 = new ProductOption(1L, "초코맛", 1000, 3);
+        ProductOption productOption1 = new ProductOption(1L, "딸기맛");
+        ProductOption productOption2 = new ProductOption(1L, "초코맛");
         ProductOption savedProductOption1 = productOptionRepository.save(productOption1);
         ProductOption savedProductOption2 = productOptionRepository.save(productOption2);
 
-        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedProductOption1.getId(), savedProductOption1.getProductId(), 5, 1000);
-        CreateOrderItemRequest createOrderItemRequest2 = new CreateOrderItemRequest(savedProductOption2.getId(), savedProductOption2.getProductId(), 3, 1000);
+
+        SalesProduct salesProduct1 = new SalesProduct(savedProductOption1.getId(), 1000, 50, SalesStatus.ON_SALES);
+        SalesProduct salesProduct2 = new SalesProduct(savedProductOption2.getId(), 2000, 50, SalesStatus.ON_SALES);
+
+        Set<SalesProduct> salesProducts = new LinkedHashSet<>();
+        salesProducts.add(salesProduct1);
+        salesProducts.add(salesProduct2);
+        SalesGroup salesGroup = new SalesGroup(salesProducts);
+        SalesGroup savedSalesGroup = salesGroupRepository.save(salesGroup);
+        List<SalesProduct> savedSalesProducts = savedSalesGroup.getSalesProducts().stream().toList();
+
+        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedSalesProducts.get(0).getId(), 5, 1000);
+        CreateOrderItemRequest createOrderItemRequest2 = new CreateOrderItemRequest(savedSalesProducts.get(1).getId(), 3, 2000);
         List<CreateOrderItemRequest> createOrderItemRequests = Arrays.asList(createOrderItemRequest1, createOrderItemRequest2);
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, createOrderItemRequests);
 
@@ -78,15 +98,23 @@ class OrderServiceTest {
         Order findOrder = orderRepository.findById(savedOrder.getId())
                 .orElseThrow(NoSuchElementException::new);
         List<OrderItem> orderItems = findOrder.getOrderItems().stream().toList();
-        List<OrderHistory> orderHistories = findOrder.getOrderHistories().stream().toList();
+        List<OrderHistory> orderHistories = orderHistoryRepository.findByOrderId(findOrder.getId())
+                .orElseThrow(NoSuchElementException::new)
+                .stream().toList();
 
         // then
-        assertThat(orderHistories.get(0).getStatus()).isEqualTo(OrderStatus.PENDING);
+        assertThat(orderHistories.get(0).getOrderStatus()).isEqualTo(OrderStatus.PENDING);
         assertThat(orderItems.size()).isEqualTo(2);
         assertThat(orderItemRepository.findById(orderItems.get(0).getId()).isPresent()).isTrue();
         assertThat(orderItemRepository.findById(orderItems.get(1).getId()).isPresent()).isTrue();
-        assertThat(productOptionRepository.findById(orderItems.get(0).getProductOptionId()).isPresent()).isTrue();
-        assertThat(productOptionRepository.findById(orderItems.get(1).getProductOptionId()).isPresent()).isTrue();
+
+        assertThat(salesProductRepository.findById(savedSalesProducts.get(0).getId())
+                .orElseThrow(NoSuchElementException::new)
+                .getSalesStock()).isEqualTo(45);
+
+        assertThat(salesProductRepository.findById(savedSalesProducts.get(1).getId())
+                .orElseThrow(NoSuchElementException::new)
+                .getSalesStock()).isEqualTo(47);
     }
 
     @Test
@@ -100,10 +128,18 @@ class OrderServiceTest {
         CustomerAddress customerAddress = new CustomerAddress(customerId, "test", "010-1234-4321", location);
         customerAddressRepository.save(customerAddress);
 
-        ProductOption productOption1 = new ProductOption(1L, "딸기맛", 1000, 5);
+        ProductOption productOption1 = new ProductOption(1L, "딸기맛");
         ProductOption savedProductOption1 = productOptionRepository.save(productOption1);
 
-        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedProductOption1.getId(), savedProductOption1.getProductId(), 10, 1000);
+        SalesProduct salesProduct1 = new SalesProduct(savedProductOption1.getId(), 1000, 5, SalesStatus.ON_SALES);
+
+        Set<SalesProduct> salesProducts = new HashSet<>();
+        salesProducts.add(salesProduct1);
+        SalesGroup salesGroup = new SalesGroup(salesProducts);
+        SalesGroup savedSalesGroup = salesGroupRepository.save(salesGroup);
+        List<SalesProduct> savedSalesProducts = savedSalesGroup.getSalesProducts().stream().toList();
+
+        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedSalesProducts.get(0).getId(), 10, 1000);
         List<CreateOrderItemRequest> createOrderItemRequests = List.of(createOrderItemRequest1);
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, createOrderItemRequests);
 
@@ -122,21 +158,31 @@ class OrderServiceTest {
         CustomerAddress customerAddress = new CustomerAddress(customerId, "test", "010-1234-4321", location);
         customerAddressRepository.save(customerAddress);
 
-        ProductOption productOption1 = new ProductOption(1L, "딸기맛", 1000, 100);
+        ProductOption productOption1 = new ProductOption(1L, "딸기맛");
         ProductOption savedProductOption1 = productOptionRepository.save(productOption1);
 
-        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedProductOption1.getId(), savedProductOption1.getProductId(), 10, 1000);
+        SalesProduct salesProduct1 = new SalesProduct(savedProductOption1.getId(), 1000, 50, SalesStatus.ON_SALES);
+
+        Set<SalesProduct> salesProducts = new HashSet<>();
+        salesProducts.add(salesProduct1);
+        SalesGroup salesGroup = new SalesGroup(salesProducts);
+        SalesGroup savedSalesGroup = salesGroupRepository.save(salesGroup);
+        List<SalesProduct> savedSalesProducts = savedSalesGroup.getSalesProducts().stream().toList();
+
+        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedSalesProducts.get(0).getId(), 10, 1000);
         List<CreateOrderItemRequest> createOrderItemRequests = List.of(createOrderItemRequest1);
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, createOrderItemRequests);
 
         // when
         CreateOrderResponse order = orderService.createOrder(createOrderRequest);
-        OrderHistory orderHistory = orderHistoryRepository.findByOrderId(order.getId())
+        Order savedOrder = orderRepository.findById(order.getId())
                 .orElseThrow(NoSuchElementException::new);
+        List<OrderHistory> orderHistories = orderHistoryRepository.findByOrderId(savedOrder.getId())
+                .orElseThrow(NoSuchElementException::new)
+                .stream().toList();
 
         // then
-        assertThat(orderHistory.getOrderId()).isEqualTo(order.getId());
-        assertThat(orderHistory.getStatus()).isEqualTo(OrderStatus.PENDING);
+        assertThat(orderHistories.get(0).getOrderStatus()).isEqualTo(OrderStatus.PENDING);
     }
 
     @Test
@@ -150,22 +196,29 @@ class OrderServiceTest {
         CustomerAddress customerAddress = new CustomerAddress(customerId, "test", "010-1234-4321", location);
         customerAddressRepository.save(customerAddress);
 
-        ProductOption productOption1 = new ProductOption(1L, "딸기맛", 1000, 100);
+        ProductOption productOption1 = new ProductOption(1L, "딸기맛");
         ProductOption savedProductOption1 = productOptionRepository.save(productOption1);
 
-        Long productOptionId = savedProductOption1.getId();
-        Long savedProductOptionProductId = savedProductOption1.getProductId();
-        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(productOptionId, savedProductOptionProductId, 10, 1000);
-        CreateOrderItemRequest createOrderItemRequest2 = new CreateOrderItemRequest(productOptionId, savedProductOptionProductId, 10, 1000);
-        CreateOrderItemRequest createOrderItemRequest3 = new CreateOrderItemRequest(productOptionId, savedProductOptionProductId, 10, 1000);
+        SalesProduct salesProduct1 = new SalesProduct(savedProductOption1.getId(), 1000, 50, SalesStatus.ON_SALES);
+        Set<SalesProduct> salesProducts = new HashSet<>();
+        salesProducts.add(salesProduct1);
+        SalesGroup salesGroup = new SalesGroup(salesProducts);
+        SalesGroup savedSalesGroup = salesGroupRepository.save(salesGroup);
+        List<SalesProduct> savedSalesProducts = savedSalesGroup.getSalesProducts().stream().toList();
+
+        Long savedSalesProductId = savedSalesProducts.get(0).getId();
+
+        CreateOrderItemRequest createOrderItemRequest1 = new CreateOrderItemRequest(savedSalesProductId, 10, 1000);
+        CreateOrderItemRequest createOrderItemRequest2 = new CreateOrderItemRequest(savedSalesProductId, 10, 1000);
+        CreateOrderItemRequest createOrderItemRequest3 = new CreateOrderItemRequest(savedSalesProductId, 10, 1000);
         List<CreateOrderItemRequest> createOrderItemRequests = List.of(createOrderItemRequest1, createOrderItemRequest2, createOrderItemRequest3);
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, createOrderItemRequests);
 
         // when
         orderService.createOrder(createOrderRequest);
-        ProductOption findProductOption = productOptionRepository.findById(productOptionId).orElseThrow(NoSuchElementException::new);
+        SalesProduct findSalesProduct = salesProductRepository.findById(savedSalesProductId).orElseThrow(NoSuchElementException::new);
 
         // then
-        assertThat(findProductOption.getStockQuantity()).isEqualTo(70);
+        assertThat(findSalesProduct.getSalesStock()).isEqualTo(20);
     }
 }

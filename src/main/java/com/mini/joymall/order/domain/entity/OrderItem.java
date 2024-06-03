@@ -18,24 +18,19 @@ public class OrderItem {
     @Id
     @Column("ORDER_ITEM_ID")
     private Long id;
-
-    private Long productId;
-
-    private Long productOptionId;
-
+    private Long salesProductId;
     private int quantity;
     private int pricePerItem;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public OrderItem(Long productId, Long productOptionId, int quantity, int pricePerItem) {
-        this(productId, productOptionId, quantity, pricePerItem, LocalDateTime.now(), LocalDateTime.now());
+    public OrderItem(Long salesProductId, int quantity, int pricePerItem) {
+        this(salesProductId, quantity, pricePerItem, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public OrderItem(Long productId, Long productOptionId, int quantity, int pricePerItem, LocalDateTime createdDate, LocalDateTime updatedDate) {
-        this.productId = productId;
-        this.productOptionId = productOptionId;
+    public OrderItem(Long salesProductId, int quantity, int pricePerItem, LocalDateTime createdDate, LocalDateTime updatedDate) {
+        this.salesProductId = salesProductId;
         this.quantity = quantity;
         this.pricePerItem = pricePerItem;
         this.createdDate = createdDate;
