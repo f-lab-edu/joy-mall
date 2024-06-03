@@ -104,7 +104,7 @@ class ProductRepositoryTest {
     void 상품을_옵션과_함께_정상적으로_출력() {
         // given
         Product savedProduct1 = productRepository.save(new Product(1L, "fruitProduct", "fruitProduct", ""));
-        ProductOption savedProductOption1 = productOptionRepository.save(new ProductOption(savedProduct1.getId(), "option1", 1000, 100));
+        ProductOption savedProductOption1 = productOptionRepository.save(new ProductOption(savedProduct1.getId(), "option1", LocalDateTime.now(), LocalDateTime.now()));
 
         // when
         Product findProduct = productRepository.findById(savedProduct1.getId()).orElseThrow(NoSuchElementException::new);
