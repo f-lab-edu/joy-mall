@@ -20,33 +20,18 @@ public class ProductOption {
     @Column("PRODUCT_ID")
     private Long productId;
     private String name;
-    private int price;
-    private int stockQuantity;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public ProductOption(Long productId, String name, int price, int stockQuantity) {
-        this(productId, name, price, stockQuantity, LocalDateTime.now(), LocalDateTime.now());
+    public ProductOption(Long productId, String name) {
+        this(productId, name, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Builder
-    public ProductOption(Long productId, String name, int price, int stockQuantity, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    public ProductOption(Long productId, String name, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.productId = productId;
         this.name = name;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
-    }
-
-    public int decreaseStock(int selectedQuantity) {
-        int nowStock = this.stockQuantity - selectedQuantity;
-
-        if (nowStock < 0) {
-            throw new IllegalArgumentException("재고가 부족합니다.");
-        }
-
-        this.stockQuantity = nowStock;
-        return stockQuantity;
     }
 }

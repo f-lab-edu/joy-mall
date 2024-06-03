@@ -105,7 +105,7 @@ class ProductRepositoryTest {
         Product product = new Product(1L, "product1", "product1", "");
         Product savedProduct1 = productRepository.save(product);
 
-        ProductOption productOption1 = new ProductOption(savedProduct1.getId(), "option1", 1000, 100);
+        ProductOption productOption1 = new ProductOption(savedProduct1.getId(), "option1");
         ProductOption savedProductOption1 = productOptionRepository.save(productOption1);
 
         // when

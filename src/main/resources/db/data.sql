@@ -43,11 +43,11 @@ VALUES (1, 2.6, 10, now(), now());
 
 -- ProductOption
 
-insert into PRODUCT_OPTION(PRODUCT_ID, NAME, PRICE, STOCK_QUANTITY, CREATED_DATE, UPDATED_DATE)
-VALUES (1, '아이폰13 pro', 8000, 100, now(), now());
+insert into PRODUCT_OPTION(PRODUCT_ID, NAME, CREATED_DATE, UPDATED_DATE)
+VALUES (1, '아이폰13 pro', now(), now());
 
-insert into PRODUCT_OPTION(PRODUCT_ID, NAME, PRICE, STOCK_QUANTITY, CREATED_DATE, UPDATED_DATE)
-VALUES (1, '아이폰12 pro', 9000, 100, now(), now());
+insert into PRODUCT_OPTION(PRODUCT_ID, NAME, CREATED_DATE, UPDATED_DATE)
+VALUES (1, '아이폰12 pro', now(), now());
 
 -- Category
 

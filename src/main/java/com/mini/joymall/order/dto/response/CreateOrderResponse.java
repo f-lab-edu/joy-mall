@@ -19,7 +19,6 @@ import java.util.Set;
 public class CreateOrderResponse {
     private Long id;
     private LocalDateTime orderDate;
-    private Set<OrderHistory> histories;
     private Set<OrderItem> orderItems;
     private int totalPrice;
     private CustomerAddress customerAddress;
@@ -29,7 +28,6 @@ public class CreateOrderResponse {
                 .id(order.getId())
                 .orderDate(order.getOrderDate())
                 .orderDate(order.getOrderDate())
-                .histories(order.getOrderHistories())
                 .orderItems(order.getOrderItems())
                 .totalPrice(order.getOrderItems().stream()
                         .mapToInt(OrderItem::calculateTotalPrice)
