@@ -7,10 +7,13 @@
 
 name: Java CI with Gradle
 
+env:
+  CONTAINER_REGISTRY_URL: ${{ secrets.CONTAINER_REGISTRY_URL }}
+  NCLOUD_ACCESS_KEY: ${{ secrets.NCLOUD_ACCESS_KEY }}
+  NCLOUD_SECRET_KEY: ${{ secrets.NCLOUD_SECRET_KEY }}
+
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -40,10 +43,6 @@ jobs:
       run: docker build -t joy-mall:latest .
 
     - name: Docker Login
-      env:
-        CONTAINER_REGISTRY_URL: ${{ secrets.CONTAINER_REGISTRY_URL }}
-        NCLOUD_ACCESS_KEY: ${{ secrets.NCLOUD_ACCESS_KEY }}
-        NCLOUD_SECRET_KEY: ${{ secrets.NCLOUD_SECRET_KEY }}
       run: docker login "$CONTAINER_REGISTRY_URL" -u "$NCLOUD_ACCESS_KEY" -p "$NCLOUD_SECRET_KEY"
 
     - name: Push to Container Registry
