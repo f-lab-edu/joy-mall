@@ -43,7 +43,7 @@ jobs:
       run: docker build -t ${{ secrets.CONTAINER_REGISTRY_URL }}/joy-mall:latest .
 
     - name: Docker Login
-      run: docker login ${{ secrets.CONTAINER_REGISTRY_URL }} -u ${{ secrets.NCLOUD_ACCESS_KEY }} ${{ secrets.NCLOUD_SECRET_KEY }} --password-stdin
+      run: docker login ${{ secrets.CONTAINER_REGISTRY_URL }} -u ${{ secrets.NCLOUD_ACCESS_KEY }} -p ${{ secrets.NCLOUD_SECRET_KEY }}
 
     - name: Push to Container Registry
       run: docker push ${{ secrets.CONTAINER_REGISTRY_URL }}/joy-mall:latest
