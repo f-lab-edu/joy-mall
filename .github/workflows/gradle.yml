@@ -7,11 +7,6 @@
 
 name: Java CI with Gradle
 
-env:
-  CONTAINER_REGISTRY_URL: ${{ secrets.CONTAINER_REGISTRY_URL }}
-  NCLOUD_ACCESS_KEY: ${{ secrets.NCLOUD_ACCESS_KEY }}
-  NCLOUD_SECRET_KEY: ${{ secrets.NCLOUD_SECRET_KEY }}
-
 on:
   push:
     branches: [ "main" ]
@@ -40,13 +35,30 @@ jobs:
       run: ./gradlew build
 
     - name: Build Docker Image
-      run: docker build -t ${{ secrets.CONTAINER_REGISTRY_URL }}/joy-mall:latest .
+      run: docker build -t ${{ secrets.CONTAINER_REGISTRY_PUBLIC_END_POINT }}/joy-mall:${{ github.sha }} .
 
     - name: Docker Login
-      run: docker login ${{ secrets.CONTAINER_REGISTRY_URL }} -u ${{ secrets.NCLOUD_ACCESS_KEY }} -p ${{ secrets.NCLOUD_SECRET_KEY }}
+      run: docker login ${{ secrets.CONTAINER_REGISTRY_PUBLIC_END_POINT }} -u ${{ secrets.NCLOUD_ACCESS_KEY }} -p ${{ secrets.NCLOUD_SECRET_KEY }}
 
     - name: Push to Container Registry
-      run: docker push ${{ secrets.CONTAINER_REGISTRY_URL }}/joy-mall:latest
+      run: docker push ${{ secrets.CONTAINER_REGISTRY_PUBLIC_END_POINT }}/joy-mall:${{ github.sha }}
+
+    - name: Login to Bastion Server && k8s Deployment
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.BASTION_SERVER_HOST }}
+        username: ${{ secrets.BASTION_SERVER_USERNAME }}
+        password: ${{ secrets.BASTION_SERVER_PASSWORD }}
+        key: ${{ secrets.JOYMALL_KEY_PEM }}
+        script: |
+          chmod +x ./ncp-iam-authenticator
+          cp ./ncp-iam-authenticator $HOME/bin/ncp-iam-authenticator
+          export PATH=$PATH:$HOME/bin
+          echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
+          ncp-iam-authenticator help
+          sed 's/$CONTAINER_IMAGE_TAG/${{ secrets.CONTAINER_REGISTRY_PRIVATE_END_POINT }}\/joy-mall:${{ github.sha }}/g' deployment.yaml.template > deployment.yaml
+          kubectl apply -f deployment.yaml
+          kubectl get pods
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
