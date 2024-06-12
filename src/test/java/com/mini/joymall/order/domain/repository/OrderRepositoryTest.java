@@ -16,7 +16,6 @@ import com.mini.joymall.sale.domain.entity.SalesGroup;
 import com.mini.joymall.sale.domain.entity.SalesProduct;
 import com.mini.joymall.sale.domain.entity.SalesStatus;
 import com.mini.joymall.sale.domain.repository.SalesGroupRepository;
-import com.mini.joymall.sale.domain.repository.SalesProductRepository;
 import com.mini.joymall.seller.domain.entity.Seller;
 import com.mini.joymall.seller.domain.repository.SellerRepository;
 import org.junit.jupiter.api.Test;

@@ -16,18 +16,16 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreatePaymentResponse {
+public class ApprovePaymentResponse {
     private Long id;
     private Set<PaymentHistory> paymentHistories;
-    private PayReadyResponse payReadyResponse;
+    private PayApproveResponse payApproveResponse;
 
-    public static CreatePaymentResponse from(Payment payment, PayReadyResponse payReadyResponse) {
-        return CreatePaymentResponse.builder()
+    public static ApprovePaymentResponse from(Payment payment, PayApproveResponse payApproveResponse) {
+        return ApprovePaymentResponse.builder()
                 .id(payment.getId())
                 .paymentHistories(payment.getPaymentHistories())
-                .payReadyResponse(payReadyResponse)
+                .payApproveResponse(payApproveResponse)
                 .build();
     }
-
 }
-

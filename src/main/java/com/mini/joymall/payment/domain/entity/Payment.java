@@ -38,8 +38,18 @@ public class Payment {
         this.paymentHistories = paymentHistories;
     }
 
+    public Payment waiting(int amount, PaymentMethod paymentMethod) {
+        paymentHistories.add(PaymentHistory.waiting(amount, paymentMethod));
+        return this;
+    }
+
+    public Payment requesting(int amount, PaymentMethod paymentMethod) {
+        paymentHistories.add(PaymentHistory.requesting(amount, paymentMethod));
+        return this;
+    }
+
     public Payment complete(int amount, PaymentMethod paymentMethod) {
-        paymentHistories.add(PaymentHistory.complete(amount, paymentMethod));
+        paymentHistories.add(PaymentHistory.completed(amount, paymentMethod));
         return this;
     }
 

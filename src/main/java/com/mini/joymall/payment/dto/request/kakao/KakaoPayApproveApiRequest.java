@@ -1,4 +1,4 @@
-package com.mini.joymall.payment.dto.request;
+package com.mini.joymall.payment.dto.request.kakao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class KakaoApproveRequest {
+public class KakaoPayApproveApiRequest {
     @JsonProperty("cid")
     private String cid;
 
@@ -25,7 +25,7 @@ public class KakaoApproveRequest {
     private String pgToken;
 
     @Builder
-    public KakaoApproveRequest(String cid, String tid, String partnerOrderId, String partnerUserId, String pgToken) {
+    public KakaoPayApproveApiRequest(String cid, String tid, String partnerOrderId, String partnerUserId, String pgToken) {
         this.cid = cid;
         this.tid = tid;
         this.partnerOrderId = partnerOrderId;
@@ -33,8 +33,8 @@ public class KakaoApproveRequest {
         this.pgToken = pgToken;
     }
 
-    public static KakaoApproveRequest from(KakaoPayHistory kakaoPayHistory, String pgToken) {
-        return KakaoApproveRequest.builder()
+    public static KakaoPayApproveApiRequest from(KakaoPayHistory kakaoPayHistory, String pgToken) {
+        return KakaoPayApproveApiRequest.builder()
                 .cid(kakaoPayHistory.getCid())
                 .tid(kakaoPayHistory.getTid())
                 .partnerOrderId(kakaoPayHistory.getPartnerOrderId())

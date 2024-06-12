@@ -1,4 +1,4 @@
-package com.mini.joymall.payment.dto.request;
+package com.mini.joymall.payment.dto.request.kakao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class KakaoReadyRequest {
+public class KakaoPayReadyApiRequest {
     @JsonProperty("cid")
     private String cid;
 
@@ -43,8 +43,8 @@ public class KakaoReadyRequest {
     @JsonProperty("fail_url")
     private String failUrl;
 
-    public static KakaoReadyRequest create(KakaoPayProperties properties, Order order) {
-        return KakaoReadyRequest.builder()
+    public static KakaoPayReadyApiRequest create(KakaoPayProperties properties, Order order) {
+        return KakaoPayReadyApiRequest.builder()
                 .cid(properties.getCid())
                 .partnerOrderId(String.valueOf(order.getId()))
                 .partnerUserId(String.valueOf(order.getCustomerAddressId()))
@@ -52,9 +52,9 @@ public class KakaoReadyRequest {
                 .quantity(String.valueOf(Order.getSumQuantity(order.getOrderItems())))
                 .totalAmount(String.valueOf(Order.calculateOrderTotalPrice(order.getOrderItems())))
                 .taxFreeAmount("0")
-                .approvalUrl("http://localhost:8081/kakaoPay/success?partner_order_id=" + order.getId())
-                .cancelUrl("http://localhost:8081/kakaoPay/cancel?partner_order_id=" + order.getId())
-                .failUrl("http://localhost:8081/kakaoPay/fail?partner_order_id=" + order.getId())
+                .approvalUrl("http://localhost:8081/payment/success?paymentMethod=KAKAOPAY&orderId=" + order.getId())
+                .cancelUrl("http://localhost:8081/payment/cancel?paymentMethod=KAKAOPAY&orderId=" + order.getId())
+                .failUrl("http://localhost:8081/payment/fail?paymentMethod=KAKAOPAY&orderId=" + order.getId())
                 .build();
     }
 

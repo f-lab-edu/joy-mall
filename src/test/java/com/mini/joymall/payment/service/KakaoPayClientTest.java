@@ -4,7 +4,8 @@ import com.mini.joymall.order.domain.entity.Order;
 import com.mini.joymall.order.domain.entity.OrderHistory;
 import com.mini.joymall.order.domain.entity.OrderItem;
 import com.mini.joymall.order.domain.repository.OrderRepository;
-import com.mini.joymall.payment.dto.response.KakaoReadyResponse;
+import com.mini.joymall.payment.dto.response.PayReadyResponse;
+import com.mini.joymall.payment.service.kakao.KakaoPayClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,13 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class KakaoServiceTest {
-
+@SpringBootTest
+class KakaoPayClientTest {
     @Autowired
-    private KakaoService kakaoService;
+    private KakaoPayClient kakaoPayClient;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -35,9 +35,14 @@ class KakaoServiceTest {
         Order savedOrder = orderRepository.save(new Order(1L, orderItems, orderHistories));
 
         // when
-        KakaoReadyResponse kakaoReadyResponse = kakaoService.ready(savedOrder);
+        PayReadyResponse payReadyResponse = kakaoPayClient.ready(savedOrder);
 
         // then
-        assertNotNull(kakaoReadyResponse);
+        assertThat(payReadyResponse.getPgPaymentId()).startsWith("T");
+        assertThat(payReadyResponse.getRedirectAppUrl()).startsWith("https://online-pay.kakao.com");
+        assertThat(payReadyResponse.getRedirectMobileUrl()).startsWith("https://online-pay.kakao.com");
+        assertThat(payReadyResponse.getRedirectPcUrl()).startsWith("https://online-pay.kakao.com");
+        assertThat(payReadyResponse.getAndroidAppScheme()).startsWith("kakaotalk://kakaopay/pg?url=");
+        assertThat(payReadyResponse.getIosAppScheme()).startsWith("kakaotalk://kakaopay/pg?url=");
     }
 }

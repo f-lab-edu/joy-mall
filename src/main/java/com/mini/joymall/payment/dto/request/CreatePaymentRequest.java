@@ -28,8 +28,6 @@ public class CreatePaymentRequest {
 
     public Payment toEntity() {
         Set<PaymentHistory> paymentHistories = new HashSet<>();
-        paymentHistories.add(PaymentHistory.waiting(amount, paymentMethod));
-
         return Payment.builder()
                 .createdDate(LocalDateTime.now())
                 .updatedDate(LocalDateTime.now())
@@ -37,10 +35,4 @@ public class CreatePaymentRequest {
                 .paymentHistories(paymentHistories)
                 .build();
     }
-
-    public Payment completePayment(Payment payment) {
-        payment.complete(amount, paymentMethod);
-        return payment;
-    }
-
 }

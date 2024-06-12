@@ -37,7 +37,11 @@ public class PaymentHistory {
         return new PaymentHistory(amount, paymentMethod, PaymentStatus.WAITING);
     }
 
-    public static PaymentHistory complete(int amount, PaymentMethod paymentMethod) {
+    public static PaymentHistory requesting(int amount, PaymentMethod paymentMethod) {
+        return new PaymentHistory(amount, paymentMethod, PaymentStatus.REQUESTING);
+    }
+
+    public static PaymentHistory completed(int amount, PaymentMethod paymentMethod) {
         return new PaymentHistory(amount, paymentMethod, PaymentStatus.COMPLETED);
     }
 
