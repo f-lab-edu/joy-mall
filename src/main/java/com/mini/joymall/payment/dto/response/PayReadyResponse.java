@@ -1,8 +1,10 @@
 package com.mini.joymall.payment.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mini.joymall.payment.dto.response.kakao.KakaoPayReadyApiResponse;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
 
@@ -17,20 +19,13 @@ public class PayReadyResponse {
     private String androidAppScheme;
     private String iosAppScheme;
 
-    public static PayReadyResponse fromKakaoPay(ResponseEntity<String> response) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-            return PayReadyResponse.builder()
-                    .pgPaymentId(jsonNode.get("tid").asText())
-                    .redirectAppUrl(jsonNode.get("next_redirect_app_url").asText())
-                    .redirectMobileUrl(jsonNode.get("next_redirect_mobile_url").asText())
-                    .redirectPcUrl(jsonNode.get("next_redirect_pc_url").asText())
-                    .androidAppScheme(jsonNode.get("android_app_scheme").asText())
-                    .iosAppScheme(jsonNode.get("ios_app_scheme").asText())
-                    .build();
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("PayReadyResponse 로 변환하는데 실패하였습니다.", e);
-        }
+    public static PayReadyResponse from(KakaoPayReadyApiResponse kakaoPayReadyApiResponse) {
+        return PayReadyResponse.builder()
+                .pgPaymentId(kakaoPayReadyApiResponse.getTid())
+                .redirectAppUrl(kakaoPayReadyApiResponse.getNextRedirectAppUrl())
+                .redirectMobileUrl(kakaoPayReadyApiResponse.getNextRedirectMobileUrl())
+                .redirectPcUrl(kakaoPayReadyApiResponse.getNextRedirectPcUrl())
+                .androidAppScheme(kakaoPayReadyApiResponse.getAndroidAppScheme())
+                .build();
     }
 }

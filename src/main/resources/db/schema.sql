@@ -18,7 +18,7 @@ drop table if exists `product_option`;
 drop table if exists `review`;
 drop table if exists `sales_product`;
 drop table if exists `sales_group`;
-drop table if exists `kakao_pay_history`;
+drop table if exists `pg_pay_history`;
 
 create table `customer`
 (
@@ -133,7 +133,7 @@ create table `payment_history`
     `payment_id`         bigint                                                  not null,
     `amount`             bigint                                                  not null,
     `payment_method`     enum ('CREDIT_CARD', 'KAKAOPAY', 'NAVERPAY', 'TOSSPAY') not null,
-    `payment_status`     enum ('WAITING', 'COMPLETED', 'FAILED', 'REFUNDED')     not null,
+    `payment_status`     enum ('WAITING', 'REQUESTING', 'COMPLETED', 'FAILED', 'REFUNDED')     not null,
     `created_date`       datetime                                                not null
 );
 
@@ -210,11 +210,12 @@ create table `sales_group`
     `updated_date`   datetime not null
 );
 
-create table `kakao_pay_history`
+create table `pg_pay_history`
 (
-    `id`               bigint primary key auto_increment,
-    `cid`              VARCHAR(255) NOT NULL,
-    `tid`              VARCHAR(255) NOT NULL,
-    `partner_order_id` VARCHAR(255) NOT NULL,
-    `partner_user_id`  VARCHAR(255) NOT NULL
+    `pg_pay_history_id`               bigint primary key auto_increment,
+    `pg_payment_id`              VARCHAR(255) NOT NULL,
+    `client_id`              VARCHAR(255) NOT NULL,
+    `order_id` VARCHAR(255) NOT NULL,
+    `user_id`  VARCHAR(255) NOT NULL,
+    `payment_method`     enum ('KAKAOPAY', 'NAVERPAY', 'TOSSPAY') not null
 );

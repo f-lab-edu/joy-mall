@@ -11,15 +11,8 @@ import java.time.LocalDateTime;
 public class PaymentValidator {
 
     public void validate(Payment payment) {
-        validateId(payment.getId());
         validateDates(payment.getCreatedDate(), payment.getUpdatedDate());
         validateOrderId(payment.getOrderId());
-    }
-
-    private void validateId(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Payment Id는 null 일 수 없습니다.");
-        }
     }
 
     private void validateDates(LocalDateTime createdDate, LocalDateTime updatedDate) {

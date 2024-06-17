@@ -57,13 +57,4 @@ public class KakaoPayReadyApiRequest {
                 .failUrl("http://localhost:8081/payment/fail?paymentMethod=KAKAOPAY&orderId=" + order.getId())
                 .build();
     }
-
-    public String convertToJson() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("KakaoReadyRequest 객체를 Json 변환에 실패하였습니다.", e);
-        }
-    }
 }

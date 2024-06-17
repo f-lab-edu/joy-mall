@@ -1,19 +1,17 @@
 package com.mini.joymall.payment.dto.request.kakao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mini.joymall.payment.domain.entity.KakaoPayHistory;
+import com.mini.joymall.payment.domain.entity.PgPayHistory;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class KakaoPayApproveApiRequest {
-    @JsonProperty("cid")
-    private String cid;
-
     @JsonProperty("tid")
     private String tid;
+
+    @JsonProperty("cid")
+    private String cid;
 
     @JsonProperty("partner_order_id")
     private String partnerOrderId;
@@ -25,30 +23,21 @@ public class KakaoPayApproveApiRequest {
     private String pgToken;
 
     @Builder
-    public KakaoPayApproveApiRequest(String cid, String tid, String partnerOrderId, String partnerUserId, String pgToken) {
-        this.cid = cid;
+    public KakaoPayApproveApiRequest(String tid, String cid, String partnerOrderId, String partnerUserId, String pgToken) {
         this.tid = tid;
+        this.cid = cid;
         this.partnerOrderId = partnerOrderId;
         this.partnerUserId = partnerUserId;
         this.pgToken = pgToken;
     }
 
-    public static KakaoPayApproveApiRequest from(KakaoPayHistory kakaoPayHistory, String pgToken) {
+    public static KakaoPayApproveApiRequest from(PgPayHistory pgPayHistory, String pgToken) {
         return KakaoPayApproveApiRequest.builder()
-                .cid(kakaoPayHistory.getCid())
-                .tid(kakaoPayHistory.getTid())
-                .partnerOrderId(kakaoPayHistory.getPartnerOrderId())
-                .partnerUserId(kakaoPayHistory.getPartnerUserId())
+                .tid(pgPayHistory.getPgPaymentId())
+                .cid(pgPayHistory.getClientId())
+                .partnerOrderId(pgPayHistory.getOrderId())
+                .partnerUserId(pgPayHistory.getUserId())
                 .pgToken(pgToken)
                 .build();
-    }
-
-    public String convertToJson() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("KakaoApproveRequest 객체를 Json 변환에 실패하였습니다.", e);
-        }
     }
 }
