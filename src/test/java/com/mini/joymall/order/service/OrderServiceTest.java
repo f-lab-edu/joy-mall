@@ -98,9 +98,8 @@ class OrderServiceTest {
         Order findOrder = orderRepository.findById(savedOrder.getId())
                 .orElseThrow(NoSuchElementException::new);
         List<OrderItem> orderItems = findOrder.getOrderItems().stream().toList();
-        List<OrderHistory> orderHistories = orderHistoryRepository.findByOrderId(findOrder.getId())
-                .orElseThrow(NoSuchElementException::new)
-                .stream().toList();
+
+        List<OrderHistory> orderHistories = findOrder.getOrderHistories().stream().toList();
 
         // then
         assertThat(orderHistories.get(0).getOrderStatus()).isEqualTo(OrderStatus.PENDING);
@@ -175,11 +174,10 @@ class OrderServiceTest {
 
         // when
         CreateOrderResponse order = orderService.createOrder(createOrderRequest);
-        Order savedOrder = orderRepository.findById(order.getId())
+        Order findOrder = orderRepository.findById(order.getId())
                 .orElseThrow(NoSuchElementException::new);
-        List<OrderHistory> orderHistories = orderHistoryRepository.findByOrderId(savedOrder.getId())
-                .orElseThrow(NoSuchElementException::new)
-                .stream().toList();
+
+        List<OrderHistory> orderHistories = findOrder.getOrderHistories().stream().toList();
 
         // then
         assertThat(orderHistories.get(0).getOrderStatus()).isEqualTo(OrderStatus.PENDING);

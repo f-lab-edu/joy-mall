@@ -21,7 +21,6 @@ public class OrderValidator {
 
         for (OrderItem orderItem : orderItems) {
             validateSalesProduct(orderItem, getSalesProduct(orderItem));
-
         }
     }
 

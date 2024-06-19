@@ -6,6 +6,7 @@ import com.mini.joymall.customer.domain.entity.Location;
 import com.mini.joymall.customer.domain.repository.CustomerAddressRepository;
 import com.mini.joymall.customer.domain.repository.CustomerRepository;
 import com.mini.joymall.order.domain.entity.Order;
+import com.mini.joymall.order.domain.entity.OrderHistory;
 import com.mini.joymall.order.domain.entity.OrderItem;
 import com.mini.joymall.product.domain.entity.Product;
 import com.mini.joymall.product.domain.entity.ProductOption;
@@ -15,7 +16,6 @@ import com.mini.joymall.sale.domain.entity.SalesGroup;
 import com.mini.joymall.sale.domain.entity.SalesProduct;
 import com.mini.joymall.sale.domain.entity.SalesStatus;
 import com.mini.joymall.sale.domain.repository.SalesGroupRepository;
-import com.mini.joymall.sale.domain.repository.SalesProductRepository;
 import com.mini.joymall.seller.domain.entity.Seller;
 import com.mini.joymall.seller.domain.repository.SellerRepository;
 import org.junit.jupiter.api.Test;
@@ -91,7 +91,10 @@ class OrderRepositoryTest {
         OrderItem orderItemB1 = new OrderItem(savedSalesProducts.get(2).getId(), selectedStockB1, 1000);
 
         Set<OrderItem> orderItems = Set.of(orderItemA1, orderItemA2, orderItemB1);
-        Order order = new Order(savedAddressA.getId(), orderItems);
+
+        Set<OrderHistory> orderHistories = new HashSet<>();
+        orderHistories.add(OrderHistory.pending());
+        Order order = new Order(savedAddressA.getId(), orderItems, orderHistories);
 
         // when
         Order savedOrder = orderRepository.save(order);

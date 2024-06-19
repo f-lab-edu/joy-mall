@@ -17,17 +17,20 @@ public class OrderHistory {
     @Id
     @Column("ORDER_HISTORY_ID")
     private Long id;
-    private Long orderId;
     private OrderStatus orderStatus;
     private LocalDateTime createdDate;
 
-    public OrderHistory(Long orderId, OrderStatus orderStatus) {
-        this(orderId, orderStatus, LocalDateTime.now());
+    public OrderHistory(OrderStatus orderStatus) {
+        this(orderStatus, LocalDateTime.now());
     }
 
-    public OrderHistory(Long orderId, OrderStatus orderStatus, LocalDateTime createdDate) {
-        this.orderId = orderId;
+    @Builder
+    public OrderHistory(OrderStatus orderStatus, LocalDateTime createdDate) {
         this.orderStatus = orderStatus;
         this.createdDate = createdDate;
+    }
+
+    public static OrderHistory pending() {
+        return new OrderHistory(OrderStatus.PENDING, LocalDateTime.now());
     }
 }

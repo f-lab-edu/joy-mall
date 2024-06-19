@@ -7,5 +7,4 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface OrderHistoryRepository extends CrudRepository<OrderHistory, Long> {
-    Optional<Set<OrderHistory>> findByOrderId(Long orderId);
 }

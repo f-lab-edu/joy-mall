@@ -22,7 +22,6 @@ public class OrderService {
     private final OrderValidator orderValidator;
     private final OrderRepository orderRepository;
     private final SalesProductService salesProductService;
-    private final OrderHistoryService orderHistoryService;
     private final CustomerAddressRepository addressRepository;
 
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequests) {
@@ -32,8 +31,6 @@ public class OrderService {
         CustomerAddress customerAddress = addressRepository.findByCustomerId(createOrderRequests.getCustomerId())
                 .orElseThrow(NoSuchElementException::new);
         Order savedOrder = orderRepository.save(Order.ordered(customerAddress.getId(), orderItems));
-
-        orderHistoryService.createHistory(savedOrder.getId(), OrderStatus.PENDING);
 
         salesProductService.decreaseStock(orderItems);
 
