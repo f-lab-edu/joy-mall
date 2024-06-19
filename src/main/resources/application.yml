@@ -3,24 +3,17 @@ server:
 
 spring:
   profiles:
-    default: test
+    default: local
 
   jackson:
     default-property-inclusion: non_null
-
-logging:
-  level:
-    org:
-      springframework:
-        jdbc:
-          core: TRACE
 
 ---
 
 spring:
   config:
     activate:
-      on-profile: test
+      on-profile: local
 
   datasource:
     driver-class-name: org.h2.Driver
@@ -34,15 +27,69 @@ spring:
       schema-locations: classpath:db/schema.sql
       data-locations: classpath:db/data.sql
 
+kakao-pay:
+  host: https://open-api.kakaopay.com
+  cid: ${KAKAO_PAY_CID}
+  secret-key: ${KAKAO_PAY_CID_SECRET_KEY}
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core: trace
+
 ---
 
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: dev
 
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:tcp://localhost/~/joyMall;
     username: sa
     password:
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+
+kakao-pay:
+  host: https://open-api.kakaopay.com
+  cid: ${KAKAO_PAY_CID}
+  secret-key: ${KAKAO_PAY_CID_SECRET_KEY}
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core: debug
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${JOY_MALL_DB_URL}
+    username: ${JOY_MALL_DB_USER}
+    password: ${JOY_MALL_DB_PASSWORD}
+
+kakao-pay:
+  host: https://open-api.kakaopay.com
+  cid: ${KAKAO_PAY_CID}
+  secret-key: ${KAKAO_PAY_CID_SECRET_KEY}
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core: error
