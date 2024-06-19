@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    default: local
+    active: ${SPRING_PROFILES_ACTIVE:local}
 
   jackson:
     default-property-inclusion: non_null
