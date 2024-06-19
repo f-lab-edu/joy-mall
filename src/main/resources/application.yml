@@ -92,4 +92,4 @@ logging:
     org:
       springframework:
         jdbc:
-          core: error
+          core: info
