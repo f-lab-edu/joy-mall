@@ -33,12 +33,13 @@ jobs:
 
     - name: Build with Gradle Wrapper
       env:
-        JOY_MALL_DB_URL: ${{ serects.JOY_MALL_DB_URL }}
-        JOY_MALL_DB_USER: ${{ serects.JOY_MALL_DB_USER }}
-        JOY_MALL_DB_PASSWORD: ${{ serects.JOY_MALL_DB_PASSWORD }}
-        KAKAO_PAY_CID: ${{ serects.KAKAO_PAY_CID }}
-        KAKAO_PAY_CID_SECRET_KEY: ${{ serects.KAKAO_PAY_CID_SECRET_KEY }}
-      run: ./gradlew build -P=prod
+        SPRING_PROFILES_ACTIVE: prod
+        JOY_MALL_DB_URL: ${{ secrets.JOY_MALL_DB_URL }}
+        JOY_MALL_DB_USER: ${{ secrets.JOY_MALL_DB_USER }}
+        JOY_MALL_DB_PASSWORD: ${{ secrets.JOY_MALL_DB_PASSWORD }}
+        KAKAO_PAY_CID: ${{ secrets.KAKAO_PAY_CID }}
+        KAKAO_PAY_CID_SECRET_KEY: ${{ secrets.KAKAO_PAY_CID_SECRET_KEY }}
+      run: ./gradlew build -Pprod
 
     - name: Build Docker Image
       run: docker build -t ${{ secrets.CONTAINER_REGISTRY_PUBLIC_END_POINT }}/joy-mall:${{ github.sha }} .
