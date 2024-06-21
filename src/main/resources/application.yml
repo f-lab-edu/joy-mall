@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE:local}
+    active: ${SPRING_PROFILES_ACTIVE:test}
 
   jackson:
     default-property-inclusion: non_null
@@ -13,7 +13,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: test
 
   datasource:
     driver-class-name: org.h2.Driver
@@ -92,4 +92,4 @@ logging:
     org:
       springframework:
         jdbc:
-          core: info
+          core: debug
