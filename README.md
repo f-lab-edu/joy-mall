@@ -1,7 +1,10 @@
 # 🛍 ️JoyMall
 
-<div style="text-align: center">
-    <img width="200" alt="스크린샷 2024-03-04 21 17 07" src="https://github.com/f-lab-edu/joy-mall/assets/59166263/21393b6a-82dc-483b-a50f-78a794add032">
+
+
+
+<div align="center">
+    <img width="600" alt="조이몰_로고" src="https://github.com/f-lab-edu/joy-mall/assets/59166263/59a2f76a-6d25-4dfb-ab60-a25aa0441a22">
 </div>
 
 `JoyMall`은 **쇼핑몰이 필요한 물건을 구매하기 위한 수단이 아닌 상품을 한눈에 살펴보고 소통하는 공간을 제공함으로써 즐거움을 주는 것이 이 프로젝트의 취지입니다.**
@@ -10,8 +13,11 @@
 
 # 📗 프로젝트 아키텍쳐
 
-![image](https://github.com/f-lab-edu/joy-mall/assets/59166263/fc61741c-2d79-4089-833f-2029f02a9bcf)
+<div align="center">
+    <img width="566" alt="image" src="https://github.com/f-lab-edu/joy-mall/assets/59166263/87fee221-a624-4014-937e-b1bf2a53620b">
+</div>
 
+<br>
 
 # 🎯 프로젝트 목표
 
@@ -40,7 +46,14 @@
 - Java 17
 - SpringBoot 3.2.3
 - Spring Data JDBC
+- JUnit5
+- Mockito
+- h2
 - MySql
+- Naver Cloud Platform
+- Github Action
+- k8s
+- Docker
 
 <br>
 
