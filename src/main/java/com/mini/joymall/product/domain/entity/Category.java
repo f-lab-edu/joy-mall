@@ -5,15 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@TypeAlias("CATEGORY")
+@Table("CATEGORY")
 @Getter
 @ToString
 @NoArgsConstructor
