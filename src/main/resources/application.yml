@@ -21,6 +21,12 @@ spring:
     username: sa
     password:
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+
   sql:
     init:
       mode: always
@@ -52,6 +58,11 @@ spring:
     username: sa
     password:
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
   sql:
     init:
       mode: always
@@ -81,6 +92,11 @@ spring:
     url: ${JOY_MALL_DB_URL}
     username: ${JOY_MALL_DB_USER}
     password: ${JOY_MALL_DB_PASSWORD}
+
+  data:
+    redis:
+      host: ${JOY_MALL_REDIS_URL}
+      port: 6379
 
 kakao-pay:
   host: https://open-api.kakaopay.com
