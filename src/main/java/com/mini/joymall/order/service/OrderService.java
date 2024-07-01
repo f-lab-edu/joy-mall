@@ -4,10 +4,11 @@ import com.mini.joymall.customer.domain.entity.CustomerAddress;
 import com.mini.joymall.customer.domain.repository.CustomerAddressRepository;
 import com.mini.joymall.order.domain.entity.Order;
 import com.mini.joymall.order.domain.entity.OrderItem;
-import com.mini.joymall.order.domain.entity.OrderStatus;
 import com.mini.joymall.order.domain.repository.OrderRepository;
 import com.mini.joymall.order.dto.request.CreateOrderRequest;
 import com.mini.joymall.order.dto.response.CreateOrderResponse;
+import com.mini.joymall.sale.service.SalesProductFacade;
+import com.mini.joymall.sale.service.SalesProductFacadeImpl;
 import com.mini.joymall.sale.service.SalesProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.util.*;
 public class OrderService {
     private final OrderValidator orderValidator;
     private final OrderRepository orderRepository;
-    private final SalesProductService salesProductService;
+    private final SalesProductFacade salesProductFacade;
     private final CustomerAddressRepository addressRepository;
 
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequests) {
@@ -32,7 +33,7 @@ public class OrderService {
                 .orElseThrow(NoSuchElementException::new);
         Order savedOrder = orderRepository.save(Order.ordered(customerAddress.getId(), orderItems));
 
-        salesProductService.decreaseStock(orderItems);
+        salesProductFacade.decreaseStock(orderItems);
 
         return CreateOrderResponse.from(savedOrder, customerAddress);
     }

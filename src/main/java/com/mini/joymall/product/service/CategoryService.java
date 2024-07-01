@@ -4,18 +4,16 @@ import com.mini.joymall.product.domain.entity.Category;
 import com.mini.joymall.product.domain.repository.CategoryRepository;
 import com.mini.joymall.product.dto.response.CategoryChildrenResponse;
 import com.mini.joymall.product.dto.CategoryDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
-
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     public List<CategoryDTO> findByDepth(int depth) {
         List<Category> categories = categoryRepository.findByDepth(depth);
