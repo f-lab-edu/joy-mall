@@ -31,8 +31,15 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
 
+    - name: Print Environment Variables
+      run: |
+        echo "SPRING_PROFILES_ACTIVE: $SPRING_PROFILES_ACTIVE"
+        printenv
+
     - name: Build with Gradle Wrapper
-      run: ./gradlew build
+      run: |
+        ./gradlew clean
+        ./gradlew build
 
     - name: Build Docker Image
       run: docker build -t ${{ secrets.CONTAINER_REGISTRY_PUBLIC_END_POINT }}/joy-mall:${{ github.sha }} .

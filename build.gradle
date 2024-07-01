@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'mysql:mysql-connector-java:8.0.33'
 	implementation 'org.redisson:redisson-spring-boot-starter:3.31.0'
+	implementation 'com.github.codemonstur:embedded-redis:1.4.3'
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
