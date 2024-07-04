@@ -36,9 +36,13 @@ jobs:
         echo "SPRING_PROFILES_ACTIVE: $SPRING_PROFILES_ACTIVE"
         printenv
 
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.1.0
+      with:
+        redis-version: 6
+
     - name: Build with Gradle Wrapper
       run: |
-        ./gradlew clean
         ./gradlew build
 
     - name: Build Docker Image
