@@ -31,10 +31,9 @@ public class OrderService {
 
         CustomerAddress customerAddress = addressRepository.findByCustomerId(createOrderRequests.getCustomerId())
                 .orElseThrow(NoSuchElementException::new);
-        Order savedOrder = orderRepository.save(Order.ordered(customerAddress.getId(), orderItems));
 
         salesProductFacade.decreaseStock(orderItems);
-
+        Order savedOrder = orderRepository.save(Order.ordered(customerAddress.getId(), orderItems));
         return CreateOrderResponse.from(savedOrder, customerAddress);
     }
 }

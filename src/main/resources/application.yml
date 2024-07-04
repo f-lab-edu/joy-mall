@@ -37,6 +37,7 @@ kakao-pay:
   host: https://open-api.kakaopay.com
   cid: ${KAKAO_PAY_CID}
   secret-key: ${KAKAO_PAY_CID_SECRET_KEY}
+  redirect-url: ${KAKAO_REDIRECT_URL}
 
 logging:
   level:
@@ -72,6 +73,7 @@ kakao-pay:
   host: https://open-api.kakaopay.com
   cid: ${KAKAO_PAY_CID}
   secret-key: ${KAKAO_PAY_CID_SECRET_KEY}
+  redirect-url: ${KAKAO_PAY_REDIRECT_URL}
 
 logging:
   level:
@@ -102,10 +104,11 @@ kakao-pay:
   host: https://open-api.kakaopay.com
   cid: ${KAKAO_PAY_CID}
   secret-key: ${KAKAO_PAY_CID_SECRET_KEY}
+  redirect-url: ${KAKAO_REDIRECT_URL}
 
 logging:
   level:
     org:
       springframework:
         jdbc:
-          core: debug
+          core: info
