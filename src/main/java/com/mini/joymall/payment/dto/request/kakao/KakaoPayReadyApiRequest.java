@@ -52,9 +52,9 @@ public class KakaoPayReadyApiRequest {
                 .quantity(String.valueOf(Order.getSumQuantity(order.getOrderItems())))
                 .totalAmount(String.valueOf(Order.calculateOrderTotalPrice(order.getOrderItems())))
                 .taxFreeAmount("0")
-                .approvalUrl("http://localhost:8081/payment/success?paymentMethod=KAKAOPAY&orderId=" + order.getId())
-                .cancelUrl("http://localhost:8081/payment/cancel?paymentMethod=KAKAOPAY&orderId=" + order.getId())
-                .failUrl("http://localhost:8081/payment/fail?paymentMethod=KAKAOPAY&orderId=" + order.getId())
+                .approvalUrl(properties.getRedirectUrl() + "/payment/success?paymentMethod=KAKAOPAY&orderId=" + order.getId())
+                .cancelUrl(properties.getRedirectUrl() + "/payment/cancel?paymentMethod=KAKAOPAY&orderId=" + order.getId())
+                .failUrl(properties.getRedirectUrl() + "/payment/fail?paymentMethod=KAKAOPAY&orderId=" + order.getId())
                 .build();
     }
 }

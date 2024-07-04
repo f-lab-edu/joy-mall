@@ -13,6 +13,7 @@ public class KakaoPayProperties {
     private final String host;
     private final String cid;
     private final String secretKey;
+    private final String redirectUrl;
 
     public HttpHeaders createHeaders() {
         HttpHeaders httpHeaders = new org.springframework.http.HttpHeaders();
