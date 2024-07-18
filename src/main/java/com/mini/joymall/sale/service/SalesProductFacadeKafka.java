@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class SalesProductFacadeKafka implements SalesProductFacade {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private static final String TOPIC = "stock-decrease";
+    private static final String TOPIC = "new-stock-decrease";
     private final Gson gson = new Gson();
 
     @Override
