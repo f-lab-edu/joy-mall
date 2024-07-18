@@ -8,9 +8,9 @@ import com.mini.joymall.order.domain.repository.OrderRepository;
 import com.mini.joymall.order.dto.request.CreateOrderRequest;
 import com.mini.joymall.order.dto.response.CreateOrderResponse;
 import com.mini.joymall.sale.service.SalesProductFacade;
-import com.mini.joymall.sale.service.SalesProductFacadeImpl;
-import com.mini.joymall.sale.service.SalesProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +18,22 @@ import java.util.*;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class OrderService {
     private final OrderValidator orderValidator;
     private final OrderRepository orderRepository;
-    private final SalesProductFacade salesProductFacade;
     private final CustomerAddressRepository addressRepository;
+    private final SalesProductFacade salesProductFacade;
+
+    @Autowired
+    public OrderService(OrderValidator orderValidator,
+                        OrderRepository orderRepository,
+                        CustomerAddressRepository addressRepository,
+                        @Qualifier("salesProductFacadeKafka") SalesProductFacade salesProductFacade) {
+        this.orderValidator = orderValidator;
+        this.orderRepository = orderRepository;
+        this.addressRepository = addressRepository;
+        this.salesProductFacade = salesProductFacade;
+    }
 
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequests) {
         Set<OrderItem> orderItems = createOrderRequests.toOrderItems();

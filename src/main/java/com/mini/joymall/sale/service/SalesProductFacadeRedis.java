@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-@Component
+@Component("salesProductFacadeRedis")
 @RequiredArgsConstructor
-public class SalesProductFacadeImpl implements SalesProductFacade {
+public class SalesProductFacadeRedis implements SalesProductFacade {
 
     private final RedissonClient redissonClient;
     private final SalesProductService salesProductService;

@@ -26,6 +26,23 @@ spring:
       host: localhost
       port: 6379
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: stock-decrease-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+            json:
+              default:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
   sql:
     init:
@@ -55,7 +72,7 @@ spring:
 
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/~/joyMall;
+    url: jdbc:h2:tcp://localhost:9000/~/joyMall;
     username: sa
     password:
 
@@ -64,10 +81,29 @@ spring:
       host: localhost
       port: 6379
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: stock-decrease-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+            json:
+              default:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
   sql:
     init:
       mode: always
       schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
 
 kakao-pay:
   host: https://open-api.kakaopay.com
@@ -99,6 +135,24 @@ spring:
     redis:
       host: ${JOY_MALL_REDIS_URL}
       port: 6379
+
+  kafka:
+    bootstrap-servers: 192.168.0.9:9092
+    consumer:
+      group-id: stock-decrease-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+            json:
+              default:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 kakao-pay:
   host: https://open-api.kakaopay.com
