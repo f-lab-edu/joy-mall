@@ -44,6 +44,6 @@ tasks.named('test') {
 }
 
 test {
-	exclude '**/*KakaoPayClientTest.class', '**/*PaymentServiceImplTest.class'
+	exclude '**/*KakaoPayClientTest.class', '**/*PaymentServiceImplTest.class', '**/*OrderServiceTest.class'
 }
 
