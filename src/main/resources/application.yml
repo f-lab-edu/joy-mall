@@ -153,6 +153,8 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        num.partitions: 1
 
 kakao-pay:
   host: https://open-api.kakaopay.com
