@@ -6,10 +6,9 @@ import com.mini.joymall.sale.domain.entity.SalesProduct;
 import com.mini.joymall.sale.domain.entity.SalesStatus;
 import com.mini.joymall.sale.domain.repository.SalesGroupRepository;
 import com.mini.joymall.sale.domain.repository.SalesProductRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Or;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashSet;
@@ -26,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class SalesProductFacadeTest {
     @Autowired
+    @Qualifier("salesProductFacadeRedis")
     private SalesProductFacade salesProductFacade;
 
     @Autowired
