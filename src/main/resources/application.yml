@@ -137,7 +137,7 @@ spring:
       port: 6379
 
   kafka:
-    bootstrap-servers: 192.168.0.9:9092
+    bootstrap-servers: 192.168.0.9:9092,192.168.0.10:9092,192.168.0.12:9092
     consumer:
       group-id: stock-decrease-group
       auto-offset-reset: earliest
