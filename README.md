@@ -1,4 +1,4 @@
-# 🛍 ️JoyMall
+<img width="713" alt="image" src="https://github.com/user-attachments/assets/74c1f16c-ebc9-4c61-b2f3-5f4791732f04"># 🛍 ️JoyMall
 
 
 
@@ -14,8 +14,9 @@
 # 📗 프로젝트 아키텍쳐
 
 <div align="center">
-    <img width="566" alt="image" src="https://github.com/f-lab-edu/joy-mall/assets/59166263/87fee221-a624-4014-937e-b1bf2a53620b">
+    <img width="566" alt="image" src="https://github.com/user-attachments/assets/05088f4b-8dbf-416b-83bb-882919ccbaaf">
 </div>
+
 
 <br>
 
@@ -48,12 +49,17 @@
 - Spring Data JDBC
 - JUnit5
 - Mockito
-- h2
 - MySql
+- Redis
 - Naver Cloud Platform
+- VPC
 - Github Action
 - k8s
 - Docker
+- NAS
+- NGrinder
+- Pinpoint
+- Apache Kafka
 
 <br>
 
