@@ -1,4 +1,4 @@
-<img width="713" alt="image" src="https://github.com/user-attachments/assets/74c1f16c-ebc9-4c61-b2f3-5f4791732f04"># 🛍 ️JoyMall
+# 🛍 ️JoyMall
 
 
 
