@@ -1,7 +1,6 @@
 package com.mini.joymall.sale.service;
 
 import com.mini.joymall.order.domain.entity.OrderItem;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;

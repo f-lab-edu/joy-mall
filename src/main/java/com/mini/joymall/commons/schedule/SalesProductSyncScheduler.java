@@ -19,15 +19,14 @@ public class SalesProductSyncScheduler {
     private final SchedulerLeader schedulerLeader;
     private static final String CHANGE_LOG_KEY = "salesProduct_stock_change_log";
 
-    @Scheduled(fixedRate = 6000)
+    @Scheduled(fixedRate = 60000)
     public void syncStockToDB() {
         if (!schedulerLeader.isLeader()) {
-            System.out.println("not Leader");
             return;
         }
 
         Set<String> stockKeys = redisTemplate.opsForSet().members(CHANGE_LOG_KEY);
-        if (stockKeys.isEmpty()) return;
+        if (stockKeys == null || stockKeys.isEmpty()) return;
 
         for (String stockKey : stockKeys) {
             if (stockKey.isEmpty()) {
