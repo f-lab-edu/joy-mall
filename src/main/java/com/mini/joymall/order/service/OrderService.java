@@ -8,7 +8,6 @@ import com.mini.joymall.order.domain.repository.OrderRepository;
 import com.mini.joymall.order.dto.request.CreateOrderRequest;
 import com.mini.joymall.order.dto.response.CreateOrderResponse;
 import com.mini.joymall.sale.service.SalesProductFacade;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ public class OrderService {
     public OrderService(OrderValidator orderValidator,
                         OrderRepository orderRepository,
                         CustomerAddressRepository addressRepository,
-                        @Qualifier("salesProductFacadeKafka") SalesProductFacade salesProductFacade) {
+                        @Qualifier("salesProductFacadeRedis") SalesProductFacade salesProductFacade) {
         this.orderValidator = orderValidator;
         this.orderRepository = orderRepository;
         this.addressRepository = addressRepository;
