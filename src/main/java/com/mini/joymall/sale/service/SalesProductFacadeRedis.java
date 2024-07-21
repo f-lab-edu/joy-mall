@@ -1,44 +1,38 @@
 package com.mini.joymall.sale.service;
 
 import com.mini.joymall.order.domain.entity.OrderItem;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Component("salesProductFacadeRedis")
 @RequiredArgsConstructor
 public class SalesProductFacadeRedis implements SalesProductFacade {
 
-    private final RedissonClient redissonClient;
-    private final SalesProductService salesProductService;
-
-    private static final String LOCK_KEY_PREFIX = "salesProduct:";
+    private final RedisTemplate<String, String> redisTemplate;
+    private static final String STOCK_KEY_PREFIX = "salesProduct_stock:";
+    private static final String CHANGE_LOG_KEY = "salesProduct_stock_change_log";
 
     @Override
     public void decreaseStock(Set<OrderItem> orderItems) {
         for (OrderItem orderItem : orderItems) {
-            String lockKey = LOCK_KEY_PREFIX + orderItem.getSalesProductId();
-            RLock lock = redissonClient.getLock(lockKey);
+            String stockKey = STOCK_KEY_PREFIX + orderItem.getSalesProductId();
 
-            try {
-                boolean acquireLock = lock.tryLock(10, 1, TimeUnit.SECONDS);
-
-                if (!acquireLock) {
-                    throw new RuntimeException("SalesProduct Lock 획득 실패");
-                }
-                salesProductService.decreaseStock(orderItem);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException("Lock 획득 중 인터럽트 발생");
-            } finally {
-                if (lock.isHeldByCurrentThread()) {
-                    lock.unlock();
-                }
+            if (redisTemplate.opsForValue().get(stockKey) == null) {
+                redisTemplate.opsForValue().set(stockKey, "1000000");
             }
+
+            Long remainStock = redisTemplate.opsForValue().decrement(stockKey, orderItem.getQuantity());
+
+            if (remainStock == null || remainStock < 0) {
+                redisTemplate.opsForValue().increment(stockKey, orderItem.getQuantity());
+                throw new RuntimeException("판매 수량이 부족합니다.");
+            }
+
+            redisTemplate.opsForSet().add(CHANGE_LOG_KEY, stockKey);
         }
     }
 }
