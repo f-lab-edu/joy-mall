@@ -3,6 +3,7 @@ package com.mini.joymall.commons.schedule;
 import com.mini.joymall.sale.domain.entity.SalesProduct;
 import com.mini.joymall.sale.domain.repository.SalesProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+@Profile("prod")
 @Component
 @RequiredArgsConstructor
 public class SalesProductSyncScheduler {

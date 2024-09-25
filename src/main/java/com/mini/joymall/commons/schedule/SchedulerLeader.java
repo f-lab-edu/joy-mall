@@ -14,7 +14,7 @@ public class SchedulerLeader {
     private final RedisTemplate<String, String> redisTemplate;
 
     private static final String LEADER_KEY = "scheduler:leader";
-    private static final long LEADER_TIMEOUT = 60000; // 60 seconds
+    private static final long LEADER_TIMEOUT = 60000;
     private String instanceId = UUID.randomUUID().toString();
 
     public boolean isLeader() {

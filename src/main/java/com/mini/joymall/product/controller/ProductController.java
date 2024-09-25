@@ -3,8 +3,11 @@ package com.mini.joymall.product.controller;
 import com.mini.joymall.product.dto.ProductDTO;
 import com.mini.joymall.product.dto.response.ProductPageResponse;
 import com.mini.joymall.product.dto.request.ProductSearchRequest;
+import com.mini.joymall.product.service.ProductDataGenerator;
 import com.mini.joymall.product.service.ProductService;
+import com.mysql.cj.x.protobuf.Mysqlx;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ import static com.mini.joymall.commons.ApiResponse.*;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductDataGenerator productDataGenerator;
 
     @GetMapping("/products/search")
     public ResponseEntity<ProductPageResponse> search(@ModelAttribute ProductSearchRequest productSearchDTO) {
@@ -28,5 +32,10 @@ public class ProductController {
     @GetMapping("/products/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
         return OK(productService.findById(id));
+    }
+
+    @GetMapping("/products/generateData")
+    public void generateData() {
+        productDataGenerator.generateProduct();
     }
 }

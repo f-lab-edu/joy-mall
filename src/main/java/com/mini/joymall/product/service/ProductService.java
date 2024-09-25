@@ -16,7 +16,7 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public ProductPageResponse search(String keyword, Pageable pageable) {
-        Page<Product> products = productRepository.findByNameContainingIgnoreCase(keyword, pageable);
+        Page<Product> products = productRepository.findByNameStartingWith(keyword, pageable);
         return ProductPageResponse.from(products);
     }
 

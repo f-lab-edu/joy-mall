@@ -10,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface ProductRepository extends CrudRepository<Product, Long> {
-    Page<Product> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
+    Page<Product> findByNameStartingWith(String keyword, Pageable pageable);
 
     @Lock(LockMode.PESSIMISTIC_WRITE)
     Optional<Product> findById(Long id);
