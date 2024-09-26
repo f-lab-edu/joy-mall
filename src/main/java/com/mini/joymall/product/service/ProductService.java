@@ -6,8 +6,11 @@ import com.mini.joymall.product.dto.ProductDTO;
 import com.mini.joymall.product.dto.response.ProductPageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -16,13 +19,14 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public ProductPageResponse search(String keyword, Pageable pageable) {
-        Page<Product> products = productRepository.findByNameStartingWith(keyword, pageable);
-        return ProductPageResponse.from(products);
-    }
+        List<ProductDTO> productDTOS = productRepository.findProductsByNameStartsWith(keyword, pageable.getPageSize(), pageable.getOffset());
+        List<Product> products = productDTOS.stream()
+                .map(ProductDTO::toEntity)
+                .toList();
 
-    public ProductDTO findById(Long id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(NoSuchElementException::new);
-        return ProductDTO.from(product);
+        long total = productRepository.countProductsByNameRange(keyword);
+        Page<Product> productPages = new PageImpl<>(products, pageable, total);
+
+        return ProductPageResponse.from(productPages);
     }
 }

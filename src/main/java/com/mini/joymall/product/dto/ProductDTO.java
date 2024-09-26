@@ -46,4 +46,14 @@ public class ProductDTO {
                 .updatedDate(product.getUpdatedDate())
                 .build();
     }
+
+    public Product toEntity() {
+        return Product.builder()
+                .name(this.getName())
+                .description(this.getDescription())
+                .imageUrl(this.getImageUrl())
+                .createdDate(this.getCreatedDate())
+                .updatedDate(this.getUpdatedDate())
+                .build();
+    }
 }

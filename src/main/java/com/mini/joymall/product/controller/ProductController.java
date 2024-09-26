@@ -29,11 +29,6 @@ public class ProductController {
         return OK(productPageResponse);
     }
 
-    @GetMapping("/products/{id}")
-    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
-        return OK(productService.findById(id));
-    }
-
     @GetMapping("/products/generateData")
     public void generateData() {
         productDataGenerator.generateProduct();
