@@ -16,15 +16,16 @@ import java.util.Optional;
 public interface ProductRepository extends CrudRepository<Product, Long> {
     Page<Product> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
 
-    @Query("SELECT * FROM PRODUCT WHERE name LIKE CONCAT(:keyword, '%') LIMIT :limit OFFSET :offset")
+    @Query("SELECT P.* FROM PRODUCT P " +
+            "JOIN (" +
+            "    SELECT PRODUCT_ID FROM PRODUCT " +
+            "    WHERE NAME LIKE CONCAT(:keyword, '%') " +
+            "    ORDER BY PRODUCT_ID DESC " +
+            "    LIMIT :limit OFFSET :offset" +
+            ") P2 ON P.PRODUCT_ID = P2.PRODUCT_ID")
     List<ProductDTO> findProductsByNameStartsWith(@Param("keyword") String keyword,
                                                   @Param("limit") int limit,
                                                   @Param("offset") long offset);
-
-    @Query("SELECT * FROM PRODUCT WHERE name LIKE CONCAT(:keyword, '%') AND product_id < :lastProductId ORDER BY product_id DESC LIMIT :limit")
-    List<ProductDTO> findProductsByNameStartsWith(@Param("keyword") String keyword,
-                                                  @Param("lastProductId") Long lastProductId,
-                                                  @Param("limit") int limit);
 
     @Query("SELECT COUNT(*) FROM PRODUCT WHERE name LIKE CONCAT(:keyword, '%')")
     long countProductsByNameRange(@Param("keyword") String keyword);
