@@ -5,12 +5,12 @@ import lombok.Getter;
 @Getter
 public class ProductSearchRequest {
     private String keyword;
+    private Long lastProductId = Long.MAX_VALUE;
     private Integer pageSize = 10;
-    private Integer pageNumber = 0;
 
-    public ProductSearchRequest(String keyword, Integer pageSize, Integer pageNumber) {
+    public ProductSearchRequest(String keyword, Long lastProductId, Integer pageSize) {
         if (keyword != null) this.keyword = keyword;
+        if (lastProductId != null) this.lastProductId = lastProductId;
         if (pageSize != null) this.pageSize = pageSize;
-        if (pageNumber != null) this.pageNumber = pageNumber;
     }
 }

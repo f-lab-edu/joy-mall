@@ -21,6 +21,11 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
                                                   @Param("limit") int limit,
                                                   @Param("offset") long offset);
 
+    @Query("SELECT * FROM PRODUCT WHERE name LIKE CONCAT(:keyword, '%') AND product_id < :lastProductId ORDER BY product_id DESC LIMIT :limit")
+    List<ProductDTO> findProductsByNameStartsWith(@Param("keyword") String keyword,
+                                                  @Param("lastProductId") Long lastProductId,
+                                                  @Param("limit") int limit);
+
     @Query("SELECT COUNT(*) FROM PRODUCT WHERE name LIKE CONCAT(:keyword, '%')")
     long countProductsByNameRange(@Param("keyword") String keyword);
 }

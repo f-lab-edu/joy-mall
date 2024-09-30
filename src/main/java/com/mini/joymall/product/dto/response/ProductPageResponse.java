@@ -13,35 +13,24 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductPageResponse {
     private List<ProductDTO> productDTOS;
-    private long totalElements;
-    private long totalPages;
-    private int pageNumber;
-    private int pageSize;
-    private boolean hasPrevious;
+    private long total;
     private boolean hasNext;
+    private Long nextLastProductId;
 
     @Builder
-    public ProductPageResponse(List<ProductDTO> productDTOS, long totalElements, long totalPages, int pageNumber, int pageSize, boolean hasPrevious, boolean hasNext) {
+    public ProductPageResponse(List<ProductDTO> productDTOS, long total, boolean hasNext, Long nextLastProductId) {
         this.productDTOS = productDTOS;
-        this.totalElements = totalElements;
-        this.totalPages = totalPages;
-        this.pageNumber = pageNumber;
-        this.pageSize = pageSize;
-        this.hasPrevious = hasPrevious;
+        this.total = total;
         this.hasNext = hasNext;
+        this.nextLastProductId = nextLastProductId;
     }
 
-    public static ProductPageResponse from(Page<Product> products) {
+    public static ProductPageResponse from(Page<ProductDTO> products) {
         return ProductPageResponse.builder()
-                .productDTOS(products.stream()
-                        .map(ProductDTO::from)
-                        .toList())
-                .totalElements(products.getTotalElements())
-                .totalPages(products.getTotalPages())
-                .pageNumber(products.getNumber())
-                .pageSize(products.getSize())
-                .hasPrevious(products.hasPrevious())
+                .productDTOS(products.getContent())
+                .total(products.getTotalElements())
                 .hasNext(products.hasNext())
+                .nextLastProductId(builder().nextLastProductId)
                 .build();
     }
 }

@@ -23,9 +23,8 @@ public class ProductController {
     private final ProductDataGenerator productDataGenerator;
 
     @GetMapping("/products/search")
-    public ResponseEntity<ProductPageResponse> search(@ModelAttribute ProductSearchRequest productSearchDTO) {
-        Pageable pageable = PageRequest.of(productSearchDTO.getPageNumber(), productSearchDTO.getPageSize());
-        ProductPageResponse productPageResponse = productService.search(productSearchDTO.getKeyword(), pageable);
+    public ResponseEntity<ProductPageResponse> search(@ModelAttribute ProductSearchRequest productSearchRequest) {
+        ProductPageResponse productPageResponse = productService.search(productSearchRequest.getKeyword(), productSearchRequest.getLastProductId(), productSearchRequest.getPageSize());
         return OK(productPageResponse);
     }
 

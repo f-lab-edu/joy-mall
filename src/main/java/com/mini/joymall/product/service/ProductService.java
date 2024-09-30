@@ -20,13 +20,17 @@ public class ProductService {
 
     public ProductPageResponse search(String keyword, Pageable pageable) {
         List<ProductDTO> productDTOS = productRepository.findProductsByNameStartsWith(keyword, pageable.getPageSize(), pageable.getOffset());
-        List<Product> products = productDTOS.stream()
-                .map(ProductDTO::toEntity)
-                .toList();
-
         long total = productRepository.countProductsByNameRange(keyword);
-        Page<Product> productPages = new PageImpl<>(products, pageable, total);
-
+        Page<ProductDTO> productPages = new PageImpl<>(productDTOS, pageable, total);
         return ProductPageResponse.from(productPages);
+    }
+
+    public ProductPageResponse search(String keyword, Long lastProductId, int pageSize) {
+        List<ProductDTO> productDTOS = productRepository.findProductsByNameStartsWith(keyword, lastProductId, pageSize);
+        long total = productRepository.countProductsByNameRange(keyword);
+
+        boolean hasNext = productDTOS.size() == pageSize;
+        Long nextLastProductId = productDTOS.get(productDTOS.size() - 1).getProductId();
+        return new ProductPageResponse(productDTOS, total, hasNext, nextLastProductId);
     }
 }
