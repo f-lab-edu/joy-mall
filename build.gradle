@@ -30,6 +30,7 @@ dependencies {
 	implementation 'org.redisson:redisson-spring-boot-starter:3.31.0'
 //	implementation 'org.springframework.kafka:spring-kafka'
 	implementation 'com.google.code.gson:gson'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
