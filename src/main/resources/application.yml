@@ -122,6 +122,9 @@ logging:
       springframework:
         jdbc:
           core: debug
+        cache: TRACE
+        data:
+          redis: DEBUG
 
 ---
 
